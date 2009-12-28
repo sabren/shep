@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<movie width="100" height="100" framerate="30">
+  <background color="#000000"/>
+  <frame>
+    <library>
+      <!--
+      <clip id="MoneyDigit" class="MoneyDigit" 
+	    import="assets/lores/Counters/money.swf"/>
+      
+
+      <bitmap id="ParticleBitmapData" name="ParticleBitmapData" 
+	      import="assets/lores/particles/raindrop.png"/>
+      <bitmap id="SomeOtherBitmapData" name="SomeOtherBitmapData"
+	      import="assets/lores/particles/rainy.png"/>
+
+      <sound id="BackgroundMusic" name="BackgroundMusic"
+	     import="assets/music/bentorrey+cellosuite1ingprelude.mp3"/>
+      -->
+    </library>
+  </frame>
+</movie>

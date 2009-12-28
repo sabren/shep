@@ -1,0 +1,7 @@
+-swf game1.swf
+-swf-header 800:575:24:eeeeee
+-swf-version 9
+-main Game1
+-debug
+-lib physaxe
+-cp code
