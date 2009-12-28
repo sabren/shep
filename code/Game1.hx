@@ -112,14 +112,17 @@ class Game1
     g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
   }
 
-  public function onEnterFrame(_) {
+  public function onEnterFrame(e) {
     updateWorld();
     drawWorld();
   }
 
-  public function onClick(_) {
+  public function onClick(e) {
     
     target.setPos(root.mouseX, root.mouseY);
+    target.setSpeed(0,0);
+    world.activate(target);
+
     var kick = calcVector(150);
     var oldv = cuebot.v;
     cuebot.setSpeed(oldv.x + kick.x, oldv.y + kick.y);
