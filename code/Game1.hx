@@ -20,6 +20,7 @@ class Game1
 
   var target : phx.Body;
   var cuebot : phx.Body;
+  static var gravityKludge = 0.01;
 
   public function new(root:MovieClip) {
     this.root = root;
@@ -41,8 +42,7 @@ class Game1
 
     world.addBody(cuebot);
     world.addBody(target);
-    world.gravity.set(0,0.1875);
-
+    
 
     var w = 800;
     var h = 575;
@@ -57,25 +57,81 @@ class Game1
 
 
   function updateWorld() {
-    world.step(0.5, 1);
+    world.step(1, 25);
   }
 
   function drawWorld() {
     var g = root.graphics;
     g.clear();
     var fd = new phx.FlashDraw(g);
+
     fd.drawWorld(world);
+    drawVector(g);
   }
 
 
+  function calcVector(r:Int) {
+    var x1 = cuebot.x;
+    var y1 = cuebot.y;
+    
+    var x2 = root.mouseX;
+    var y2 = root.mouseY;
+
+    var rise = (y2 - y1);
+    var run = (x2 - x1);
+    if (run == 0) {
+      return new phx.Vector(0, rise);
+    } else {
+      var m = rise / run;
+      var vx = Math.sqrt(r) / Math.sqrt(m*m+1);
+      vx *= (x2 > x1) ? 1 : -1;
+      var vy = m * vx;
+      return new phx.Vector(vx, vy);
+    }
+  }
+
+  function drawVector(g:flash.display.Graphics) {
+
+    // draw a line from the bot to the mouse
+    // but scaled down to n units
+
+    /* maxima session: 
+       intersection of a line and circle of radius r
+       if line passes through origin and circle centered at origin
+       
+       (%i27) y^2=r-x^2, y=m*x;
+       (%o27) m^2*x^2=r-x^2
+       (%i28) solve(%o27,x);
+       (%o28) [x=-sqrt(r)/sqrt(m^2+1),x=sqrt(r)/sqrt(m^2+1)]
+    */
+
+
+    var r = 150;
+
+    var v = calcVector(r);
+    g.moveTo(cuebot.x, cuebot.y);
+    g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
+  }
+
   public function onEnterFrame(_) {
+    //fixGravity();
     updateWorld();
     drawWorld();
   }
 
+
+  private function fixGravity() {
+    gravityKludge *= -1;
+    world.gravity.set(0, gravityKludge);
+  }
+
   public function onClick(_) {
+    
     target.setPos(root.mouseX, root.mouseY);
-    target.setSpeed(5, -10);
+    var kick = calcVector(150);
+    var oldv = cuebot.v;
+    cuebot.setSpeed(oldv.x + kick.x, oldv.y + kick.y);
+    world.activate(cuebot);
   }
 
 
