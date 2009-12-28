@@ -20,7 +20,6 @@ class Game1
 
   var target : phx.Body;
   var cuebot : phx.Body;
-  static var gravityKludge = 0.01;
 
   public function new(root:MovieClip) {
     this.root = root;
@@ -114,15 +113,8 @@ class Game1
   }
 
   public function onEnterFrame(_) {
-    //fixGravity();
     updateWorld();
     drawWorld();
-  }
-
-
-  private function fixGravity() {
-    gravityKludge *= -1;
-    world.gravity.set(0, gravityKludge);
   }
 
   public function onClick(_) {
