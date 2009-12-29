@@ -11,6 +11,8 @@ import flash.text.TextFieldAutoSize;
 import flash.text.TextFieldType;
 import flash.utils.SetIntervalTimer;
 import flash.media.Sound;
+import flash.net.URLLoader;
+import flash.net.URLRequest;
 
 class Game1
 {
@@ -24,10 +26,14 @@ class Game1
 
   var done : Bool;
 
+  var loader : URLLoader;
+  var svg : Xml;
+
   public function new(root:MovieClip) {
     this.root = root;
 
     resetWorld();
+    loadLevel();
 
     var stage = root.stage;
     stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -51,7 +57,7 @@ class Game1
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
     world = new phx.World(boundary, broadphase);
 
-    cuebot = new phx.Body(100, 100);
+    cuebot = new phx.Body(10, 10);
     cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0)));
     world.addBody(cuebot);
 
@@ -171,6 +177,37 @@ class Game1
     world.activate(cuebot);
   }
 
+
+  public function loadLevel() {
+    var url = "levels/0001.svg";
+    loader = new URLLoader(new URLRequest(url));
+    loader.addEventListener("complete", onLevelLoad);
+  }
+
+  public function onLevelLoad(e:Event) {
+    svg = Xml.parse(loader.data).firstElement();
+
+    trace("level loaded.");
+    for (poly in svg.elementsNamed("polygon")) {
+
+      var points = StringTools.trim(poly.get("points"));
+      var vertices:Array<phx.Vector> = [];
+
+      if (points != null) {
+	for (pair in points.split(" ")) {
+	  
+	  var xy = pair.split(",");
+	  var x = Std.parseFloat(xy[0]);
+	  var y = Std.parseFloat(xy[1]);
+	  vertices.push(new phx.Vector(x, y));
+	}
+	vertices.push(vertices[0]);
+
+	world.addStaticShape(new phx.Polygon(vertices, new phx.Vector(0,0)));
+	//new phx.Material(500, 200, 200)));
+      }
+    }
+  }
 
   static function main() {
     var root = flash.Lib.current;
