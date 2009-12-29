@@ -18,29 +18,57 @@ class Game1
   var world : phx.World;
   var root : MovieClip;
 
-  var target : phx.Body;
+  var smallball : phx.Body;
   var cuebot : phx.Body;
+  var pocket : phx.Body;
+
+  var done : Bool;
 
   public function new(root:MovieClip) {
     this.root = root;
+
+    resetWorld();
+
     var stage = root.stage;
     stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
     stage.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
+    stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
+
+  }
+
+  public function onEnterFrame(e) {
+    if (! done) {
+      updateWorld();
+      checkForWin();
+      drawWorld();
+    }
+  }
+
+  public function resetWorld() {
+    done = false;
 
     var broadphase = new phx.col.SortedList();
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
     world = new phx.World(boundary, broadphase);
 
-
-    
     cuebot = new phx.Body(100, 100);
     cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0)));
-
-    target = new phx.Body(500, 300);
-    target.addShape(new phx.Circle(10, new phx.Vector(0, 0)));
-
     world.addBody(cuebot);
-    world.addBody(target);
+
+    pocket = new phx.Body(450, 50);
+    pocket.addShape(new phx.Circle(10, new phx.Vector(37.5, 37.5),
+				   new phx.Material(0.002, 2000, 2000)));
+    world.addBody(pocket);
+    world.activate(pocket);
+
+    var zone = new phx.Body(450, 50);
+    zone.addShape(phx.Shape.makeBox(75, 75, 450, 50, 
+    				    new phx.Material(0,0,0)));
+    world.addBody(zone);
+    
+    smallball = new phx.Body(500, 300);
+    smallball.addShape(new phx.Circle(10, new phx.Vector(0, 0)));
+    world.addBody(smallball);
     
 
     var w = 800;
@@ -50,20 +78,32 @@ class Game1
     world.addStaticShape(phx.Shape.makeBox(10, h, -b, 0)); // left
     world.addStaticShape(phx.Shape.makeBox(10, h, w, 0)); // right
     world.addStaticShape(phx.Shape.makeBox(w, b, 0, h)); // bottom
-
   }
-
-
 
   function updateWorld() {
     world.step(1, 25);
+  }
+
+  function checkForWin() {
+
+    for (a in world.arbiters) {
+      if (a.sleeping) continue;
+      if ((a.s1.body == pocket && a.s2.body == cuebot) ||
+	  (a.s2.body == pocket && a.s1.body == cuebot)) {
+	trace("you won!");
+	done = true;
+      }
+    }
   }
 
   function drawWorld() {
     var g = root.graphics;
     g.clear();
     var fd = new phx.FlashDraw(g);
-
+    fd.boundingBox.line = 0x000000;
+    fd.contact.line = 0xFF0000;
+    fd.sleepingContact.line = 0xFF00FF;
+    fd.drawCircleRotation = true;
     fd.drawWorld(world);
     drawVector(g);
   }
@@ -109,19 +149,21 @@ class Game1
 
     var v = calcVector(r);
     g.moveTo(cuebot.x, cuebot.y);
+    g.lineStyle(5, 0x3333FF);
     g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
   }
 
-  public function onEnterFrame(e) {
-    updateWorld();
-    drawWorld();
+
+
+  public function onKeyDown(e) {
+    resetWorld();
   }
 
   public function onClick(e) {
     
-    target.setPos(root.mouseX, root.mouseY);
-    target.setSpeed(0,0);
-    world.activate(target);
+    smallball.setPos(root.mouseX, root.mouseY);
+    smallball.setSpeed(0,0);
+    world.activate(smallball);
 
     var kick = calcVector(150);
     var oldv = cuebot.v;
