@@ -33,7 +33,6 @@ class Game1
     this.root = root;
 
     resetWorld();
-    loadLevel();
 
     var stage = root.stage;
     stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -51,7 +50,6 @@ class Game1
   }
 
   public function resetWorld() {
-    done = false;
 
     var broadphase = new phx.col.SortedList();
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
@@ -65,14 +63,13 @@ class Game1
     pocket.addShape(new phx.Circle(10, new phx.Vector(37.5, 37.5),
 				   new phx.Material(0.002, 2000, 2000)));
     world.addBody(pocket);
-    world.activate(pocket);
 
     var zone = new phx.Body(450, 50);
     zone.addShape(phx.Shape.makeBox(75, 75, 450, 50, 
     				    new phx.Material(0,0,0)));
     world.addBody(zone);
-    
-    smallball = new phx.Body(500, 300);
+
+    smallball = new phx.Body(500, 500);
     smallball.addShape(new phx.Circle(10, new phx.Vector(0, 0)));
     world.addBody(smallball);
     
@@ -84,6 +81,10 @@ class Game1
     world.addStaticShape(phx.Shape.makeBox(10, h, -b, 0)); // left
     world.addStaticShape(phx.Shape.makeBox(10, h, w, 0)); // right
     world.addStaticShape(phx.Shape.makeBox(w, b, 0, h)); // bottom
+
+    haxe.Log.clear();
+    loadLevel();
+
   }
 
   function updateWorld() {
@@ -109,6 +110,7 @@ class Game1
     fd.boundingBox.line = 0x000000;
     fd.contact.line = 0xFF0000;
     fd.sleepingContact.line = 0xFF00FF;
+    fd.staticShape.fill = 0x00FF00;
     fd.drawCircleRotation = true;
     fd.drawWorld(world);
     drawVector(g);
@@ -167,10 +169,6 @@ class Game1
 
   public function onClick(e) {
     
-    smallball.setPos(root.mouseX, root.mouseY);
-    smallball.setSpeed(0,0);
-    world.activate(smallball);
-
     var kick = calcVector(150);
     var oldv = cuebot.v;
     cuebot.setSpeed(oldv.x + kick.x, oldv.y + kick.y);
@@ -201,12 +199,22 @@ class Game1
 	  var y = Std.parseFloat(xy[1]);
 	  vertices.push(new phx.Vector(x, y));
 	}
-	vertices.push(vertices[0]);
 
-	world.addStaticShape(new phx.Polygon(vertices, new phx.Vector(0,0)));
-	//new phx.Material(500, 200, 200)));
+	// revese the vertices, or physaxe will screw up the area
+	// calculations, and make it a static shape.
+	vertices.reverse();
+
+	var p = new phx.Polygon(vertices, new phx.Vector(1,1),
+				new phx.Material(1, 2, 500));
+	// trace("area of p is: " + p.area);
+	
+	var b = new phx.Body(50,50);
+	b.addShape(p);
+	world.addBody(b);
+	world.activate(b);
       }
     }
+    done = false;
   }
 
   static function main() {
