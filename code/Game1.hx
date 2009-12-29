@@ -66,7 +66,7 @@ class Game1
 
     pocket = new phx.Body(450, 50);
     pocket.addShape(new phx.Circle(15, new phx.Vector(37.5, 37.5),
-				   new phx.Material(0.002, 2000, 2000)));
+				   bouncyWall));
     world.addBody(pocket);
 
     var zone = new phx.Body(450, 50);
@@ -95,6 +95,11 @@ class Game1
 
   function updateWorld() {
     world.step(1, 25);
+    
+    // friction:
+    var oldv = cuebot.v;
+    cuebot.setSpeed(oldv.x * 0.995, oldv.y * 0.995);
+
   }
 
   function checkForWin() {
