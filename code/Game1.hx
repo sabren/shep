@@ -21,7 +21,9 @@ class Game1
   var root : MovieClip;
 
   var bouncyWall : phx.Material;
-  var smallballs = Array<phx.Body>;
+  var robotParts : phx.Material;
+
+  var smallballs : Array<phx.Body>;
   var cuebot : phx.Body;
   var pocket : phx.Body;
 
@@ -34,6 +36,7 @@ class Game1
     this.root = root;
 
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
+    robotParts = new phx.Material(0.5, 20, 20);
     resetWorld();
 
     var stage = root.stage;
@@ -58,11 +61,11 @@ class Game1
     world = new phx.World(boundary, broadphase);
 
     cuebot = new phx.Body(10, 10);
-    cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0)));
+    cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0), robotParts));
     world.addBody(cuebot);
 
     pocket = new phx.Body(450, 50);
-    pocket.addShape(new phx.Circle(10, new phx.Vector(37.5, 37.5),
+    pocket.addShape(new phx.Circle(15, new phx.Vector(37.5, 37.5),
 				   new phx.Material(0.002, 2000, 2000)));
     world.addBody(pocket);
 
@@ -70,15 +73,6 @@ class Game1
     zone.addShape(phx.Shape.makeBox(75, 75, 450, 50, 
     				    new phx.Material(0,0,0)));
     world.addBody(zone);
-
-
-    smallballs = [];
-    for (i in 0 ... 10) {
-      var smallball = new phx.Body(100, 500);
-      smallball.addShape(new phx.Circle(10, new phx.Vector(0, 0)));
-      world.addBody(smallball);
-      smallballs.push(smallball);
-    }
 
     var w = 800;
     var h = 575;
@@ -119,11 +113,11 @@ class Game1
     var g = root.graphics;
     g.clear();
     var fd = new phx.FlashDraw(g);
-    fd.boundingBox.line = 0x000000;
-    fd.contact.line = 0xFF0000;
-    fd.sleepingContact.line = 0xFF00FF;
+    //fd.boundingBox.line = 0x000000;
+    //fd.contact.line = 0xFF0000;
+    //fd.sleepingContact.line = 0xFF00FF;
     // fd.staticShape.fill = 0x00FF00;
-    fd.drawCircleRotation = true;
+    //fd.drawCircleRotation = true;
     fd.drawWorld(world);
     drawVector(g);
   }
@@ -212,27 +206,51 @@ class Game1
 	  vertices.push(new phx.Vector(x, y));
 	}
 
-	var p = new phx.Polygon(vertices, new phx.Vector(1,1),
-				bouncyWall);
+
+	var origin = new phx.Vector(0,0);
+
+	var p = new phx.Polygon(vertices, origin, bouncyWall);
 
 
 	// revese the vertices, or physaxe will screw up the area
 	// calculations, and make it a static shape.
 	if (p.area < 0) {
 	  vertices.reverse();
-	  p = new phx.Polygon(vertices, new phx.Vector(1,1),
-				  bouncyWall);
+	  p = new phx.Polygon(vertices, origin, bouncyWall);
 	}
 
 	
 	// trace("area of p is: " + p.area);
 	
-	var b = new phx.Body(50,50);
+	var b = new phx.Body(0,0);
 	b.addShape(p);
 	world.addBody(b);
 	world.activate(b);
       }
     }
+
+    smallballs = [];
+    for (circ in svg.elementsNamed("circle")) {
+      var cx = Std.parseFloat(circ.get("cx"));
+      var cy = Std.parseFloat(circ.get("cy"));
+      
+      // red are little balls
+      if (circ.get("fill") == "#FF0000") {
+	var smallball = new phx.Body(cx, cy);
+	smallball.addShape(new phx.Circle(15, new phx.Vector(0, 0), 
+					  robotParts));
+	world.addBody(smallball);
+	smallballs.push(smallball);
+      } 
+
+      // green is the hero
+      else if (circ.get("fill") == "#00FF00") {
+	cuebot.setPos(cx, cy);
+      }
+
+
+    }
+
     done = false;
   }
 
