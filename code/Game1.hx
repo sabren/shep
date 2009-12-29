@@ -35,6 +35,7 @@ class Game1
   public function new(root:MovieClip) {
     this.root = root;
 
+    smallballs = [];
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
     resetWorld();
@@ -64,15 +65,16 @@ class Game1
     cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0), robotParts));
     world.addBody(cuebot);
 
+    var zone = new phx.Body(450, 50);
+    zone.addShape(phx.Shape.makeBox(75, 75, 450, 50, 
+    				    new phx.Material(0,0,0)));
+    world.addBody(zone);
+
     pocket = new phx.Body(450, 50);
     pocket.addShape(new phx.Circle(15, new phx.Vector(37.5, 37.5),
 				   bouncyWall));
     world.addBody(pocket);
 
-    var zone = new phx.Body(450, 50);
-    zone.addShape(phx.Shape.makeBox(75, 75, 450, 50, 
-    				    new phx.Material(0,0,0)));
-    world.addBody(zone);
 
     var w = 800;
     var h = 575;
@@ -97,11 +99,12 @@ class Game1
     world.step(1, 25);
     
     // friction:
+    var friction = 0.985;
     var oldv = cuebot.v;
-    cuebot.setSpeed(oldv.x * 0.995, oldv.y * 0.995);
+    cuebot.setSpeed(oldv.x * friction, oldv.y * friction);
     for (b in smallballs) {
       oldv = b.v;
-      b.setSpeed(oldv.x * 0.995, oldv.y * 0.995);
+      b.setSpeed(oldv.x * friction, oldv.y * friction);
     }
 
 
@@ -109,14 +112,29 @@ class Game1
 
   function checkForWin() {
 
+    for (arb in pocket.arbiters) {
+      var shape = (arb.s1.body == pocket) ? arb.s2 : arb.s1;
+      if (shape.body == cuebot) {
+	if (smallballs.length == 0) {
+	  trace("you won!");
+	  done = true;
+	}
+      } else {
+	world.removeBody(shape.body);
+	smallballs.remove(shape.body);
+      }
+
+    }
+    /*
+
     for (a in world.arbiters) {
       if (a.sleeping) continue;
       if ((a.s1.body == pocket && a.s2.body == cuebot) ||
 	  (a.s2.body == pocket && a.s1.body == cuebot)) {
-	trace("you won!");
 	done = true;
       }
     }
+    */
   }
 
   function drawWorld() {
