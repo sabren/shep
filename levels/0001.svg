@@ -4,7 +4,7 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="800px" height="575px" viewBox="0 0 800 575" enable-background="new 0 0 800 575" xml:space="preserve">
 <polygon fill="#FFFFFF" stroke="#000000" points="293.5,29 326.5,117 169.5,241 70.5,174 70.5,84 "/>
-<circle fill="#00FF00" stroke="#000000" stroke-width="2" cx="713.5" cy="65" r="35.5"/>
+<circle fill="#00FF00" stroke="#000000" stroke-width="2" cx="235.493" cy="253.118" r="35.5"/>
 <circle fill="#FF0000" stroke="#000000" cx="101.5" cy="404" r="17"/>
 <polygon fill="#FFFFFF" stroke="#000000" points="532.005,431.612 434.005,433.612 398.005,515.612 465.296,573.007 
 	623.987,489.346 "/>
@@ -18,4 +18,10 @@
 <polygon fill="#FFFFFF" stroke="#000000" points="366.947,293.542 393,248.417 419.053,293.542 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="369.414,396.054 343.361,441.179 317.309,396.054 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="365.053,297.417 339,342.542 312.947,297.417 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="554.941,346.368 575.941,310.368 654.941,331.368 643.941,374.368 
+	582.941,382.368 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="594.5,266 668.5,283 682.5,246 667.5,208 637.5,191 615.5,196 585.5,226 
+	585.5,253 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="645.5,171 680.5,171 713.5,158 713.5,136 683,105.5 646.5,98 616.5,110 621.5,130 
+	621.5,152 "/>
 </svg>
