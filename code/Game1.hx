@@ -99,6 +99,11 @@ class Game1
     // friction:
     var oldv = cuebot.v;
     cuebot.setSpeed(oldv.x * 0.995, oldv.y * 0.995);
+    for (b in smallballs) {
+      oldv = b.v;
+      b.setSpeed(oldv.x * 0.995, oldv.y * 0.995);
+    }
+
 
   }
 
