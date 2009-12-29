@@ -21,7 +21,7 @@ class Game1
   var root : MovieClip;
 
   var bouncyWall : phx.Material;
-  var smallball : phx.Body;
+  var smallballs = Array<phx.Body>;
   var cuebot : phx.Body;
   var pocket : phx.Body;
 
@@ -71,10 +71,14 @@ class Game1
     				    new phx.Material(0,0,0)));
     world.addBody(zone);
 
-    smallball = new phx.Body(100, 500);
-    smallball.addShape(new phx.Circle(10, new phx.Vector(0, 0)));
-    world.addBody(smallball);
-    
+
+    smallballs = [];
+    for (i in 0 ... 10) {
+      var smallball = new phx.Body(100, 500);
+      smallball.addShape(new phx.Circle(10, new phx.Vector(0, 0)));
+      world.addBody(smallball);
+      smallballs.push(smallball);
+    }
 
     var w = 800;
     var h = 575;
