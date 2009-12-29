@@ -20,6 +20,7 @@ class Game1
   var world : phx.World;
   var root : MovieClip;
 
+  var bouncyWall : phx.Material;
   var smallball : phx.Body;
   var cuebot : phx.Body;
   var pocket : phx.Body;
@@ -32,6 +33,7 @@ class Game1
   public function new(root:MovieClip) {
     this.root = root;
 
+    bouncyWall = new phx.Material(1, 2, 500);
     resetWorld();
 
     var stage = root.stage;
@@ -77,14 +79,20 @@ class Game1
     var w = 800;
     var h = 575;
     var b = 25; // border
-    world.addStaticShape(phx.Shape.makeBox(w, b, 0, -b)); // top
-    world.addStaticShape(phx.Shape.makeBox(10, h, -b, 0)); // left
-    world.addStaticShape(phx.Shape.makeBox(10, h, w, 0)); // right
-    world.addStaticShape(phx.Shape.makeBox(w, b, 0, h)); // bottom
-
+    
+    addWall(phx.Shape.makeBox(w, b, 0, -b)); // top
+    addWall(phx.Shape.makeBox(10, h, -b, 0)); // left
+    addWall(phx.Shape.makeBox(10, h, w, 0)); // right
+    addWall(phx.Shape.makeBox(w, b, 0, h)); // bottom
+    
     haxe.Log.clear();
     loadLevel();
 
+  }
+
+  function addWall(shape:phx.Shape) {
+    shape.material = bouncyWall;
+    world.addStaticShape(shape);
   }
 
   function updateWorld() {
@@ -110,7 +118,7 @@ class Game1
     fd.boundingBox.line = 0x000000;
     fd.contact.line = 0xFF0000;
     fd.sleepingContact.line = 0xFF00FF;
-    fd.staticShape.fill = 0x00FF00;
+    // fd.staticShape.fill = 0x00FF00;
     fd.drawCircleRotation = true;
     fd.drawWorld(world);
     drawVector(g);
@@ -200,12 +208,19 @@ class Game1
 	  vertices.push(new phx.Vector(x, y));
 	}
 
+	var p = new phx.Polygon(vertices, new phx.Vector(1,1),
+				bouncyWall);
+
+
 	// revese the vertices, or physaxe will screw up the area
 	// calculations, and make it a static shape.
-	vertices.reverse();
+	if (p.area < 0) {
+	  vertices.reverse();
+	  p = new phx.Polygon(vertices, new phx.Vector(1,1),
+				  bouncyWall);
+	}
 
-	var p = new phx.Polygon(vertices, new phx.Vector(1,1),
-				new phx.Material(1, 2, 500));
+	
 	// trace("area of p is: " + p.area);
 	
 	var b = new phx.Body(50,50);
