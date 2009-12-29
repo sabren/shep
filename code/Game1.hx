@@ -32,6 +32,9 @@ class Game1
   var loader : URLLoader;
   var svg : Xml;
 
+  var clock:FlashClock;
+  var clockText:TextField;
+
   public function new(root:MovieClip) {
     this.root = root;
 
@@ -45,6 +48,21 @@ class Game1
     stage.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
     stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
 
+
+    clock = new FlashClock();
+    clock.startTimer(120);
+
+    clockText = new TextField();
+    clockText.x = 400;
+    clockText.y = 10;
+    clockText.background = true;
+    clockText.multiline = true;
+    clockText.autoSize = TextFieldAutoSize.LEFT;
+    clockText.visible = true;
+    stage.addChild(clockText);
+
+    updateClock();
+
   }
 
   public function onEnterFrame(e) {
@@ -52,7 +70,12 @@ class Game1
       updateWorld();
       checkForWin();
       drawWorld();
+      updateClock();
     }
+  }
+
+  public function updateClock() {
+    clockText.text = clock.toString();
   }
 
   public function resetWorld() {
