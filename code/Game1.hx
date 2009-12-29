@@ -33,7 +33,7 @@ class Game1
   public function new(root:MovieClip) {
     this.root = root;
 
-    bouncyWall = new phx.Material(1, 2, 500);
+    bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     resetWorld();
 
     var stage = root.stage;
@@ -71,7 +71,7 @@ class Game1
     				    new phx.Material(0,0,0)));
     world.addBody(zone);
 
-    smallball = new phx.Body(500, 500);
+    smallball = new phx.Body(100, 500);
     smallball.addShape(new phx.Circle(10, new phx.Vector(0, 0)));
     world.addBody(smallball);
     
