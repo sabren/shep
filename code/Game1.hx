@@ -188,7 +188,6 @@ class Game1
 
 
     var r = 150;
-
     var v = calcVector(r);
     g.moveTo(cuebot.x, cuebot.y);
     g.lineStyle(5, 0x3333FF);
@@ -203,7 +202,7 @@ class Game1
 
   public function onClick(e) {
     
-    var kick = calcVector(150);
+    var kick = calcVector(50);
     var oldv = cuebot.v;
     cuebot.setSpeed(oldv.x + kick.x, oldv.y + kick.y);
     world.activate(cuebot);
