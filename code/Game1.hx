@@ -94,10 +94,10 @@ class Game1
     var h = 575;
     var b = 25; // border
     
-    addWall(phx.Shape.makeBox(w, b, 0, -b)); // top
-    addWall(phx.Shape.makeBox(10, h, -b, 0)); // left
-    addWall(phx.Shape.makeBox(10, h, w, 0)); // right
-    addWall(phx.Shape.makeBox(w, b, 0, h)); // bottom
+    addWall(phx.Shape.makeBox(w, b, 0, 0)); // top
+    addWall(phx.Shape.makeBox(b, h-(2*b), 0, b)); // left
+    addWall(phx.Shape.makeBox(b, h-(2*b), w-b, b)); // right
+    addWall(phx.Shape.makeBox(w, b, 0, h-b)); // bottom
     
     haxe.Log.clear();
     loadLevel();
