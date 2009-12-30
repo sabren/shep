@@ -24,8 +24,8 @@ class Game1
   var robotParts : phx.Material;
 
   var smallballs : Array<phx.Body>;
+  var pockets : Array<phx.Body>;
   var cuebot : phx.Body;
-  var pocket : phx.Body;
 
   var done : Bool;
 
@@ -39,6 +39,8 @@ class Game1
     this.root = root;
 
     smallballs = [];
+    pockets = [];
+
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
     resetWorld();
@@ -62,7 +64,7 @@ class Game1
     stage.addChild(clockText);
 
     updateClock();
-
+    done = true;
   }
 
   public function onEnterFrame(e) {
@@ -87,17 +89,6 @@ class Game1
     cuebot = new phx.Body(10, 10);
     cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0), robotParts));
     world.addBody(cuebot);
-
-    var zone = new phx.Body(450, 50);
-    zone.addShape(phx.Shape.makeBox(75, 75, 450, 50, 
-    				    new phx.Material(0,0,0)));
-    world.addBody(zone);
-
-    pocket = new phx.Body(450, 50);
-    pocket.addShape(new phx.Circle(15, new phx.Vector(37.5, 37.5),
-				   bouncyWall));
-    world.addBody(pocket);
-
 
     var w = 800;
     var h = 575;
@@ -135,29 +126,21 @@ class Game1
 
   function checkForWin() {
 
-    for (arb in pocket.arbiters) {
-      var shape = (arb.s1.body == pocket) ? arb.s2 : arb.s1;
-      if (shape.body == cuebot) {
-	if (smallballs.length == 0) {
-	  trace("you won!");
-	  done = true;
+    for (pocket in pockets) {
+      for (arb in pocket.arbiters) {
+	var shape = (arb.s1.body == pocket) ? arb.s2 : arb.s1;
+	if (shape.body == cuebot) {
+	  if (smallballs.length == 0) {
+	    trace("you won!");
+	    done = true;
+	  }
+	} else {
+	  if (smallballs.remove(shape.body)) {
+	    world.removeBody(shape.body);
+	  }
 	}
-      } else {
-	world.removeBody(shape.body);
-	smallballs.remove(shape.body);
-      }
-
-    }
-    /*
-
-    for (a in world.arbiters) {
-      if (a.sleeping) continue;
-      if ((a.s1.body == pocket && a.s2.body == cuebot) ||
-	  (a.s2.body == pocket && a.s1.body == cuebot)) {
-	done = true;
       }
     }
-    */
   }
 
   function drawWorld() {
@@ -297,10 +280,33 @@ class Game1
       else if (circ.get("fill") == "#00FF00") {
 	cuebot.setPos(cx, cy);
       }
+    } // circles
 
-
+    for (rect in svg.elementsNamed("rect")) {
+      var x = Std.parseFloat(rect.get("x"));
+      var y = Std.parseFloat(rect.get("y"));
+      var w = Std.parseFloat(rect.get("width"));
+      var h = Std.parseFloat(rect.get("height"));
+      var cx = x + (w/2);
+      var cy = y + (h/2);
+      
+      
+      // the zone is really just here for debugging purposes
+      // it also makes the pocket look like a square so it's
+      // easier to distingquish from the small balls
+      var zone = new phx.Body(0, 0);
+      zone.addShape(phx.Shape.makeBox(60, 60, cx-30, cy-30, 
+				      new phx.Material(0,0,0)));
+      
+      var pocket = new phx.Body(cx, cy);
+      pocket.addShape(new phx.Circle(15, new phx.Vector(0, 0),
+				     bouncyWall));
+      world.addBody(zone);
+      world.addBody(pocket);
+      pockets.push(pocket);
+      
     }
-
+    
     done = false;
   }
 
