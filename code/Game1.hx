@@ -19,6 +19,7 @@ import flash.net.URLRequest;
 
 class DsDigiFont extends flash.text.Font {}
 class BG0001 extends MovieClip {}
+class ShepClip extends MovieClip {}
 
 class Game1
 {
@@ -47,9 +48,13 @@ class Game1
   var bg : MovieClip;
   static var blurAmount : Int = 10;
 
+  var shepClip : MovieClip;
+
+
   public function new(root:MovieClip) {
     this.root = root;
-
+    var stage = root.stage;
+    
     smallballs = [];
     pockets = [];
 
@@ -57,13 +62,8 @@ class Game1
     robotParts = new phx.Material(0.5, 20, 20);
     resetWorld(1);
 
-    var stage = root.stage;
-    stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-    stage.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
-    stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
-
     var bg = new BG0001();
-    bg.filters = [ new BlurFilter(blurAmount)];
+    // bg.filters = [ new BlurFilter(blurAmount)];
     stage.addChild(bg);
 
 
@@ -95,6 +95,23 @@ class Game1
 
     updateClock();
     done = true;
+
+
+    var png = new ShepClip();
+
+    shepClip = new MovieClip();
+    shepClip.addChild(png);
+    png.x = -21;
+    png.y = -21;
+    stage.addChild(shepClip);
+
+
+
+    // save this to the end so world is ready to go for first frame event
+    stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+    stage.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
+    stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
+    // nothing below here should edit the world!
   }
 
   public function onEnterFrame(e) {
@@ -184,6 +201,11 @@ class Game1
     //fd.drawCircleRotation = true;
     fd.drawWorld(world);
     drawVector(g);
+
+
+    shepClip.x = cuebot.x;
+    shepClip.y = cuebot.y;
+    
   }
 
 
@@ -222,12 +244,23 @@ class Game1
        (%o28) [x=-sqrt(r)/sqrt(m^2+1),x=sqrt(r)/sqrt(m^2+1)]
     */
 
-
+    
     var r = 150;
     var v = calcVector(r);
+    
+    if (v.x == 0) {
+      shepClip.rotation = 0;
+    } else {
+      var slope = v.y / v.x;
+      shepClip.rotation = 90 + 180 / Math.PI * Math.atan(slope);
+    }
+
     g.moveTo(cuebot.x, cuebot.y);
     g.lineStyle(5, 0x3333FF);
     g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
+
+    // cotangent
+
   }
 
 

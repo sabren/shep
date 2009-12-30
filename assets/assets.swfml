@@ -8,6 +8,11 @@
             glyphs="0123456789:" />
       <clip id="BG0001" class="BG0001" 
 	    import="assets/bg0001.png"/>
+
+      <clip id="ShepClip" class="ShepClip" 
+	    import="assets/bot-42x60.png"/>
+
+
       <!--
       <clip id="MoneyDigit" class="MoneyDigit" 
 	    import="assets/lores/Counters/money.swf"/>
