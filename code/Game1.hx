@@ -6,13 +6,17 @@ import flash.events.KeyboardEvent;
 import flash.filters.GlowFilter;
 import flash.filters.DropShadowFilter;
 import flash.ui.Keyboard;
+import flash.text.TextFormat;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFieldType;
+import flash.text.AntiAliasType;
 import flash.utils.SetIntervalTimer;
 import flash.media.Sound;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
+
+class DsDigiFont extends flash.text.Font {}
 
 class Game1
 {
@@ -51,16 +55,29 @@ class Game1
     stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
 
 
+
+
     clock = new FlashClock();
     clock.startTimer(120);
 
+
+    var ds = new DsDigiFont();
+    var fmt = new TextFormat(ds.fontName, 25, 0xFF0000);
+
+
     clockText = new TextField();
+    clockText.embedFonts = true;
     clockText.x = 400;
-    clockText.y = 10;
+    clockText.y = 0;
+    clockText.antiAliasType = AntiAliasType.ADVANCED;
     clockText.background = true;
+    clockText.backgroundColor = 0x000000;
     clockText.multiline = true;
     clockText.autoSize = TextFieldAutoSize.LEFT;
     clockText.visible = true;
+
+    clockText.defaultTextFormat = fmt;
+    clockText.setTextFormat(fmt);
     stage.addChild(clockText);
 
     updateClock();

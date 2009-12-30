@@ -3,7 +3,8 @@ haxe = "c:/Program Files/Motion-Twin/haxe/haxe.exe"
 neko = "c:/Program Files/Motion-Twin/neko/neko.exe"
 swfmill = ../alchementrix/tools/swfmill.exe
 
-main : game1.swf
+# main : game1.swf
+main : assets.swf
 
 game1.swf : assets.swf compile.hxml code/*.hx 
 	$(haxe) compile.hxml

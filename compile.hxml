@@ -1,6 +1,7 @@
 -swf game1.swf
 -swf-header 800:575:24:eeeeee
 -swf-version 9
+-swf-lib assets.swf
 -main Game1
 -debug
 -lib physaxe
