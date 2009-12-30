@@ -1,3 +1,3 @@
 svn up
-make
+..\alchementrix\tools\make
 haxe compile.hxml && start game1.swf
