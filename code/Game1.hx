@@ -4,6 +4,7 @@ import flash.display.MovieClip;
 import flash.events.MouseEvent;
 import flash.events.KeyboardEvent;
 import flash.filters.GlowFilter;
+import flash.filters.BlurFilter;
 import flash.filters.DropShadowFilter;
 import flash.ui.Keyboard;
 import flash.text.TextFormat;
@@ -43,6 +44,8 @@ class Game1
   var physaxeLayer : MovieClip;
 
   var currentLevel : Int;
+  var bg : MovieClip;
+  static var blurAmount : Int = 10;
 
   public function new(root:MovieClip) {
     this.root = root;
@@ -59,7 +62,9 @@ class Game1
     stage.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
     stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
 
-    stage.addChild(new BG0001());
+    var bg = new BG0001();
+    bg.filters = [ new BlurFilter(blurAmount)];
+    stage.addChild(bg);
 
 
     clock = new FlashClock();
