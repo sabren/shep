@@ -17,6 +17,7 @@ import flash.net.URLLoader;
 import flash.net.URLRequest;
 
 class DsDigiFont extends flash.text.Font {}
+class BG0001 extends MovieClip {}
 
 class Game1
 {
@@ -39,6 +40,10 @@ class Game1
   var clock:FlashClock;
   var clockText:TextField;
 
+  var physaxeLayer : MovieClip;
+
+  var currentLevel : Int;
+
   public function new(root:MovieClip) {
     this.root = root;
 
@@ -47,19 +52,22 @@ class Game1
 
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
-    resetWorld();
+    resetWorld(1);
 
     var stage = root.stage;
     stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
     stage.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
     stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
 
-
+    stage.addChild(new BG0001());
 
 
     clock = new FlashClock();
     clock.startTimer(120);
 
+
+    physaxeLayer = new MovieClip();
+    stage.addChild(physaxeLayer);
 
     var ds = new DsDigiFont();
     var fmt = new TextFormat(ds.fontName, 25, 0xFF0000);
@@ -97,7 +105,7 @@ class Game1
     clockText.text = clock.toString();
   }
 
-  public function resetWorld() {
+  public function resetWorld(level:Int) {
 
     var broadphase = new phx.col.SortedList();
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
@@ -117,7 +125,7 @@ class Game1
     addWall(phx.Shape.makeBox(w, b, 0, h-b)); // bottom
     
     haxe.Log.clear();
-    loadLevel();
+    loadLevel(level);
 
   }
 
@@ -161,7 +169,7 @@ class Game1
   }
 
   function drawWorld() {
-    var g = root.graphics;
+    var g = physaxeLayer.graphics;
     g.clear();
     var fd = new phx.FlashDraw(g);
     //fd.boundingBox.line = 0x000000;
@@ -220,7 +228,15 @@ class Game1
 
 
   public function onKeyDown(e) {
-    resetWorld();
+
+    switch(e.keyCode) {
+      
+    case 48,49,50,51,52,53,54,55,56,57:
+      resetWorld(e.keyCode - 48);
+    default:
+      resetWorld(currentLevel);
+    }
+
   }
 
   public function onClick(e) {
@@ -232,8 +248,9 @@ class Game1
   }
 
 
-  public function loadLevel() {
-    var url = "levels/0001.svg";
+  public function loadLevel(which:Int) {
+    currentLevel = which;
+    var url = "levels/000" + which + ".svg";
     loader = new URLLoader(new URLRequest(url));
     loader.addEventListener("complete", onLevelLoad);
   }
