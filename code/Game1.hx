@@ -19,7 +19,15 @@ import flash.net.URLRequest;
 
 class DsDigiFont extends flash.text.Font {}
 class BG0001 extends MovieClip {}
+class FG0001 extends MovieClip {}
 class ShepClip extends MovieClip {}
+class BallClip extends MovieClip {}
+
+class BodyClip extends MovieClip {
+  public var clip : MovieClip;
+  public var body : phx.Body;
+}
+
 
 class Game1
 {
@@ -30,7 +38,6 @@ class Game1
   var bouncyWall : phx.Material;
   var robotParts : phx.Material;
 
-  var smallballs : Array<phx.Body>;
   var pockets : Array<phx.Body>;
   var cuebot : phx.Body;
 
@@ -46,10 +53,14 @@ class Game1
 
   var currentLevel : Int;
   var bg : MovieClip;
+  var mg : MovieClip;
+  var fg : MovieClip;
   static var blurAmount : Int = 10;
+  var blurFilter : BlurFilter;
 
   var shepClip : MovieClip;
-
+  var showPhysics : Bool;
+  var smallballs : Array<BodyClip>;
 
   public function new(root:MovieClip) {
     this.root = root;
@@ -60,12 +71,17 @@ class Game1
 
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
-    resetWorld(1);
 
-    var bg = new BG0001();
-    // bg.filters = [ new BlurFilter(blurAmount)];
+    bg = new BG0001();
+    blurFilter = new BlurFilter(0,0);
+    bg.filters = [blurFilter];
     stage.addChild(bg);
 
+    mg = new MovieClip();
+    stage.addChild(mg);
+
+    fg = new MovieClip();
+    stage.addChild(fg);
 
     clock = new FlashClock();
     clock.startTimer(120);
@@ -97,15 +113,8 @@ class Game1
     done = true;
 
 
-    var png = new ShepClip();
 
-    shepClip = new MovieClip();
-    shepClip.addChild(png);
-    png.x = -21;
-    png.y = -21;
-    stage.addChild(shepClip);
-
-
+    resetWorld(1);
 
     // save this to the end so world is ready to go for first frame event
     stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -133,9 +142,18 @@ class Game1
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
     world = new phx.World(boundary, broadphase);
 
+    clearClip(mg);
+
     cuebot = new phx.Body(10, 10);
     cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0), robotParts));
     world.addBody(cuebot);
+
+    var png = new ShepClip();
+    shepClip = new MovieClip();
+    shepClip.addChild(png);
+    png.x = -21;
+    png.y = -21;
+    mg.addChild(shepClip);
 
     var w = 800;
     var h = 575;
@@ -164,8 +182,8 @@ class Game1
     var oldv = cuebot.v;
     cuebot.setSpeed(oldv.x * friction, oldv.y * friction);
     for (b in smallballs) {
-      oldv = b.v;
-      b.setSpeed(oldv.x * friction, oldv.y * friction);
+      oldv = b.body.v;
+      b.body.setSpeed(oldv.x * friction, oldv.y * friction);
     }
 
 
@@ -182,8 +200,13 @@ class Game1
 	    done = true;
 	  }
 	} else {
-	  if (smallballs.remove(shape.body)) {
-	    world.removeBody(shape.body);
+	  for (b in smallballs) {
+	    if (shape.body == b.body) {
+	      smallballs.remove(b);
+	      mg.removeChild(b.clip);
+	      world.removeBody(shape.body);
+	      break;
+	    }
 	  }
 	}
       }
@@ -193,16 +216,38 @@ class Game1
   function drawWorld() {
     var g = physaxeLayer.graphics;
     g.clear();
-    var fd = new phx.FlashDraw(g);
-    //fd.boundingBox.line = 0x000000;
-    //fd.contact.line = 0xFF0000;
-    //fd.sleepingContact.line = 0xFF00FF;
-    // fd.staticShape.fill = 0x00FF00;
-    //fd.drawCircleRotation = true;
-    fd.drawWorld(world);
+
+    if (showPhysics) {
+      var fd = new phx.FlashDraw(g);
+      //fd.boundingBox.line = 0x000000;
+      //fd.contact.line = 0xFF0000;
+      //fd.sleepingContact.line = 0xFF00FF;
+      // fd.staticShape.fill = 0x00FF00;
+      //fd.drawCircleRotation = true;
+      fd.drawWorld(world);
+    }
+
     drawVector(g);
 
+    for (b in smallballs) {
+      b.clip.x = b.body.x;
+      b.clip.y = b.body.y;
+    }
 
+
+    if (cuebot.arbiters.isEmpty()) {
+      if (blurFilter.blurX > 0) {
+	blurFilter.blurX -= 0.5;
+      }
+      if (blurFilter.blurX < 0) {
+	blurFilter.blurX = 0;
+      }
+    } else {
+	blurFilter.blurX = 10;
+    }
+    blurFilter.blurY = blurFilter.blurX;
+    bg.filters = [blurFilter];
+    
     shepClip.x = cuebot.x;
     shepClip.y = cuebot.y;
     
@@ -249,10 +294,12 @@ class Game1
     var v = calcVector(r);
     
     if (v.x == 0) {
-      shepClip.rotation = 0;
+      shepClip.rotation = v.y <= 0 ? 0 : 180;
     } else {
       var slope = v.y / v.x;
       shepClip.rotation = 90 + 180 / Math.PI * Math.atan(slope);
+      if (v.x < 0)
+	shepClip.rotation += 180;
     }
 
     g.moveTo(cuebot.x, cuebot.y);
@@ -269,6 +316,11 @@ class Game1
 
     switch(e.keyCode) {
       
+    case 66: // b
+      //bg.filters = [new BlurFilter(10)];
+      blurFilter.blurX = 10;
+      //      bg.filters = [blurFilter];
+      trace("blur!");
     case 48,49,50,51,52,53,54,55,56,57:
       resetWorld(e.keyCode - 48);
     default:
@@ -291,6 +343,15 @@ class Game1
     var url = "levels/000" + which + ".svg";
     loader = new URLLoader(new URLRequest(url));
     loader.addEventListener("complete", onLevelLoad);
+
+    if (which == 1) {
+      var loadit = new flash.display.Loader();
+      fg.addChild(new FG0001());
+      showPhysics = false;
+    } else {
+      clearClip(fg);
+      showPhysics = true;
+    }
   }
 
   public function onLevelLoad(e:Event) {
@@ -345,7 +406,10 @@ class Game1
 	smallball.addShape(new phx.Circle(15, new phx.Vector(0, 0), 
 					  robotParts));
 	world.addBody(smallball);
-	smallballs.push(smallball);
+	var bodyclip = makeBodyClip(smallball);
+	smallballs.push(bodyclip);
+	mg.addChild(bodyclip.clip);
+
       } 
 
       // green is the hero
@@ -382,9 +446,33 @@ class Game1
     done = false;
   }
 
+
+  public function makeBodyClip(body:phx.Body):BodyClip {
+    var clip = new BallClip();
+    var holder = new MovieClip();
+    var res = new BodyClip();
+    clip.x = - clip.width / 2;
+    clip.y = - clip.height / 2;
+    holder.addChild(clip);
+    holder.x = body.x;
+    holder.y = body.y;
+    res.body = body;
+    res.clip = holder;
+    return res;
+  }
+
+
   static function main() {
     var root = flash.Lib.current;
     var game = new Game1(root);
   }
+
+
+  function clearClip(clip:MovieClip) {
+    while (clip.numChildren > 0) {
+      clip.removeChildAt(0);
+    }
+  }
+
 
 }

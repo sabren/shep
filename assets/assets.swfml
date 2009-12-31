@@ -6,11 +6,16 @@
       
       <font id="DsDigiFont" name="DsDigiFont" import="assets/ds-digib.ttf"
             glyphs="0123456789:" />
+
       <clip id="BG0001" class="BG0001" 
 	    import="assets/bg0001.png"/>
+      <clip id="FG0001" class="FG0001" 
+	    import="assets/0001-fg.png"/>
 
       <clip id="ShepClip" class="ShepClip" 
 	    import="assets/bot-42x60.png"/>
+      <clip id="BallClip" class="BallClip" 
+	    import="assets/ball.png"/>
 
 
       <!--
