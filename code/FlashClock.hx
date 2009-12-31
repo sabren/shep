@@ -20,7 +20,7 @@ class FlashClock extends FlashCounter {
 
 
   public function updateCount () {
-    timeCount = timeEnd - haxe.Timer.stamp();
+    timeCount = Math.ceil(timeEnd - haxe.Timer.stamp());
     if (timeCount <= 0) {
       timeCount = 0;
     }
@@ -62,8 +62,5 @@ class FlashClock extends FlashCounter {
       + ""
       + Math.floor(secs % 10);
   }
-
-
-
 
 }
