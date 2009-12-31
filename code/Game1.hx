@@ -249,7 +249,7 @@ class Game1
 	blurFilter.blurX = 10;
     }
     blurFilter.blurY = blurFilter.blurX;
-    bg.x = blurFilter.blurX;
+    bg.x = blurFilter.blurX / 2.5;
     bg.filters = [blurFilter];
 
 
