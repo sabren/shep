@@ -227,6 +227,8 @@ class Game1
       fd.drawWorld(world);
     }
 
+    var g = fg.graphics;
+    g.clear();
     drawVector(g);
 
     for (b in smallballs) {
