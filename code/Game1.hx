@@ -22,10 +22,15 @@ class BG0001 extends MovieClip {}
 class FG0001 extends MovieClip {}
 class ShepClip extends MovieClip {}
 class BallClip extends MovieClip {}
+class PocketClip extends MovieClip {}
 
-class BodyClip extends MovieClip {
+class BodyClip {
   public var clip : MovieClip;
   public var body : phx.Body;
+  public function new(body, clip) {
+    this.body = body;
+    this.clip = clip;
+  }
 }
 
 
@@ -84,8 +89,6 @@ class Game1
     stage.addChild(fg);
 
     clock = new FlashClock();
-    clock.startTimer(120);
-
 
     physaxeLayer = new MovieClip();
     stage.addChild(physaxeLayer);
@@ -153,7 +156,6 @@ class Game1
     shepClip.addChild(png);
     png.x = -21;
     png.y = -21;
-    mg.addChild(shepClip);
 
     var w = 800;
     var h = 575;
@@ -358,6 +360,37 @@ class Game1
     svg = Xml.parse(loader.data).firstElement();
 
     trace("level loaded.");
+
+
+    for (rect in svg.elementsNamed("rect")) {
+      var x = Std.parseFloat(rect.get("x"));
+      var y = Std.parseFloat(rect.get("y"));
+      var w = Std.parseFloat(rect.get("width"));
+      var h = Std.parseFloat(rect.get("height"));
+      var cx = x + (w/2);
+      var cy = y + (h/2);
+      
+      
+      // the zone is really just here for debugging purposes
+      // it also makes the pocket look like a square so it's
+      // easier to distingquish from the small balls
+      var zone = new phx.Body(0, 0);
+      zone.addShape(phx.Shape.makeBox(60, 60, cx-30, cy-30, 
+				      new phx.Material(0,0,0)));
+      world.addBody(zone);
+      
+      var pocket = new phx.Body(cx, cy);
+      pocket.addShape(new phx.Circle(15, new phx.Vector(0, 0),
+				     bouncyWall));
+      world.addBody(pocket);
+      var pclip = centerClip(new PocketClip());
+      pclip.x = cx;
+      pclip.y = cy;
+      mg.addChild(pclip);
+      pockets.push(pocket);
+      
+    }
+
     for (poly in svg.elementsNamed("polygon")) {
 
       var points = StringTools.trim(poly.get("points"));
@@ -406,7 +439,7 @@ class Game1
 	smallball.addShape(new phx.Circle(15, new phx.Vector(0, 0), 
 					  robotParts));
 	world.addBody(smallball);
-	var bodyclip = makeBodyClip(smallball);
+	var bodyclip = makeBallClip(smallball);
 	smallballs.push(bodyclip);
 	mg.addChild(bodyclip.clip);
 
@@ -417,48 +450,34 @@ class Game1
 	cuebot.setPos(cx, cy);
       }
     } // circles
-
-    for (rect in svg.elementsNamed("rect")) {
-      var x = Std.parseFloat(rect.get("x"));
-      var y = Std.parseFloat(rect.get("y"));
-      var w = Std.parseFloat(rect.get("width"));
-      var h = Std.parseFloat(rect.get("height"));
-      var cx = x + (w/2);
-      var cy = y + (h/2);
-      
-      
-      // the zone is really just here for debugging purposes
-      // it also makes the pocket look like a square so it's
-      // easier to distingquish from the small balls
-      var zone = new phx.Body(0, 0);
-      zone.addShape(phx.Shape.makeBox(60, 60, cx-30, cy-30, 
-				      new phx.Material(0,0,0)));
-      
-      var pocket = new phx.Body(cx, cy);
-      pocket.addShape(new phx.Circle(15, new phx.Vector(0, 0),
-				     bouncyWall));
-      world.addBody(zone);
-      world.addBody(pocket);
-      pockets.push(pocket);
-      
-    }
     
+    
+
+    // shep is at the very end so he goes on top
+    mg.addChild(shepClip);
+
+
     done = false;
+    clock.startTimer(120);
+
   }
 
 
-  public function makeBodyClip(body:phx.Body):BodyClip {
-    var clip = new BallClip();
+  public function makeBallClip(body:phx.Body):BodyClip {
+    return new BodyClip(body, centerClip(new BallClip()));
+  }
+
+
+  public function offsetClip(clip:MovieClip, x:Float, y:Float):MovieClip {
     var holder = new MovieClip();
-    var res = new BodyClip();
-    clip.x = - clip.width / 2;
-    clip.y = - clip.height / 2;
     holder.addChild(clip);
-    holder.x = body.x;
-    holder.y = body.y;
-    res.body = body;
-    res.clip = holder;
-    return res;
+    clip.x = x;
+    clip.y = y;
+    return holder;
+  }
+
+  public function centerClip(clip):MovieClip {
+    return offsetClip(clip, -clip.width/2, -clip.height/2);
   }
 
 

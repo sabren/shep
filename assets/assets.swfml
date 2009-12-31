@@ -16,6 +16,8 @@
 	    import="assets/bot-42x60.png"/>
       <clip id="BallClip" class="BallClip" 
 	    import="assets/ball.png"/>
+      <clip id="PocketClip" class="PocketClip" 
+	    import="assets/pocket.png"/>
 
 
       <!--
