@@ -77,6 +77,8 @@ class Game1
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
 
+    stage.addChild(new StarField(800,575));
+
     bg = new BG0001();
     blurFilter = new BlurFilter(0,0);
     bg.filters = [blurFilter];
@@ -90,6 +92,7 @@ class Game1
 
     fg = new MovieClip();
     stage.addChild(fg);
+
 
     clock = new FlashClock();
 
