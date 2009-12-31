@@ -6,15 +6,15 @@
 <polygon fill="#FFFFFF" stroke="#000000" points="376.665,25.464 398.342,92.372 229.351,151.865 140.412,88.296 151.336,25.637 "/>
 <circle fill="#00FF00" stroke="#000000" stroke-width="2" cx="62.993" cy="95.617" r="25"/>
 <circle fill="#FF0000" stroke="#000000" cx="276.35" cy="499.85" r="16.8"/>
-<polygon fill="#FFFFFF" stroke="#000000" points="453.668,249.044 505.764,250.095 478.806,294.685 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="453.668,249.044 505.764,250.095 478.806,294.686 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="395.947,342.542 422,297.417 448.053,342.542 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="424.855,195.428 476.961,195.062 451.225,240.367 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="454.947,241.542 481,196.417 507.053,241.542 "/>
-<polygon fill="#FFFFFF" stroke="#000000" points="284.966,398.303 257.771,353.855 309.86,352.528 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="284.966,398.303 257.771,353.855 309.86,352.527 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="424.947,294.542 451,249.417 477.053,294.542 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="393.947,242.542 420,197.417 446.053,242.542 "/>
-<polygon fill="#FFFFFF" stroke="#000000" points="257.125,350.929 283.177,305.804 309.23,350.929 "/>
-<polygon fill="#FFFFFF" stroke="#000000" points="448.414,250.054 422.361,295.179 396.309,250.054 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="257.125,350.93 283.177,305.805 309.23,350.93 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="448.414,250.054 422.361,295.18 396.309,250.054 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="423.873,295.501 475.943,297.428 448.238,341.559 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="89.542,437.834 25.44,455.598 26.212,352.18 83.286,307.232 170.636,313.491 
 	144.377,384.544 "/>
@@ -24,11 +24,17 @@
 	682.29,194.668 651.743,184.139 634.129,195.352 628.072,219.19 "/>
 <circle fill="#FF0000" stroke="#000000" cx="555.85" cy="373.35" r="16.8"/>
 <circle fill="#FF0000" stroke="#000000" cx="105.5" cy="149.699" r="16.8"/>
-<rect x="604.5" y="21" fill="#00FF00" stroke="#000000" width="70" height="70"/>
+<rect x="604.5" y="28" fill="#00FF00" stroke="#000000" width="70" height="70"/>
 <polygon fill="#FFFFFF" stroke="#000000" points="365.947,292.542 392,247.417 418.053,292.542 "/>
-<polygon fill="#FFFFFF" stroke="#000000" points="420.414,296.054 394.361,341.179 366.309,296.054 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="420.414,296.055 394.361,341.18 366.309,296.055 "/>
 <polygon fill="#FFFFFF" stroke="#000000" points="630.5,366 613.5,415 623.5,448 647.5,462 701.5,453 718.5,427 711.5,392 
 	691,372.5 648.5,358 "/>
 <rect x="25.5" y="471" fill="#00FF00" stroke="#000000" width="70" height="70"/>
 <rect x="137.5" y="181" fill="#00FF00" stroke="#000000" width="70" height="70"/>
+<g>
+	<line fill="none" stroke="#D9AB00" x1="24.5" y1="26" x2="24.5" y2="551"/>
+	<line fill="none" stroke="#D9AB00" x1="774.5" y1="26" x2="774.5" y2="551"/>
+	<line fill="none" stroke="#D9AB00" x1="24.5" y1="551" x2="774.5" y2="551"/>
+	<line fill="none" stroke="#D9AB00" x1="24.5" y1="26" x2="774.5" y2="26"/>
+</g>
 </svg>
