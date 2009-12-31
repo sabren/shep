@@ -115,8 +115,6 @@ class Game1
     updateClock();
     done = true;
 
-
-
     resetWorld(1);
 
     // save this to the end so world is ready to go for first frame event
@@ -234,6 +232,7 @@ class Game1
     for (b in smallballs) {
       b.clip.x = b.body.x;
       b.clip.y = b.body.y;
+      b.clip.rotation = rad2deg(b.body.a);
     }
 
 
@@ -276,6 +275,11 @@ class Game1
     }
   }
 
+
+  function rad2deg(rad:Float) {
+    return  180 / Math.PI * rad;
+  }
+
   function drawVector(g:flash.display.Graphics) {
 
     // draw a line from the bot to the mouse
@@ -299,7 +303,7 @@ class Game1
       shepClip.rotation = v.y <= 0 ? 0 : 180;
     } else {
       var slope = v.y / v.x;
-      shepClip.rotation = 90 + 180 / Math.PI * Math.atan(slope);
+      shepClip.rotation = 90 + rad2deg( Math.atan(slope));
       if (v.x < 0)
 	shepClip.rotation += 180;
     }
