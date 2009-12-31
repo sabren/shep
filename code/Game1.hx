@@ -82,6 +82,9 @@ class Game1
     bg.filters = [blurFilter];
     stage.addChild(bg);
 
+    physaxeLayer = new MovieClip();
+    stage.addChild(physaxeLayer);
+
     mg = new MovieClip();
     stage.addChild(mg);
 
@@ -89,9 +92,6 @@ class Game1
     stage.addChild(fg);
 
     clock = new FlashClock();
-
-    physaxeLayer = new MovieClip();
-    stage.addChild(physaxeLayer);
 
     var ds = new DsDigiFont();
     var fmt = new TextFormat(ds.fontName, 25, 0xFF0000);
