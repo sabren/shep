@@ -346,12 +346,12 @@ class Game1
     loader = new URLLoader(new URLRequest(url));
     loader.addEventListener("complete", onLevelLoad);
 
+    clearClip(fg);
     if (which == 1) {
       var loadit = new flash.display.Loader();
       fg.addChild(new FG0001());
       showPhysics = false;
     } else {
-      clearClip(fg);
       showPhysics = true;
     }
   }
