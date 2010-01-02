@@ -1,6 +1,7 @@
 
 import flash.events.Event;
 import flash.display.MovieClip;
+import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.events.KeyboardEvent;
 import flash.filters.GlowFilter;
@@ -38,7 +39,7 @@ class Game1
 {
 
   var world : phx.World;
-  var root : MovieClip;
+  var parent : Sprite;
 
   var bouncyWall : phx.Material;
   var robotParts : phx.Material;
@@ -47,6 +48,7 @@ class Game1
   var cuebot : phx.Body;
 
   var done : Bool;
+  var keyboardControl: Bool;
 
   var loader : URLLoader;
   var svg : Xml;
@@ -66,10 +68,10 @@ class Game1
   var shepClip : MovieClip;
   var showPhysics : Bool;
   var smallballs : Array<BodyClip>;
+  var spinners : Array<phx.Body>; // @TODO: BodyClip
 
-  public function new(root:MovieClip) {
-    this.root = root;
-    var stage = root.stage;
+  public function new(parent:Sprite) {
+    this.parent = parent;
     
     smallballs = [];
     pockets = [];
@@ -77,21 +79,21 @@ class Game1
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
 
-    stage.addChild(new StarField(800,575));
+    parent.addChild(new StarField(800,575));
 
     bg = new BG0001();
     blurFilter = new BlurFilter(0,0);
     bg.filters = [blurFilter];
-    stage.addChild(bg);
+    parent.addChild(bg);
 
     physaxeLayer = new MovieClip();
-    stage.addChild(physaxeLayer);
+    parent.addChild(physaxeLayer);
 
     mg = new MovieClip();
-    stage.addChild(mg);
+    parent.addChild(mg);
 
     fg = new MovieClip();
-    stage.addChild(fg);
+    parent.addChild(fg);
 
 
     clock = new FlashClock();
@@ -113,7 +115,7 @@ class Game1
 
     clockText.defaultTextFormat = fmt;
     clockText.setTextFormat(fmt);
-    stage.addChild(clockText);
+    parent.addChild(clockText);
 
     updateClock();
     done = true;
@@ -121,9 +123,10 @@ class Game1
     resetWorld(1);
 
     // save this to the end so world is ready to go for first frame event
-    stage.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-    stage.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
-    stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
+    
+    parent.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+    parent.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
+    flash.Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
     // nothing below here should edit the world!
   }
 
@@ -172,8 +175,8 @@ class Game1
 
   }
 
-  function addWall(shape:phx.Shape) {
-    shape.material = bouncyWall;
+  function addWall(shape:phx.Shape, ?mat):Void {
+    shape.material = (mat != null) ? mat : bouncyWall;
     world.addStaticShape(shape);
   }
 
@@ -266,8 +269,8 @@ class Game1
     var x1 = cuebot.x;
     var y1 = cuebot.y;
     
-    var x2 = root.mouseX;
-    var y2 = root.mouseY;
+    var x2 = parent.mouseX;
+    var y2 = parent.mouseY;
 
     var rise = (y2 - y1);
     var run = (x2 - x1);
@@ -282,10 +285,25 @@ class Game1
     }
   }
 
-
   function rad2deg(rad:Float) {
-    return  180 / Math.PI * rad;
+    return  180 * rad / Math.PI;
   }
+
+  function deg2rad(deg:Float) {
+    return deg * Math.PI / 180;
+  }
+  
+  function rad2vec(r:Float) {
+    return new phx.Vector(Math.cos(r), Math.sin(r));
+  }
+
+
+
+  public function shepClipVector() {
+    return rad2vec(deg2rad(shepClip.rotation-90));
+  }
+
+
 
   function drawVector(g:flash.display.Graphics) {
 
@@ -304,30 +322,42 @@ class Game1
 
     
     var r = 150;
-    var v = calcVector(r);
-    
-    if (v.x == 0) {
-      shepClip.rotation = v.y <= 0 ? 0 : 180;
+    var v:phx.Vector;
+
+    if (keyboardControl) {
+      v = shepClipVector().mult(10);
+
     } else {
-      var slope = v.y / v.x;
-      shepClip.rotation = 90 + rad2deg( Math.atan(slope));
-      if (v.x < 0)
-	shepClip.rotation += 180;
+      v = calcVector(r);
+
+      if (v.x == 0) {
+	shepClip.rotation = v.y <= 0 ? 0 : 180;
+      } else {
+	var slope = v.y / v.x;
+	shepClip.rotation = 90 + rad2deg( Math.atan(slope));
+	if (v.x < 0)
+	  shepClip.rotation += 180;
+      }
     }
 
-    g.moveTo(cuebot.x, cuebot.y);
-    g.lineStyle(5, 0x3333FF);
-    g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
-
-    // cotangent
-
+      g.moveTo(cuebot.x, cuebot.y);
+      g.lineStyle(5, 0x3333FF);
+      g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
   }
-
 
 
   public function onKeyDown(e) {
 
     switch(e.keyCode) {
+
+    case Keyboard.DOWN:
+      keyboardControl = ! keyboardControl;
+    case Keyboard.UP:
+      kick(cuebot, shepClipVector().mult(5));
+    case Keyboard.LEFT:
+      shepClip.rotation -= 15;
+    case Keyboard.RIGHT:
+      shepClip.rotation += 15;
       
     case 66: // b
       //bg.filters = [new BlurFilter(10)];
@@ -343,11 +373,13 @@ class Game1
   }
 
   public function onClick(e) {
-    
-    var kick = calcVector(50);
-    var oldv = cuebot.v;
-    cuebot.setSpeed(oldv.x + kick.x, oldv.y + kick.y);
-    world.activate(cuebot);
+    kick(cuebot, calcVector(50));
+  }
+
+  public function kick(body:phx.Body, howHard:phx.Vector) {
+    var oldv = body.v;
+    body.setSpeed(oldv.x + howHard.x, oldv.y + howHard.y);
+    world.activate(body);
   }
 
 
@@ -367,43 +399,28 @@ class Game1
     }
   }
 
-  public function onLevelLoad(e:Event) {
-    svg = Xml.parse(loader.data).firstElement();
 
-    trace("level loaded.");
+  public function addPocket(cx:Float, cy:Float) {
+    // the zone is really just here for debugging purposes
+    // it also makes the pocket look like a square so it's
+    // easier to distingquish from the small balls
+    var zone = new phx.Body(0, 0);
+    zone.addShape(phx.Shape.makeBox(60, 60, cx-30, cy-30, 
+				    new phx.Material(0,0,0)));
+    world.addBody(zone);
+    
+    var pocket = new phx.Body(cx, cy);
+    pocket.addShape(new phx.Circle(15, new phx.Vector(0, 0),
+				   bouncyWall));
+    world.addBody(pocket);
+    var pclip = centerClip(new PocketClip());
+    pclip.x = cx;
+    pclip.y = cy;
+    mg.addChild(pclip);
+    pockets.push(pocket);
+  }
 
-
-    for (rect in svg.elementsNamed("rect")) {
-      var x = Std.parseFloat(rect.get("x"));
-      var y = Std.parseFloat(rect.get("y"));
-      var w = Std.parseFloat(rect.get("width"));
-      var h = Std.parseFloat(rect.get("height"));
-      var cx = x + (w/2);
-      var cy = y + (h/2);
-      
-      
-      // the zone is really just here for debugging purposes
-      // it also makes the pocket look like a square so it's
-      // easier to distingquish from the small balls
-      var zone = new phx.Body(0, 0);
-      zone.addShape(phx.Shape.makeBox(60, 60, cx-30, cy-30, 
-				      new phx.Material(0,0,0)));
-      world.addBody(zone);
-      
-      var pocket = new phx.Body(cx, cy);
-      pocket.addShape(new phx.Circle(15, new phx.Vector(0, 0),
-				     bouncyWall));
-      world.addBody(pocket);
-      var pclip = centerClip(new PocketClip());
-      pclip.x = cx;
-      pclip.y = cy;
-      mg.addChild(pclip);
-      pockets.push(pocket);
-      
-    }
-
-    for (poly in svg.elementsNamed("polygon")) {
-
+  public function addPolyXml(poly:Xml) {
       var points = StringTools.trim(poly.get("points"));
       var vertices:Array<phx.Vector> = [];
 
@@ -437,6 +454,49 @@ class Game1
 	world.addBody(b);
 	world.activate(b);
       }
+  }
+  
+
+  public function onLevelLoad(e:Event) {
+    svg = Xml.parse(loader.data).firstElement();
+
+    trace("level loaded.");
+
+    var green = "#00FF00";
+    var red = "#FF0000";
+    var blue = "#0000FF";
+
+    spinners = [];
+
+    for (rect in svg.elementsNamed("rect")) {
+
+      var x = Std.parseFloat(rect.get("x"));
+      var y = Std.parseFloat(rect.get("y"));
+      var w = Std.parseFloat(rect.get("width"));
+      var h = Std.parseFloat(rect.get("height"));
+      var cx = x + (w/2);
+      var cy = y + (h/2);
+
+      if (rect.get("fill") == green) {
+	addPocket(cx, cy);
+      } else {
+	if (rect.get("fill") == blue) {
+	  var shape = phx.Shape.makeBox(w, h, -(w/2), -(h/2), bouncyWall);
+	  var b = new phx.Body(cx,cy);
+	  b.addShape(shape);
+	  world.addBody(b);
+	  b.w = 0.05; // angular velocity
+	  b.t = 0.05; // torque
+	  spinners.push(b);
+	} else {
+	  var shape = phx.Shape.makeBox(w, h, x, y, bouncyWall);
+	  addWall(shape);
+	}
+      }
+    }
+
+    for (poly in svg.elementsNamed("polygon")) {
+      addPolyXml(poly);
     }
 
     smallballs = [];
@@ -445,7 +505,7 @@ class Game1
       var cy = Std.parseFloat(circ.get("cy"));
       
       // red are little balls
-      if (circ.get("fill") == "#FF0000") {
+      if (circ.get("fill") == red) {
 	var smallball = new phx.Body(cx, cy);
 	smallball.addShape(new phx.Circle(15, new phx.Vector(0, 0), 
 					  robotParts));
@@ -457,7 +517,7 @@ class Game1
       } 
 
       // green is the hero
-      else if (circ.get("fill") == "#00FF00") {
+      else if (circ.get("fill") == green) {
 	cuebot.setPos(cx, cy);
       }
     } // circles
@@ -493,8 +553,8 @@ class Game1
 
 
   static function main() {
-    var root = flash.Lib.current;
-    var game = new Game1(root);
+    var parent = flash.Lib.current;
+    var game = new Game1(parent);
   }
 
 
