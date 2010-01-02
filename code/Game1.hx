@@ -28,12 +28,16 @@ class PocketClip extends MovieClip {}
 class BodyClip {
   public var clip : MovieClip;
   public var body : phx.Body;
+  public var code : Int; // for doors and locks
   public function new(body, clip) {
     this.body = body;
     this.clip = clip;
   }
 }
 
+class Pocket extends phx.Body {
+  public var code : Int;
+}
 
 class Game1
 {
@@ -44,7 +48,7 @@ class Game1
   var bouncyWall : phx.Material;
   var robotParts : phx.Material;
 
-  var pockets : Array<phx.Body>;
+  var pockets : Array<Pocket>;
   var cuebot : phx.Body;
 
   var done : Bool;
@@ -57,6 +61,7 @@ class Game1
   var clockText:TextField;
 
   var physaxeLayer : MovieClip;
+  var socketGlow : GlowFilter;
 
   var currentLevel : Int;
   var bg : MovieClip;
@@ -65,9 +70,13 @@ class Game1
   static var blurAmount : Int = 10;
   var blurFilter : BlurFilter;
 
+  static var spinnerVelocity :Float= 0.05;
+  static var spinnerTorque :Float = 0.05;
+
   var shepClip : MovieClip;
   var showPhysics : Bool;
   var smallballs : Array<BodyClip>;
+  var doors : Array<BodyClip>;
   var spinners : Array<phx.Body>; // @TODO: BodyClip
 
   public function new(parent:Sprite) {
@@ -75,6 +84,10 @@ class Game1
     
     smallballs = [];
     pockets = [];
+    doors = [];
+    
+
+    socketGlow = new GlowFilter(0xFFFF00, 1, 7.5, 7.5, 4);
 
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
@@ -192,6 +205,11 @@ class Game1
       b.body.setSpeed(oldv.x * friction, oldv.y * friction);
     }
 
+    // power the spinners:
+    for (s in spinners) {
+      s.w = spinnerVelocity;
+      s.t = spinnerTorque;
+    }
 
   }
 
@@ -208,10 +226,24 @@ class Game1
 	} else {
 	  for (b in smallballs) {
 	    if (shape.body == b.body) {
-	      smallballs.remove(b);
-	      mg.removeChild(b.clip);
-	      world.removeBody(shape.body);
-	      break;
+              if (b.code == pocket.code) {
+		smallballs.remove(b);
+		mg.removeChild(b.clip);
+		world.removeBody(shape.body);
+		
+		if (pocket.code > 0) {
+		  for (d in doors) {
+		    if (d.code == b.code)
+		      doors.remove(d);
+		    if (d.clip != null) 
+		      mg.removeChild(d.clip);
+		    world.removeBody(d.body);
+		    break;
+		  }
+		}
+
+		break;
+	      }
 	    }
 	  }
 	}
@@ -400,7 +432,7 @@ class Game1
   }
 
 
-  public function addPocket(cx:Float, cy:Float) {
+  public function addPocket(cx:Float, cy:Float, ?code:Int) {
     // the zone is really just here for debugging purposes
     // it also makes the pocket look like a square so it's
     // easier to distingquish from the small balls
@@ -409,15 +441,22 @@ class Game1
 				    new phx.Material(0,0,0)));
     world.addBody(zone);
     
-    var pocket = new phx.Body(cx, cy);
+    var pocket = new Pocket(cx, cy);
+    pocket.code = code;
     pocket.addShape(new phx.Circle(15, new phx.Vector(0, 0),
 				   bouncyWall));
     world.addBody(pocket);
     var pclip = centerClip(new PocketClip());
     pclip.x = cx;
     pclip.y = cy;
+
+    if (code > 0) {
+      pclip.filters = [socketGlow];
+    }
+
     mg.addChild(pclip);
     pockets.push(pocket);
+    return pocket;
   }
 
   public function addPolyXml(poly:Xml) {
@@ -456,6 +495,20 @@ class Game1
       }
   }
   
+  public function addSpinner(cx:Float, cy:Float, w:Float, h:Float) {
+    var shape = phx.Shape.makeBox(w, h, -(w/2), -(h/2), bouncyWall);
+    var b = new phx.Body(cx,cy);
+    b.addShape(shape);
+    world.addBody(b);
+    spinners.push(b);
+  }
+
+  public function addDoor(shape:phx.Shape, clip:MovieClip) {
+    var door = new BodyClip(new phx.Body(0, 0), clip);
+    door.body.addShape(shape);
+    world.addBody(door.body);
+    doors.push(door);
+  }
 
   public function onLevelLoad(e:Event) {
     svg = Xml.parse(loader.data).firstElement();
@@ -465,8 +518,12 @@ class Game1
     var green = "#00FF00";
     var red = "#FF0000";
     var blue = "#0000FF";
+    var cyan = "#00FFFF";
+    var darkCyan = "#009999";
 
     spinners = [];
+
+    doors = [];
 
     for (rect in svg.elementsNamed("rect")) {
 
@@ -477,21 +534,23 @@ class Game1
       var cx = x + (w/2);
       var cy = y + (h/2);
 
-      if (rect.get("fill") == green) {
+      var shape = phx.Shape.makeBox(w, h, x, y, bouncyWall);
+      
+      var fill = rect.get("fill");
+      if (fill == green) {
 	addPocket(cx, cy);
+
+      } else if (fill == cyan) {
+	addPocket(cx, cy, 1);
+
+      } else if (fill == darkCyan) {
+	addDoor(shape, null);
+
+      } else if (fill == blue) {
+	addSpinner(cx, cy, w, h);
+
       } else {
-	if (rect.get("fill") == blue) {
-	  var shape = phx.Shape.makeBox(w, h, -(w/2), -(h/2), bouncyWall);
-	  var b = new phx.Body(cx,cy);
-	  b.addShape(shape);
-	  world.addBody(b);
-	  b.w = 0.05; // angular velocity
-	  b.t = 0.05; // torque
-	  spinners.push(b);
-	} else {
-	  var shape = phx.Shape.makeBox(w, h, x, y, bouncyWall);
-	  addWall(shape);
-	}
+	addWall(shape);
       }
     }
 
@@ -504,8 +563,14 @@ class Game1
       var cx = Std.parseFloat(circ.get("cx"));
       var cy = Std.parseFloat(circ.get("cy"));
       
-      // red are little balls
-      if (circ.get("fill") == red) {
+      // green is the hero
+      if (circ.get("fill") == green) {
+	cuebot.setPos(cx, cy);
+      }
+
+      // anything else is a fuseball
+      
+      else {
 	var smallball = new phx.Body(cx, cy);
 	smallball.addShape(new phx.Circle(15, new phx.Vector(0, 0), 
 					  robotParts));
@@ -514,15 +579,13 @@ class Game1
 	smallballs.push(bodyclip);
 	mg.addChild(bodyclip.clip);
 
-      } 
+	if (circ.get("fill") != red) {
+	  bodyclip.clip.filters = [socketGlow];
+	  bodyclip.code = 1; // just some arbitrary code @TODO: match keys and doors
+	}
 
-      // green is the hero
-      else if (circ.get("fill") == green) {
-	cuebot.setPos(cx, cy);
-      }
+      } 
     } // circles
-    
-    
 
     // shep is at the very end so he goes on top
     mg.addChild(shepClip);
