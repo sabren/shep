@@ -64,6 +64,7 @@ class Game1
   var world : phx.World;
   var parent : Sprite;
 
+  var floatyWall : phx.Material;
   var bouncyWall : phx.Material;
   var robotParts : phx.Material;
 
@@ -109,7 +110,8 @@ class Game1
     doors = [];
 
     socketGlow = new GlowFilter(0xFFFF00, 1, 7.5, 7.5, 4);
-
+    // phx.Material(restitution, friction, density );
+    floatyWall = new phx.Material(0.5, 2, 100);
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
 
@@ -520,15 +522,16 @@ class Game1
 
 
 	var origin = new phx.Vector(0,0);
+	var mat = poly.get("fill") == "#FF00FF" ? floatyWall : bouncyWall;
 
-	var p = new phx.Polygon(vertices, origin, bouncyWall);
+	var p = new phx.Polygon(vertices, origin, mat);
 
 
 	// revese the vertices, or physaxe will screw up the area
 	// calculations, and make it a static shape.
 	if (p.area < 0) {
 	  vertices.reverse();
-	  p = new phx.Polygon(vertices, origin, bouncyWall);
+	  p = new phx.Polygon(vertices, origin, mat);
 	}
 
 	
