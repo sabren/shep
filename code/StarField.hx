@@ -7,6 +7,7 @@ class StarField extends flash.display.MovieClip {
   var h:Float;
   var stars:Array<Array<phx.Vector>>;
   var counter:Int;
+  public var paused:Bool;
   static var layers:Int = 5;
   static var perLayer:Int = 100;
   
@@ -33,6 +34,9 @@ class StarField extends flash.display.MovieClip {
 
 
   public function onEnterFrame(e:Event) {
+
+    if (paused)
+      return;
 
     var g = this.graphics;
     var w = 850;

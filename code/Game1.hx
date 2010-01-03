@@ -42,6 +42,13 @@ class Pocket extends phx.Body {
 class Game1
 {
 
+
+  // config
+  static var timeLimit = 120;
+  static var blurAmount : Int = 10;
+  static var spinnerVelocity :Float= 0.05;
+  static var spinnerTorque :Float = 0.05;
+
   var world : phx.World;
   var parent : Sprite;
 
@@ -52,6 +59,7 @@ class Game1
   var cuebot : phx.Body;
 
   var done : Bool;
+  var paused: Bool;
   var keyboardControl: Bool;
 
   var loader : URLLoader;
@@ -67,32 +75,34 @@ class Game1
   var bg : MovieClip;
   var mg : MovieClip;
   var fg : MovieClip;
-  static var blurAmount : Int = 10;
   var blurFilter : BlurFilter;
-
-  static var spinnerVelocity :Float= 0.05;
-  static var spinnerTorque :Float = 0.05;
 
   var shepClip : MovieClip;
   var showPhysics : Bool;
   var smallballs : Array<BodyClip>;
   var doors : Array<BodyClip>;
   var spinners : Array<phx.Body>; // @TODO: BodyClip
+  var starfield : StarField;
+
+
+  public var winCallback : Float -> Void;
+  public var loseCallback : Void -> Void;
 
   public function new(parent:Sprite) {
+
     this.parent = parent;
-    
+
     smallballs = [];
     pockets = [];
     doors = [];
-    
 
     socketGlow = new GlowFilter(0xFFFF00, 1, 7.5, 7.5, 4);
 
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
 
-    parent.addChild(new StarField(800,575));
+    starfield = new StarField(800,575);
+    parent.addChild(starfield);
 
     bg = new BG0001();
     blurFilter = new BlurFilter(0,0);
@@ -130,23 +140,22 @@ class Game1
     clockText.setTextFormat(fmt);
     parent.addChild(clockText);
 
-    updateClock();
     done = true;
-
     resetWorld(1);
 
     // save this to the end so world is ready to go for first frame event
-    
     parent.addEventListener(Event.ENTER_FRAME, onEnterFrame);
     parent.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
-    flash.Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
+    if (flash.Lib.current.stage != null)
+      flash.Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
     // nothing below here should edit the world!
   }
 
   public function onEnterFrame(e) {
-    if (! done) {
+    if (! (done || paused)) {
       updateWorld();
       checkForWin();
+      checkForLoss();
       drawWorld();
       updateClock();
     }
@@ -157,6 +166,8 @@ class Game1
   }
 
   public function resetWorld(level:Int) {
+
+    done = true;
 
     var broadphase = new phx.col.SortedList();
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
@@ -183,7 +194,7 @@ class Game1
     addWall(phx.Shape.makeBox(b, h-(2*b), w-b, b)); // right
     addWall(phx.Shape.makeBox(w, b, 0, h-b)); // bottom
     
-    haxe.Log.clear();
+    try { haxe.Log.clear(); } catch (e:Dynamic){}
     loadLevel(level);
 
   }
@@ -220,8 +231,7 @@ class Game1
 	var shape = (arb.s1.body == pocket) ? arb.s2 : arb.s1;
 	if (shape.body == cuebot) {
 	  if (smallballs.length == 0) {
-	    trace("you won!");
-	    done = true;
+	    onWin();
 	  }
 	} else {
 	  for (b in smallballs) {
@@ -248,6 +258,12 @@ class Game1
 	  }
 	}
       }
+    }
+  }
+
+  function checkForLoss() {
+    if (clock.timeCount <= 0) {
+      onLoss();
     }
   }
 
@@ -381,31 +397,35 @@ class Game1
   public function onKeyDown(e) {
 
     switch(e.keyCode) {
-
-    case Keyboard.DOWN:
-      keyboardControl = ! keyboardControl;
-    case Keyboard.UP:
-      kick(cuebot, shepClipVector().mult(5));
-    case Keyboard.LEFT:
-      shepClip.rotation -= 15;
-    case Keyboard.RIGHT:
-      shepClip.rotation += 15;
-      
     case 66: // b
-      //bg.filters = [new BlurFilter(10)];
       blurFilter.blurX = 10;
-      //      bg.filters = [blurFilter];
       trace("blur!");
+    case 80: // p
+      paused ? resume() : pause();
     case 48,49,50,51,52,53,54,55,56,57:
       resetWorld(e.keyCode - 48);
     default:
-      resetWorld(currentLevel);
+      if (keyboardControl) {
+	switch(e.keyCode) {
+	case Keyboard.UP:
+	  kick(cuebot, shepClipVector().mult(5));
+	case Keyboard.LEFT:
+	  shepClip.rotation -= 15;
+	case Keyboard.RIGHT:
+	  shepClip.rotation += 15;
+	default:
+	  resetWorld(currentLevel);
+	}
+      } else {
+	resetWorld(currentLevel);
+      }
     }
-
   }
 
   public function onClick(e) {
-    kick(cuebot, calcVector(50));
+    if (! (done || paused)) {
+      kick(cuebot, calcVector(50));
+    }
   }
 
   public function kick(body:phx.Body, howHard:phx.Vector) {
@@ -422,7 +442,7 @@ class Game1
     loader.addEventListener("complete", onLevelLoad);
 
     clearClip(fg);
-    if (which == 1) {
+    if (which == -1) {
       var loadit = new flash.display.Loader();
       fg.addChild(new FG0001());
       showPhysics = false;
@@ -590,10 +610,8 @@ class Game1
     // shep is at the very end so he goes on top
     mg.addChild(shepClip);
 
-
+    clock.startTimer(timeLimit);
     done = false;
-    clock.startTimer(120);
-
   }
 
 
@@ -627,5 +645,46 @@ class Game1
     }
   }
 
+
+  // these two are meant to be called from flex:
+
+  public function pause() {
+    paused = true;
+    starfield.paused = true;
+  }
+  
+  public function resume() {
+    paused = false;
+    starfield.paused = false;
+    clock.resume();
+  }
+
+  public function restart() {
+    resetWorld(currentLevel);    
+  }
+
+  public function startLevel(n:Int){
+    resetWorld(n);
+  } 
+
+  // these talk back to flex:
+
+  function onWin() {
+    done = true;
+    if (winCallback != null) {
+      winCallback(clock.timeCount);
+    } else {
+      trace("you won!");
+    }
+  }
+
+  function onLoss() {
+    done = true;
+    if (loseCallback != null) {
+      loseCallback();
+    } else {
+      trace("time ran out!");
+    }
+  }
 
 }
