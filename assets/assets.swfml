@@ -3,22 +3,37 @@
   <background color="#000000"/>
   <frame>
     <library>
-      
+
       <font id="DsDigiFont" name="DsDigiFont" import="assets/ds-digib.ttf"
             glyphs="0123456789:" />
 
       <clip id="BG0001" class="BG0001" 
 	    import="assets/bg0001.png"/>
-      <clip id="FG0001" class="FG0001" 
-	    import="assets/0001-fg.png"/>
 
       <clip id="ShepClip" class="ShepClip" 
 	    import="assets/bot-42x60.png"/>
+
       <clip id="BallClip" class="BallClip" 
 	    import="assets/ball.png"/>
+
       <clip id="PocketClip" class="PocketClip" 
 	    import="assets/pocket.png"/>
 
+      <clip id="FG0000" class="FG0000" import="assets/blank_overlay.png"/>
+      <clip id="FG0001" class="FG0001" import="assets/blank_overlay.png"/>
+      <clip id="FG0002" class="FG0002" import="assets/blank_overlay.png"/>
+      <clip id="FG0003" class="FG0003" import="assets/blank_overlay.png"/>
+      <clip id="FG0004" class="FG0004" import="assets/blank_overlay.png"/>
+      <clip id="FG0005" class="FG0005" import="assets/blank_overlay.png"/>
+      <clip id="FG0006" class="FG0006" import="assets/blank_overlay.png"/>
+      <clip id="FG0007" class="FG0007" import="assets/blank_overlay.png"/>
+      <clip id="FG0008" class="FG0008" import="assets/blank_overlay.png"/>
+      <clip id="FG0009" class="FG0009" import="assets/blank_overlay.png"/>
+
+<!--
+      <clip id="TitleScreen" class="TitleScreen" 
+	    import="assets/title-transparent.png"/>
+-->
 
       <!--
       <clip id="MoneyDigit" class="MoneyDigit" 

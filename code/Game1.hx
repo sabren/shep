@@ -20,7 +20,18 @@ import flash.net.URLRequest;
 
 class DsDigiFont extends flash.text.Font {}
 class BG0001 extends MovieClip {}
+
+class FG0000 extends MovieClip {}
 class FG0001 extends MovieClip {}
+class FG0002 extends MovieClip {}
+class FG0003 extends MovieClip {}
+class FG0004 extends MovieClip {}
+class FG0005 extends MovieClip {}
+class FG0006 extends MovieClip {}
+class FG0007 extends MovieClip {}
+class FG0008 extends MovieClip {}
+class FG0009 extends MovieClip {}
+
 class ShepClip extends MovieClip {}
 class BallClip extends MovieClip {}
 class PocketClip extends MovieClip {}
@@ -442,13 +453,24 @@ class Game1
     loader.addEventListener("complete", onLevelLoad);
 
     clearClip(fg);
-    if (which == -1) {
-      var loadit = new flash.display.Loader();
-      fg.addChild(new FG0001());
-      showPhysics = false;
-    } else {
+
+    var fgc:MovieClip;
+    switch (which) {
+    case 0: fgc = new FG0000(); showPhysics = true;
+    case 1: fgc = new FG0001(); showPhysics = true;
+    case 2: fgc = new FG0002(); showPhysics = true;
+    case 3: fgc = new FG0003(); showPhysics = true;
+    case 4: fgc = new FG0004(); showPhysics = true;
+    case 5: fgc = new FG0005(); showPhysics = true;
+    case 6: fgc = new FG0006(); showPhysics = true;
+    case 7: fgc = new FG0007(); showPhysics = true;
+    case 8: fgc = new FG0008(); showPhysics = true;
+    case 9: fgc = new FG0009(); showPhysics = true;
+    default:
+      fgc = new MovieClip();
       showPhysics = true;
     }
+    fg.addChild(fgc);
   }
 
 
