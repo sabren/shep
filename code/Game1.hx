@@ -1,4 +1,5 @@
 
+import flash.geom.ColorTransform;
 import flash.events.Event;
 import flash.display.MovieClip;
 import flash.display.Sprite;
@@ -413,6 +414,9 @@ class Game1
       trace("blur!");
     case 80: // p
       paused ? resume() : pause();
+    case 84: // t
+      var ct = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
+      bg.transform.colorTransform = ct;
     case 48,49,50,51,52,53,54,55,56,57:
       resetWorld(e.keyCode - 48);
     default:
