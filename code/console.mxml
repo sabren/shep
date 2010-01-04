@@ -48,7 +48,7 @@
 		</mx:State>
 		<mx:State name="LevelSelect">
 			<mx:AddChild position="lastChild">
-				<mx:Label x="32" y="27" text="CHOOSE SECTOR" fontWeight="bold" fontSize="24"/>
+				<mx:Label x="32" y="27" text="Choose Level" fontWeight="bold" fontSize="24"/>
 			</mx:AddChild>
 
 			<mx:AddChild position="lastChild">
@@ -107,10 +107,10 @@
 		<mx:State name="Victory" basedOn="GameOver">
 			<mx:SetProperty target="{button5}" name="label" value="Replay Level"/>
 			<mx:AddChild relativeTo="{button5}" position="before">
-				<mx:Image x="0" y="0" source="../assets/screens/screen-bgs.png"/>
+				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/screen-bgs.png&quot;)"/>
 			</mx:AddChild>
 		    <mx:AddChild relativeTo="{button5}" position="before">
-				<mx:Image x="0" y="0" source="../assets/screens/victory.png"/>
+				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/victory.png&quot;)"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Defeat" basedOn="GameOver">
