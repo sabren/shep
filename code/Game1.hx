@@ -145,7 +145,7 @@ class Game1
     parent.addChild(mg);
 
     fg = new MovieClip();
-    fg.x = border; fg.y = border;
+    //fg.x = border; fg.y = border;
     parent.addChild(fg);
 
     parent.addChild(new BorderClip());
@@ -423,11 +423,9 @@ class Game1
       }
     }
 
-    // we're drawing on the foreground, so we need to shift 
-    // by the border amount
-      g.moveTo(cuebot.x-border, cuebot.y-border);
-      g.lineStyle(5, 0x3333FF);
-      g.lineTo(cuebot.x+v.x-border, cuebot.y+v.y-border);
+    g.moveTo(cuebot.x, cuebot.y);
+    g.lineStyle(5, 0x3333FF);
+    g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
   }
 
 
