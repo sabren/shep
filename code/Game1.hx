@@ -196,6 +196,7 @@ class Game1
     }
   }
 
+
   public function updateClock() {
     clockText.text = clock.toString();
 
@@ -204,6 +205,8 @@ class Game1
       // red alert!
       var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.40;
       bg.transform.colorTransform = new flash.geom.ColorTransform(0.25+v, 0, 0);
+    } else if (currentLevel == 9 && Math.ceil((tl * 10)) % 5 == 0) {
+	  bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
     }
   }
 
@@ -454,8 +457,7 @@ class Game1
     case 80: // p
       paused ? resume() : pause();
     case 84: // t
-      var ct = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
-      bg.transform.colorTransform = ct;
+      bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
     case 48,49,50,51,52,53,54,55,56,57:
       resetWorld(e.keyCode - 48);
     default:
