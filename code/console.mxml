@@ -73,17 +73,17 @@
 				<mx:Button x="155" y="214" label="5 : _________" click="startLevel(5)"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button x="281" y="214" label="6 : _________" click="startLevel(6)" alpha="0.1"/>
+				<mx:Button x="281" y="214" label="6 : _________" click="startLevel(6)" enabled="true"/>
 			</mx:AddChild>
 			<mx:AddChild>
-				<mx:Button x="32" y="270" label="7 : _________" click="startLevel(7)" alpha="0.1"/>
+				<mx:Button x="32" y="270" label="7 : _________" click="startLevel(7)" enabled="true"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button x="155" y="270" label="8 : _________" click="startLevel(8)" alpha="0.1"/>
+				<mx:Button x="155" y="270" label="8 : _________" click="startLevel(8)" enabled="true"/>
 			</mx:AddChild>
 			
 			<mx:AddChild position="lastChild">
-				<mx:Button x="281" y="270" label="9 : _________" click="startLevel(9)" alpha="0.1"/>
+				<mx:Button x="281" y="270" label="9 : _________" click="startLevel(9)" enabled="true"/>
 			</mx:AddChild>
 
 			<mx:AddChild position="lastChild">
@@ -96,6 +96,9 @@
 			
 			<mx:AddChild position="lastChild">
 				<mx:Label x="455" y="312" text="(preview would change as you mouseOver buttons)"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button x="639" y="523" label="return to main menu" click="currentState=&quot;Title&quot;" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 
 		</mx:State>
