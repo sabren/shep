@@ -421,6 +421,8 @@ class Game1
     case 66: // b
       blurFilter.blurX = 10;
       // trace("blur!");
+    case 68: // d = draw physics
+      showPhysics = ! showPhysics;
     case 80: // p
       paused ? resume() : pause();
     case 84: // t
