@@ -22,7 +22,7 @@
       <clip id="BG0001" class="BG0001" import="assets/bg0001.png"/>
       <clip id="BG0002" class="BG0002" import="assets/gen-bg.png"/>
       <clip id="BG0003" class="BG0003" import="assets/gen-bg.png"/>
-      <clip id="BG0004" class="BG0004" import="assets/gen-bg.png"/>
+      <clip id="BG0004" class="BG0004" import="assets/bg0004.png"/>
       <clip id="BG0005" class="BG0005" import="assets/gen-bg.png"/>
       <clip id="BG0006" class="BG0006" import="assets/gen-bg.png"/>
       <clip id="BG0007" class="BG0007" import="assets/gen-bg.png"/>
@@ -33,7 +33,7 @@
       <clip id="FG0001" class="FG0001" import="assets/fg0001.png"/>
       <clip id="FG0002" class="FG0002" import="assets/blank.png"/>
       <clip id="FG0003" class="FG0003" import="assets/blank.png"/>
-      <clip id="FG0004" class="FG0004" import="assets/blank.png"/>
+      <clip id="FG0004" class="FG0004" import="assets/fg0004.png"/>
       <clip id="FG0005" class="FG0005" import="assets/blank.png"/>
       <clip id="FG0006" class="FG0006" import="assets/blank.png"/>
       <clip id="FG0007" class="FG0007" import="assets/blank.png"/>
