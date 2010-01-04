@@ -341,6 +341,10 @@ class Game1
     bg.x = (blurFilter.blurX / 2.5);
     bg.filters = [blurFilter];
 
+    var fgBlur = new BlurFilter();
+    fgBlur.blurX = blurFilter.blurX / 2;
+    fgBlur.blurY = blurFilter.blurY / 2;
+    fg.filters = [fgBlur];
 
     shepClip.x = cuebot.x;
     shepClip.y = cuebot.y;
