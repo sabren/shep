@@ -206,7 +206,10 @@ class Game1
     if (tl <= 30) {
       // red alert!
       var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.40;
-      bg.transform.colorTransform = new flash.geom.ColorTransform(0.25+v, 0, 0);
+      var ct = new flash.geom.ColorTransform(0.25+v, 0, 0);
+      bg.transform.colorTransform = ct;
+      mg.transform.colorTransform = ct;
+      fg.transform.colorTransform = ct;
     } else if (currentLevel == 9 && Math.ceil((tl * 10)) % 10 == 0) {
       bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
       mg.transform.colorTransform = new flash.geom.ColorTransform(Math.random()+0.25, Math.random()+0.25, Math.random()+0.25);
@@ -220,6 +223,7 @@ class Game1
     // clear red alert / strobe
     bg.transform.colorTransform = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
     mg.transform.colorTransform = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
+    fg.transform.colorTransform = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
  
     var broadphase = new phx.col.SortedList();
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
@@ -464,6 +468,8 @@ class Game1
       showPhysics = ! showPhysics;
     case 80: // p
       paused ? resume() : pause();
+    case 82: // r = red alert
+      clock.startTimer(30);
     case 84: // t
       bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
     case 48,49,50,51,52,53,54,55,56,57:
