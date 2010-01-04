@@ -205,7 +205,7 @@ class Game1
       // red alert!
       var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.40;
       bg.transform.colorTransform = new flash.geom.ColorTransform(0.25+v, 0, 0);
-    } else if (currentLevel == 9 && Math.ceil((tl * 10)) % 5 == 0) {
+    } else if (currentLevel == 9 && Math.ceil((tl * 10)) % 10 == 0) {
       bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
       mg.transform.colorTransform = new flash.geom.ColorTransform(Math.random()+0.25, Math.random()+0.25, Math.random()+0.25);
     }
