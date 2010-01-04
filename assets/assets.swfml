@@ -10,11 +10,11 @@
       <clip id="ShepClip" class="ShepClip" 
 	    import="assets/bot-42x60.png"/>
 
-      <clip id="BallClip" class="BallClip" 
-	    import="assets/ball.png"/>
+      <clip id="BallClip" class="BallClip" import="assets/ball.png"/>
+      <clip id="RedBallClip" class="RedBallClip" import="assets/red-ball.png"/>
 
-      <clip id="PocketClip" class="PocketClip" 
-	    import="assets/pocket.png"/>
+      <clip id="PocketClip" class="PocketClip" import="assets/pocket.png"/>
+      <clip id="RedPocketClip" class="RedPocketClip" import="assets/red-pocket.png"/>
 
       <clip id="BorderClip" class="BorderClip" import="assets/blank_overlay.png"/>
 

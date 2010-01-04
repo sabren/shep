@@ -48,6 +48,8 @@ class FG0009 extends MovieClip {}
 class ShepClip extends MovieClip {}
 class BallClip extends MovieClip {}
 class PocketClip extends MovieClip {}
+class RedBallClip extends MovieClip {}
+class RedPocketClip extends MovieClip {}
 
 class BodyClip {
   public var clip : MovieClip;
@@ -122,7 +124,7 @@ class Game1
     pockets = [];
     doors = [];
 
-    socketGlow = new GlowFilter(0xFFFF00, 1, 7.5, 7.5, 4);
+    socketGlow = new GlowFilter(0xFF0000, 1, 3.5, 3.5, 4);
     // phx.Material(restitution, friction, density );
     floatyWall = new phx.Material(0.5, 2, 100);
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
@@ -522,13 +524,18 @@ class Game1
     pocket.addShape(new phx.Circle(15, new phx.Vector(0, 0),
 				   bouncyWall));
     world.addBody(pocket);
-    var pclip = centerClip(new PocketClip());
+    var pclip:MovieClip;
+
+    if (code > 0) {
+      pclip = centerClip(new RedPocketClip());
+      pclip.filters = [socketGlow];
+    } else {
+      pclip = centerClip(new PocketClip());
+    }
+
     pclip.x = cx;
     pclip.y = cy;
 
-    if (code > 0) {
-      pclip.filters = [socketGlow];
-    }
 
     mg.addChild(pclip);
     pockets.push(pocket);
@@ -652,15 +659,18 @@ class Game1
 	smallball.addShape(new phx.Circle(15, new phx.Vector(0, 0), 
 					  robotParts));
 	world.addBody(smallball);
-	var bodyclip = makeBallClip(smallball);
-	smallballs.push(bodyclip);
-	mg.addChild(bodyclip.clip);
-
+	var bodyclip:BodyClip;
+    
 	if (circ.get("fill") != red) {
+	  bodyclip = new BodyClip(smallball, centerClip(new RedBallClip()));
 	  bodyclip.clip.filters = [socketGlow];
 	  bodyclip.code = 1; // just some arbitrary code @TODO: match keys and doors
+	} else {
+	  bodyclip = new BodyClip(smallball, centerClip(new BallClip()));
 	}
 
+	smallballs.push(bodyclip);
+	mg.addChild(bodyclip.clip);
       } 
     } // circles
 
@@ -672,9 +682,6 @@ class Game1
   }
 
 
-  public function makeBallClip(body:phx.Body):BodyClip {
-    return new BodyClip(body, centerClip(new BallClip()));
-  }
 
 
   public function offsetClip(clip:MovieClip, x:Float, y:Float):MovieClip {
