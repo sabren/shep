@@ -19,7 +19,7 @@ import flash.media.Sound;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
 
-class DsDigiFont extends flash.text.Font {}
+class ClockFont extends flash.text.Font {}
 class BG0001 extends MovieClip {}
 
 class FG0000 extends MovieClip {}
@@ -135,8 +135,8 @@ class Game1
 
     clock = new FlashClock();
 
-    var ds = new DsDigiFont();
-    var fmt = new TextFormat(ds.fontName, 25, 0xFF0000);
+    var ds = new ClockFont();
+    var fmt = new TextFormat(ds.fontName, 24, 0xFF0000);
 
 
     clockText = new TextField();
@@ -144,14 +144,21 @@ class Game1
     clockText.x = 400;
     clockText.y = 0;
     clockText.antiAliasType = AntiAliasType.ADVANCED;
-    clockText.background = true;
-    clockText.backgroundColor = 0x000000;
-    clockText.multiline = true;
-    clockText.autoSize = TextFieldAutoSize.LEFT;
+    clockText.background = false;
+    //clockText.backgroundColor = ;
+    clockText.multiline = false;
     clockText.visible = true;
 
     clockText.defaultTextFormat = fmt;
     clockText.setTextFormat(fmt);
+    clockText.text = "00:00";
+
+    // center it ourselves, because the font isn't fixed-width
+    // and we don't want the numbers jiggling left and right 
+    // on every tick
+    clockText.autoSize = TextFieldAutoSize.CENTER;
+    clockText.x = (parent.width /2 - clockText.textWidth - 2);
+
     parent.addChild(clockText);
 
     done = true;
@@ -413,7 +420,7 @@ class Game1
     switch(e.keyCode) {
     case 66: // b
       blurFilter.blurX = 10;
-      trace("blur!");
+      // trace("blur!");
     case 80: // p
       paused ? resume() : pause();
     case 84: // t
@@ -562,7 +569,7 @@ class Game1
   public function onLevelLoad(e:Event) {
     svg = Xml.parse(loader.data).firstElement();
 
-    trace("level loaded.");
+    // trace("level loaded.");
 
     var green = "#00FF00";
     var red = "#FF0000";
@@ -703,7 +710,7 @@ class Game1
     if (winCallback != null) {
       winCallback(clock.timeCount);
     } else {
-      trace("you won!");
+      // trace("you won!");
     }
   }
 
@@ -712,7 +719,7 @@ class Game1
     if (loseCallback != null) {
       loseCallback();
     } else {
-      trace("time ran out!");
+      // trace("time ran out!");
     }
   }
 

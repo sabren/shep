@@ -4,7 +4,7 @@
   <frame>
     <library>
 
-      <font id="DsDigiFont" name="DsDigiFont" import="assets/ds-digib.ttf"
+      <font id="ClockFont" name="ClockFont" import="assets/led_regular.ttf"
             glyphs="0123456789:" />
 
       <clip id="BG0001" class="BG0001" 
