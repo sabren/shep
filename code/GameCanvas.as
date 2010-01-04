@@ -14,12 +14,14 @@ package {
       public static var Game1SWF:Class;
       private var loader:Loader;
       private var Game:Class;
+      public var StarField:Class;
       public var game:Object;
       
       private var wincb:Function;
       private var losecb:Function;
+      private var starCanvas:Canvas;
       
-      public function init(winCallback:Function, loseCallback:Function):void {
+      public function init(winCallback:Function, loseCallback:Function, starCanvas:Canvas):void {
 
          loader = new Loader();
          var context:LoaderContext = 
@@ -30,17 +32,23 @@ package {
          
          wincb = winCallback;
          losecb = loseCallback;
+         this.starCanvas = starCanvas;
       }
       
       private function onLoadSWF(e:Event):void {
       	
       	 Game = ApplicationDomain.currentDomain.getDefinition("Game1") as Class;
+      	 StarField = ApplicationDomain.currentDomain.getDefinition("StarField") as Class;
 
          var container:Sprite = new Sprite();
          rawChildren.addChild(container);
          game = new Game(container);
          game.winCallback = wincb;
          game.loseCallback = losecb;
+         
+         var starfield:MovieClip = new StarField(800, 575);
+         starCanvas.rawChildren.addChild(starfield);
+         game.starfield = starfield;
       }
 
    }

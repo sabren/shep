@@ -5,15 +5,12 @@
 	<mx:states>
 		<mx:State name="Game">
 			<mx:SetProperty target="{gameCanvas}" name="visible" value="true"/>
-			<mx:RemoveChild target="{image1}"/>
-			<mx:RemoveChild target="{label1}"/>
 			<mx:AddChild position="lastChild">
 				<mx:Button label="Pause" right="2" top="2" click="pauseGame()" id="button1"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
 				<mx:Button label="Exit Level" right="148" top="2" click="currentState=&quot;LevelSelect&quot;" id="button3"/>
 			</mx:AddChild>
-			<mx:RemoveChild target="{button2}"/>
 			<mx:AddChild relativeTo="{button3}" position="before">
 				<mx:Button label="Restart" right="71" top="2" click="restartLevel()" id="button4"/>
 			</mx:AddChild>
@@ -23,20 +20,24 @@
 		</mx:State>
 		<mx:State name="Title">
 			<mx:AddChild position="lastChild">
+				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/screen-bgs.png&quot;)"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button x="0" y="517" width="800" height="58" fillAlphas="[1.0, 1.0]" fillColors="[#000000, #000000]" borderColor="#000000" enabled="false"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/title.png&quot;)"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
 				<mx:Button y="335" label="Start Game"  click="currentState=&quot;LevelSelect&quot;" enabled="true" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]" horizontalCenter="-11"/>
 			</mx:AddChild>
-			<mx:SetProperty target="{image1}" name="source" value="@Embed(&quot;../assets/screens/title.png&quot;)"/>
-			<mx:RemoveChild target="{label1}"/>
-			<mx:SetProperty target="{button2}" name="x" value="277"/>
-			<mx:SetProperty target="{button2}" name="y" value="365"/>
-			<mx:SetProperty target="{button2}" name="width" value="224"/>
-			<mx:SetStyle target="{button2}" name="fillAlphas" value="[0.9, 0.9, 0.9, 0.9]"/>
 			<mx:AddChild position="lastChild">
 				<base:Help x="150" y="108" id="helpBox" visible="false">
 				</base:Help>
 			</mx:AddChild>
-			<mx:SetEventHandler target="{button2}" name="click" handler="helpBox.visible=true"/>
-			<mx:SetProperty target="{image1}" name="autoLoad" value="true"/>
+			<mx:AddChild relativeTo="{helpBox}" position="before">
+				<mx:Button x="277" y="365" label="How to Play" id="button2" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]" click="helpBox.visible=true"/>
+			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Pause" basedOn="Game">
 			<mx:AddChild position="lastChild">
@@ -46,10 +47,6 @@
 			<mx:RemoveChild target="{button3}"/>
 		</mx:State>
 		<mx:State name="LevelSelect">
-			<mx:RemoveChild target="{button2}"/>
-			<mx:RemoveChild target="{label1}"/>
-			<mx:RemoveChild target="{image1}"/>
-
 			<mx:AddChild position="lastChild">
 				<mx:Label x="32" y="27" text="CHOOSE SECTOR" fontWeight="bold" fontSize="24"/>
 			</mx:AddChild>
@@ -100,35 +97,35 @@
 
 		</mx:State>
 		<mx:State name="GameOver">
-			<mx:RemoveChild target="{label1}"/>
-			<mx:RemoveChild target="{image1}"/>
-			<mx:RemoveChild target="{button2}"/>
 			<mx:AddChild position="lastChild">
-				<mx:Button x="331.5" y="323" label="Choose Next Sector" click="currentState=&quot;LevelSelect&quot;"/>
+				<mx:Button x="331.5" y="431" label="Replay Level" click="restartLevel()" width="137" id="button5" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Label x="260.5" y="150" text="Level Complete" fontSize="36" textAlign="center" id="label2"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{label2}" position="before">
-				<mx:Button x="331.5" y="369" label="Replay Sector" click="restartLevel()" width="137"/>
+				<mx:Button x="331.5" y="484" label="Back to Map" click="currentState=&quot;LevelSelect&quot;" id="button6" width="137" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Victory" basedOn="GameOver">
-			<mx:SetProperty target="{label2}" name="text" value="Sector Cleared!"/>
-			<mx:AddChild position="lastChild">
-				<mx:Label x="331.5" y="279" text="Time left: 01:26" fontWeight="bold"/>
+			<mx:SetProperty target="{button5}" name="label" value="Replay Level"/>
+			<mx:AddChild relativeTo="{button5}" position="before">
+				<mx:Image x="0" y="0" source="../assets/screens/screen-bgs.png"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Label x="331.5" y="254" text="Time Used: 00:34" fontWeight="bold"/>
+		    <mx:AddChild relativeTo="{button5}" position="before">
+				<mx:Image x="0" y="0" source="../assets/screens/victory.png"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Defeat" basedOn="GameOver">
-			<mx:SetProperty target="{label2}" name="text" value="Time Ran Out!"/>
+			<mx:AddChild relativeTo="{button5}" position="before">
+				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/gameover.png&quot;)"/>
+			</mx:AddChild>
+			<mx:SetProperty target="{button5}" name="label" value="Try Again"/>
+			<mx:SetProperty target="{button6}" name="label" value="Back to Map"/>
+			<mx:SetProperty target="{button6}" name="y" value="522"/>
+			<mx:SetProperty target="{button5}" name="y" value="461"/>
+			<mx:SetStyle target="{button5}" name="fillAlphas" value="[0.9, 0.9, 0.9, 0.9]"/>
+			<mx:SetStyle target="{button6}" name="fillAlphas" value="[0.9, 0.9, 0.9, 0.9]"/>
 		</mx:State>
 	</mx:states>
-	<mx:Image x="0" y="0" source="../assets/LoadingScreen.png" id="image1"/>
-	<mx:Label y="36" text="Screen" fontSize="36" fontWeight="bold" fontFamily="Georgia" id="label1" horizontalCenter="0" textAlign="center"/>
-	<mx:Button x="377" y="213" label="How to Play" id="button2"/>
+	<mx:Canvas id="starCanvas" visible="true"/>
 	<base:GameCanvas id="gameCanvas" visible="false"/>			
 	
 	
@@ -162,7 +159,7 @@
 	var onLose:Function = function():void {
   		currentState="Defeat";
 	}
-	gameCanvas.init(onWin, onLose);
+	gameCanvas.init(onWin, onLose, starCanvas);
   }
 ]]>
 </mx:Script>
