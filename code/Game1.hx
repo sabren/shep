@@ -482,11 +482,26 @@ class Game1
   public function loadLevel(which:Int) {
     currentLevel = which;
 
-    /*
-    var url = "level/000" + which + ".svg";
+#if PACK_LEVELS
+    switch (which) {
+    case 0: parseSVG(LevelPack.svg0000);
+    case 1: parseSVG(LevelPack.svg0001);
+    case 2: parseSVG(LevelPack.svg0002);
+    case 3: parseSVG(LevelPack.svg0003);
+    case 4: parseSVG(LevelPack.svg0004);
+    case 5: parseSVG(LevelPack.svg0005);
+    case 6: parseSVG(LevelPack.svg0006);
+    case 7: parseSVG(LevelPack.svg0007);
+    case 8: parseSVG(LevelPack.svg0008);
+    case 9: parseSVG(LevelPack.svg0009);
+    default:
+    }
+#else
+    var url = "levels/000" + which + ".svg";
     loader = new URLLoader(new URLRequest(url));
     loader.addEventListener("complete", onSVGRequest);
-    */
+#end
+
     clearClip(fg);
     clearClip(bg);
 
@@ -494,20 +509,19 @@ class Game1
     var bgc:MovieClip;
 
     switch (which) {
-    case 0: fgc = new FG0000(); bgc = new BG0000(); parseSVG(LevelPack.svg0000);
-    case 1: fgc = new FG0001(); bgc = new BG0001(); parseSVG(LevelPack.svg0001);
-    case 2: fgc = new FG0002(); bgc = new BG0002(); parseSVG(LevelPack.svg0002);
-    case 3: fgc = new FG0003(); bgc = new BG0003(); parseSVG(LevelPack.svg0003);
-    case 4: fgc = new FG0004(); bgc = new BG0004(); parseSVG(LevelPack.svg0004);
-    case 5: fgc = new FG0005(); bgc = new BG0005(); parseSVG(LevelPack.svg0005);
-    case 6: fgc = new FG0006(); bgc = new BG0006(); parseSVG(LevelPack.svg0006);
-    case 7: fgc = new FG0007(); bgc = new BG0007(); parseSVG(LevelPack.svg0007);
-    case 8: fgc = new FG0008(); bgc = new BG0008(); parseSVG(LevelPack.svg0008);
-    case 9: fgc = new FG0009(); bgc = new BG0009(); parseSVG(LevelPack.svg0009);
+    case 0: fgc = new FG0000(); bgc = new BG0000();
+    case 1: fgc = new FG0001(); bgc = new BG0001();
+    case 2: fgc = new FG0002(); bgc = new BG0002();
+    case 3: fgc = new FG0003(); bgc = new BG0003();
+    case 4: fgc = new FG0004(); bgc = new BG0004();
+    case 5: fgc = new FG0005(); bgc = new BG0005();
+    case 6: fgc = new FG0006(); bgc = new BG0006();
+    case 7: fgc = new FG0007(); bgc = new BG0007();
+    case 8: fgc = new FG0008(); bgc = new BG0008();
+    case 9: fgc = new FG0009(); bgc = new BG0009();
     default:
       fgc = new MovieClip();
       bgc = new MovieClip();
-      showPhysics = true;
     }
     bg.addChild(bgc);
     fg.addChild(fgc);
