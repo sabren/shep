@@ -206,7 +206,8 @@ class Game1
       var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.40;
       bg.transform.colorTransform = new flash.geom.ColorTransform(0.25+v, 0, 0);
     } else if (currentLevel == 9 && Math.ceil((tl * 10)) % 5 == 0) {
-	  bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
+      bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
+      mg.transform.colorTransform = new flash.geom.ColorTransform(Math.random()+0.25, Math.random()+0.25, Math.random()+0.25);
     }
   }
 
@@ -214,8 +215,9 @@ class Game1
 
     done = true;
     
-    // clear red alert
+    // clear red alert / strobe
     bg.transform.colorTransform = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
+    mg.transform.colorTransform = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
  
     var broadphase = new phx.col.SortedList();
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
