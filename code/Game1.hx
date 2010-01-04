@@ -112,7 +112,6 @@ class Game1
   var spinners : Array<phx.Body>; // @TODO: BodyClip
   var starfield : StarField;
 
-
   public var winCallback : Float -> Void;
   public var loseCallback : Void -> Void;
 
@@ -130,8 +129,10 @@ class Game1
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
 
+#if !EXTERNAL_STARFIELD
     starfield = new StarField(800,575);
     parent.addChild(starfield);
+#end
 
     bg = new MovieClip();
     blurFilter = new BlurFilter(0,0);
@@ -198,6 +199,21 @@ class Game1
 
   public function updateClock() {
     clockText.text = clock.toString();
+    var ct:flash.geom.ColorTransform;
+    if (clock.timeCount < 95)
+      ct = new flash.geom.ColorTransform(1.00, 0.0, 0.0);
+    else if (clock.timeCount < 100)
+      ct = new flash.geom.ColorTransform(1.00, 0.25, 0.25);
+    else if (clock.timeCount < 105)
+      ct = new flash.geom.ColorTransform(1.00, 0.5, 0.5);
+    else if (clock.timeCount < 110)
+      ct = new flash.geom.ColorTransform(1.00, 0.75, 0.75);
+    else if (clock.timeCount < 115)
+      ct = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
+    else
+      return;
+    //ct = new flash.geom.ColorTransform(1, 1, 1);
+    bg.transform.colorTransform = ct;
   }
 
   public function resetWorld(level:Int) {
