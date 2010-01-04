@@ -208,8 +208,8 @@ class Game1
       var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.40;
       var ct = new flash.geom.ColorTransform(0.25+v, 0, 0);
       bg.transform.colorTransform = ct;
-      mg.transform.colorTransform = ct;
-      fg.transform.colorTransform = ct;
+      mg.transform.colorTransform = new flash.geom.ColorTransform(1+v, 0.75, 0.75);
+      fg.transform.colorTransform = new flash.geom.ColorTransform(0.75+v, 0.5, 0.5);
     } else if (currentLevel == 9 && Math.ceil((tl * 10)) % 10 == 0) {
       bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
       mg.transform.colorTransform = new flash.geom.ColorTransform(Math.random()+0.25, Math.random()+0.25, Math.random()+0.25);
