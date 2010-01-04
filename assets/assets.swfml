@@ -30,7 +30,7 @@
       <clip id="BG0009" class="BG0009" import="assets/blank.png"/>
 
       <clip id="FG0000" class="FG0000" import="assets/blank.png"/>
-      <clip id="FG0001" class="FG0001" import="assets/blank.png"/>
+      <clip id="FG0001" class="FG0001" import="assets/fg0001.png"/>
       <clip id="FG0002" class="FG0002" import="assets/blank.png"/>
       <clip id="FG0003" class="FG0003" import="assets/blank.png"/>
       <clip id="FG0004" class="FG0004" import="assets/blank.png"/>
