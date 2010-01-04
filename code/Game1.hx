@@ -48,6 +48,8 @@ class FG0009 extends MovieClip {}
 class ShepClip extends MovieClip {}
 class BallClip extends MovieClip {}
 class PocketClip extends MovieClip {}
+class DoorClip extends MovieClip {}
+class SpinnerClip extends MovieClip {}
 class RedBallClip extends MovieClip {}
 class RedPocketClip extends MovieClip {}
 
@@ -108,7 +110,7 @@ class Game1
   var showPhysics : Bool;
   var smallballs : Array<BodyClip>;
   var doors : Array<BodyClip>;
-  var spinners : Array<phx.Body>; // @TODO: BodyClip
+  var spinners : Array<BodyClip>;
   var starfield : StarField;
 
   public var winCallback : Float -> Void;
@@ -268,8 +270,8 @@ class Game1
 
     // power the spinners:
     for (s in spinners) {
-      s.w = spinnerVelocity;
-      s.t = spinnerTorque;
+      s.body.w = spinnerVelocity;
+      s.body.t = spinnerTorque;
     }
 
   }
@@ -339,6 +341,10 @@ class Game1
       b.clip.x = b.body.x;
       b.clip.y = b.body.y;
       b.clip.rotation = rad2deg(b.body.a);
+    }
+
+    for (s in spinners) {
+      s.clip.rotation = rad2deg(s.body.a);
     }
 
 
@@ -612,11 +618,22 @@ class Game1
   }
   
   public function addSpinner(cx:Float, cy:Float, w:Float, h:Float) {
-    var shape = phx.Shape.makeBox(w, h, -(w/2), -(h/2), bouncyWall);
-    var b = new phx.Body(cx,cy);
-    b.addShape(shape);
-    world.addBody(b);
-    spinners.push(b);
+
+    var sc = centerClip(new SpinnerClip());
+    sc.x = cx; sc.y = cy;
+
+    // hard coded shape because of the sprite
+    var shape = phx.Shape.makeBox(15, 175, -7.5, -87.5, bouncyWall);
+    var body = new phx.Body(cx, cy);
+    body.addShape(shape);
+    if (w > h) {
+      body.a = deg2rad(-90);
+    }
+
+    var bc = new BodyClip(body, sc);
+    world.addBody(body);
+    mg.addChild(sc);
+    spinners.push(bc);
   }
 
   public function addDoor(shape:phx.Shape, clip:MovieClip) {

@@ -7,8 +7,10 @@
       <font id="ClockFont" name="ClockFont" import="assets/led_regular.ttf"
             glyphs="0123456789:" />
 
-      <clip id="ShepClip" class="ShepClip" 
-	    import="assets/bot-42x60.png"/>
+      <clip id="ShepClip" class="ShepClip" import="assets/bot-42x60.png"/>
+
+      <clip id="DoorClip" class="DoorClip" import="assets/door.png"/>
+      <clip id="SpinnerClip" class="SpinnerClip" import="assets/spinner.png"/>
 
       <clip id="BallClip" class="BallClip" import="assets/ball.png"/>
       <clip id="RedBallClip" class="RedBallClip" import="assets/red-ball.png"/>
