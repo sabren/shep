@@ -20,7 +20,19 @@ import flash.net.URLLoader;
 import flash.net.URLRequest;
 
 class ClockFont extends flash.text.Font {}
+
+class BorderClip extends MovieClip {}
+
+class BG0000 extends MovieClip {}
 class BG0001 extends MovieClip {}
+class BG0002 extends MovieClip {}
+class BG0003 extends MovieClip {}
+class BG0004 extends MovieClip {}
+class BG0005 extends MovieClip {}
+class BG0006 extends MovieClip {}
+class BG0007 extends MovieClip {}
+class BG0008 extends MovieClip {}
+class BG0009 extends MovieClip {}
 
 class FG0000 extends MovieClip {}
 class FG0001 extends MovieClip {}
@@ -60,6 +72,7 @@ class Game1
   static var blurAmount : Int = 10;
   static var spinnerVelocity :Float= 0.05;
   static var spinnerTorque :Float = 0.05;
+  static var border = 25;
 
   var world : phx.World;
   var parent : Sprite;
@@ -118,7 +131,7 @@ class Game1
     starfield = new StarField(800,575);
     parent.addChild(starfield);
 
-    bg = new BG0001();
+    bg = new MovieClip();
     blurFilter = new BlurFilter(0,0);
     bg.filters = [blurFilter];
     parent.addChild(bg);
@@ -130,8 +143,10 @@ class Game1
     parent.addChild(mg);
 
     fg = new MovieClip();
+    fg.x = border; fg.y = border;
     parent.addChild(fg);
 
+    parent.addChild(new BorderClip());
 
     clock = new FlashClock();
 
@@ -153,11 +168,8 @@ class Game1
     clockText.setTextFormat(fmt);
     clockText.text = "00:00";
 
-    // center it ourselves, because the font isn't fixed-width
-    // and we don't want the numbers jiggling left and right 
-    // on every tick
     clockText.autoSize = TextFieldAutoSize.CENTER;
-    clockText.x = (parent.width /2 - clockText.textWidth - 2);
+    clockText.x = (400 - clockText.textWidth/2)-2;
 
     parent.addChild(clockText);
 
@@ -208,7 +220,7 @@ class Game1
 
     var w = 800;
     var h = 575;
-    var b = 25; // border
+    var b = border;
     
     addWall(phx.Shape.makeBox(w, b, 0, 0)); // top
     addWall(phx.Shape.makeBox(b, h-(2*b), 0, b)); // left
@@ -324,7 +336,7 @@ class Game1
 	blurFilter.blurX = 10;
     }
     blurFilter.blurY = blurFilter.blurX;
-    bg.x = blurFilter.blurX / 2.5;
+    bg.x = (blurFilter.blurX / 2.5);
     bg.filters = [blurFilter];
 
 
@@ -409,9 +421,11 @@ class Game1
       }
     }
 
-      g.moveTo(cuebot.x, cuebot.y);
+    // we're drawing on the foreground, so we need to shift 
+    // by the border amount
+      g.moveTo(cuebot.x-border, cuebot.y-border);
       g.lineStyle(5, 0x3333FF);
-      g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
+      g.lineTo(cuebot.x+v.x-border, cuebot.y+v.y-border);
   }
 
 
@@ -468,23 +482,28 @@ class Game1
     loader.addEventListener("complete", onLevelLoad);
 
     clearClip(fg);
+    clearClip(bg);
 
     var fgc:MovieClip;
+    var bgc:MovieClip;
+
     switch (which) {
-    case 0: fgc = new FG0000(); showPhysics = true;
-    case 1: fgc = new FG0001(); showPhysics = true;
-    case 2: fgc = new FG0002(); showPhysics = true;
-    case 3: fgc = new FG0003(); showPhysics = true;
-    case 4: fgc = new FG0004(); showPhysics = true;
-    case 5: fgc = new FG0005(); showPhysics = true;
-    case 6: fgc = new FG0006(); showPhysics = true;
-    case 7: fgc = new FG0007(); showPhysics = true;
-    case 8: fgc = new FG0008(); showPhysics = true;
-    case 9: fgc = new FG0009(); showPhysics = true;
+    case 0: fgc = new FG0000(); bgc = new BG0000();
+    case 1: fgc = new FG0001(); bgc = new BG0001();
+    case 2: fgc = new FG0002(); bgc = new BG0002();
+    case 3: fgc = new FG0003(); bgc = new BG0003();
+    case 4: fgc = new FG0004(); bgc = new BG0004();
+    case 5: fgc = new FG0005(); bgc = new BG0005();
+    case 6: fgc = new FG0006(); bgc = new BG0006();
+    case 7: fgc = new FG0007(); bgc = new BG0007();
+    case 8: fgc = new FG0008(); bgc = new BG0008();
+    case 9: fgc = new FG0009(); bgc = new BG0009();
     default:
       fgc = new MovieClip();
+      bgc = new MovieClip();
       showPhysics = true;
     }
+    bg.addChild(bgc);
     fg.addChild(fgc);
   }
 
