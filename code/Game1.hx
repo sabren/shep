@@ -198,32 +198,22 @@ class Game1
 
   public function updateClock() {
     clockText.text = clock.toString();
-    var ct:flash.geom.ColorTransform;
 
-
-    //ct = new flash.geom.ColorTransform((Math.ceil(clock.timeLeft()*10+5) % 10) * 0.75, 0.0, 0.0);
-    var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.45;
-    ct = new flash.geom.ColorTransform(0.25+v, 0, 0);
-    /* 
-    if (clock.timeCount % 4 == 0)
-      ct = new flash.geom.ColorTransform(1.00, 0.0, 0.0);
-    else if (clock.timeCount % 4)
-      ct = new flash.geom.ColorTransform(1.00, 0.25, 0.25);
-    else if (clock.timeCount < 15)
-      ct = new flash.geom.ColorTransform(1.00, 0.5, 0.5);
-    else if (clock.timeCount < 20)
-      ct = new flash.geom.ColorTransform(1.00, 0.75, 0.75);
-    else
-      ct = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
-    */ 
-
-bg.transform.colorTransform = ct;
+    var tl = clock.timeLeft();
+    if (tl <= 30) {
+      // red alert!
+      var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.40;
+      bg.transform.colorTransform = new flash.geom.ColorTransform(0.25+v, 0, 0);
+    }
   }
 
   public function resetWorld(level:Int) {
 
     done = true;
-
+    
+    // clear red alert
+    bg.transform.colorTransform = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
+ 
     var broadphase = new phx.col.SortedList();
     var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
     world = new phx.World(boundary, broadphase);
