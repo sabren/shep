@@ -17,6 +17,9 @@
 			<mx:AddChild position="lastChild">
 				<mx:Button label="Time=0:05" right="237" top="2" click="gameCanvas.game.clock.startTimer(5)" id="button0"/>
 			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button label="toggle physics" right="653" top="2" click="gameCanvas.game.showPhysics = ! gameCanvas.game.showPhysics" id="button7"/>
+			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Title">
 			<mx:AddChild position="lastChild">
