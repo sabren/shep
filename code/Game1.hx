@@ -338,7 +338,7 @@ class Game1
 	blurFilter.blurX = 10;
     }
     blurFilter.blurY = blurFilter.blurX;
-    bg.x = (blurFilter.blurX / 2.5);
+    // bg.x = (blurFilter.blurX / 2.5); // parallax
     bg.filters = [blurFilter];
 
     var fgBlur = new BlurFilter();
@@ -481,10 +481,12 @@ class Game1
 
   public function loadLevel(which:Int) {
     currentLevel = which;
-    var url = "levels/000" + which + ".svg";
-    loader = new URLLoader(new URLRequest(url));
-    loader.addEventListener("complete", onLevelLoad);
 
+    /*
+    var url = "level/000" + which + ".svg";
+    loader = new URLLoader(new URLRequest(url));
+    loader.addEventListener("complete", onSVGRequest);
+    */
     clearClip(fg);
     clearClip(bg);
 
@@ -492,16 +494,16 @@ class Game1
     var bgc:MovieClip;
 
     switch (which) {
-    case 0: fgc = new FG0000(); bgc = new BG0000();
-    case 1: fgc = new FG0001(); bgc = new BG0001();
-    case 2: fgc = new FG0002(); bgc = new BG0002();
-    case 3: fgc = new FG0003(); bgc = new BG0003();
-    case 4: fgc = new FG0004(); bgc = new BG0004();
-    case 5: fgc = new FG0005(); bgc = new BG0005();
-    case 6: fgc = new FG0006(); bgc = new BG0006();
-    case 7: fgc = new FG0007(); bgc = new BG0007();
-    case 8: fgc = new FG0008(); bgc = new BG0008();
-    case 9: fgc = new FG0009(); bgc = new BG0009();
+    case 0: fgc = new FG0000(); bgc = new BG0000(); parseSVG(LevelPack.svg0000);
+    case 1: fgc = new FG0001(); bgc = new BG0001(); parseSVG(LevelPack.svg0001);
+    case 2: fgc = new FG0002(); bgc = new BG0002(); parseSVG(LevelPack.svg0002);
+    case 3: fgc = new FG0003(); bgc = new BG0003(); parseSVG(LevelPack.svg0003);
+    case 4: fgc = new FG0004(); bgc = new BG0004(); parseSVG(LevelPack.svg0004);
+    case 5: fgc = new FG0005(); bgc = new BG0005(); parseSVG(LevelPack.svg0005);
+    case 6: fgc = new FG0006(); bgc = new BG0006(); parseSVG(LevelPack.svg0006);
+    case 7: fgc = new FG0007(); bgc = new BG0007(); parseSVG(LevelPack.svg0007);
+    case 8: fgc = new FG0008(); bgc = new BG0008(); parseSVG(LevelPack.svg0008);
+    case 9: fgc = new FG0009(); bgc = new BG0009(); parseSVG(LevelPack.svg0009);
     default:
       fgc = new MovieClip();
       bgc = new MovieClip();
@@ -596,8 +598,12 @@ class Game1
     doors.push(door);
   }
 
-  public function onLevelLoad(e:Event) {
-    svg = Xml.parse(loader.data).firstElement();
+  public function onSVGRequest(e:Event) {
+    parseSVG(loader.data);
+  }
+
+  public function parseSVG(xml_text:String) {
+    svg = Xml.parse(xml_text).firstElement();
 
     // trace("level loaded.");
 
