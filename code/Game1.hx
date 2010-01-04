@@ -68,7 +68,6 @@ class Pocket extends phx.Body {
 class Game1
 {
 
-
   // config
   static var timeLimit = 120;
   static var blurAmount : Int = 10;
@@ -200,20 +199,23 @@ class Game1
   public function updateClock() {
     clockText.text = clock.toString();
     var ct:flash.geom.ColorTransform;
-    if (clock.timeCount < 95)
+
+
+    ct = new flash.geom.ColorTransform((Math.ceil(clock.timeLeft()*10+5) % 10) * 0.75, 0.0, 0.0);
+    /* 
+    if (clock.timeCount % 4 == 0)
       ct = new flash.geom.ColorTransform(1.00, 0.0, 0.0);
-    else if (clock.timeCount < 100)
+    else if (clock.timeCount % 4)
       ct = new flash.geom.ColorTransform(1.00, 0.25, 0.25);
-    else if (clock.timeCount < 105)
+    else if (clock.timeCount < 15)
       ct = new flash.geom.ColorTransform(1.00, 0.5, 0.5);
-    else if (clock.timeCount < 110)
+    else if (clock.timeCount < 20)
       ct = new flash.geom.ColorTransform(1.00, 0.75, 0.75);
-    else if (clock.timeCount < 115)
-      ct = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
     else
-      return;
-    //ct = new flash.geom.ColorTransform(1, 1, 1);
-    bg.transform.colorTransform = ct;
+      ct = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
+    */ 
+
+bg.transform.colorTransform = ct;
   }
 
   public function resetWorld(level:Int) {
