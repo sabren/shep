@@ -201,7 +201,9 @@ class Game1
     var ct:flash.geom.ColorTransform;
 
 
-    ct = new flash.geom.ColorTransform((Math.ceil(clock.timeLeft()*10+5) % 10) * 0.75, 0.0, 0.0);
+    //ct = new flash.geom.ColorTransform((Math.ceil(clock.timeLeft()*10+5) % 10) * 0.75, 0.0, 0.0);
+    var v = (1 + Math.sin(clock.timeLeft()*5)) / 2;
+    ct = new flash.geom.ColorTransform(0.25+v, 0, 0);
     /* 
     if (clock.timeCount % 4 == 0)
       ct = new flash.geom.ColorTransform(1.00, 0.0, 0.0);
