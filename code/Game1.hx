@@ -628,6 +628,14 @@ class Game1
       }
   }
   
+
+  public function addBodyClip(body, clip) : BodyClip {
+    var bc = new BodyClip(body, clip);
+    world.addBody(body);
+    mg.addChild(clip);
+    return bc;
+  }
+
   public function addSpinner(cx:Float, cy:Float, w:Float, h:Float) {
 
     var sc = centerClip(new SpinnerClip());
@@ -641,17 +649,14 @@ class Game1
       body.a = deg2rad(-90);
     }
 
-    var bc = new BodyClip(body, sc);
-    world.addBody(body);
-    mg.addChild(sc);
-    spinners.push(bc);
+    spinners.push(addBodyClip(body, sc));
   }
 
-  public function addDoor(shape:phx.Shape, clip:MovieClip) {
-    var door = new BodyClip(new phx.Body(0, 0), clip);
-    door.body.addShape(shape);
-    world.addBody(door.body);
-    doors.push(door);
+  public function addDoor(shape:phx.Shape, clip:MovieClip, cx, cy) {
+    var body = new phx.Body(0, 0);
+    body.addShape(shape);
+    clip.x = cx; clip.y = cy;
+    doors.push(addBodyClip(body, clip));
   }
 
   public function onSVGRequest(e:Event) {
@@ -692,7 +697,7 @@ class Game1
 	addPocket(cx, cy, 1);
 
       } else if (fill == darkCyan) {
-	addDoor(shape, null);
+	addDoor(shape, new DoorClip(), x, y);
 
       } else if (fill == blue) {
 	addSpinner(cx, cy, w, h);
