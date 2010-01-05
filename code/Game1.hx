@@ -190,11 +190,16 @@ class Game1
 
   public function onEnterFrame(e) {
     if (! (done || paused)) {
+
       updateWorld();
+      updateClock();
+
+      // these have to come after the clock updates, or there
+      // will be trouble with restarting after a timeout
       checkForWin();
       checkForLoss();
+
       drawWorld();
-      updateClock();
     }
   }
 
