@@ -9,7 +9,7 @@
 				<mx:Button label="Pause" right="2" top="2" click="pauseGame()" id="button1"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button label="Exit Level" right="148" top="2" click="currentState=&quot;LevelSelect&quot;" id="button3"/>
+				<mx:Button label="Exit Level" right="148" top="2" click="gameCanvas.game.done = true; currentState=&quot;LevelSelect&quot;" id="button3"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{button3}" position="before">
 				<mx:Button label="Restart" right="71" top="2" click="restartLevel()" id="button4"/>
@@ -18,7 +18,7 @@
 				<mx:Button label="Time=0:05" right="237" top="2" click="gameCanvas.game.clock.startTimer(5)" id="button0"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button label="toggle physics" right="653" top="2" click="gameCanvas.game.showPhysics = ! gameCanvas.game.showPhysics" id="button7"/>
+				<mx:Button label="toggle physics" right="523" top="2" click="gameCanvas.game.showPhysics = ! gameCanvas.game.showPhysics" id="button7"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Title">
@@ -48,6 +48,8 @@
 			</mx:AddChild>
 			<mx:RemoveChild target="{button1}"/>
 			<mx:RemoveChild target="{button3}"/>
+			<mx:RemoveChild target="{button4}"/>
+			<mx:RemoveChild target="{button0}"/>
 		</mx:State>
 		<mx:State name="LevelSelect">
 			<mx:AddChild position="lastChild">
