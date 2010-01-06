@@ -144,9 +144,6 @@ class Game1
     bg.filters = [blurFilter];
     parent.addChild(bg);
 
-    physaxeLayer = new MovieClip();
-    parent.addChild(physaxeLayer);
-
     mg = new MovieClip();
     parent.addChild(mg);
 
@@ -157,6 +154,10 @@ class Game1
     parent.addChild(new BorderClip());
 
     clock = new FlashClock();
+
+    physaxeLayer = new MovieClip();
+    physaxeLayer.alpha = 0.5;
+    parent.addChild(physaxeLayer);
 
     var ds = new ClockFont();
     var fmt = new TextFormat(ds.fontName, 24, 0xFF0000);
