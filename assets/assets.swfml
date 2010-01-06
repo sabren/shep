@@ -33,7 +33,7 @@
 
       <clip id="FG0000" class="FG0000" import="assets/blank.png"/>
       <clip id="FG0001" class="FG0001" import="assets/fg0001.png"/>
-      <clip id="FG0002" class="FG0002" import="assets/blank.png"/>
+      <clip id="FG0002" class="FG0002" import="assets/fg0002.png"/>
       <clip id="FG0003" class="FG0003" import="assets/blank.png"/>
       <clip id="FG0004" class="FG0004" import="assets/fg0004.png"/>
       <clip id="FG0005" class="FG0005" import="assets/fg0005.png"/>
