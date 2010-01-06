@@ -311,7 +311,8 @@ class Game1
 
 		//@TODO: multiple colored doors?
 		if (pocket.code > 0) {
-		  openDoor(doors[0]);
+		  if (doors.length > 0)
+		    openDoor(doors[0]);
 		}
 		break;
 	      }
