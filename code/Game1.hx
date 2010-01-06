@@ -52,6 +52,8 @@ class DoorClip extends MovieClip {}
 class SpinnerClip extends MovieClip {}
 class RedBallClip extends MovieClip {}
 class RedPocketClip extends MovieClip {}
+class CargoClip extends MovieClip {}
+class CrateClip extends MovieClip {}
 
 class BodyClip {
   public var clip : MovieClip;
@@ -111,6 +113,7 @@ class Game1
   var smallballs : Array<BodyClip>;
   var doors : Array<BodyClip>;
   var spinners : Array<BodyClip>;
+  var floaters : Array<BodyClip>;
   var starfield : StarField;
 
   public var winCallback : Float -> Void;
@@ -123,6 +126,7 @@ class Game1
     smallballs = [];
     pockets = [];
     doors = [];
+    floaters = [];
 
     socketGlow = new GlowFilter(0xFF0000, 1, 3.5, 3.5, 4);
     // phx.Material(restitution, friction, density );
@@ -353,6 +357,12 @@ class Game1
     }
 
     for (s in spinners) {
+      s.clip.rotation = rad2deg(s.body.a);
+    }
+
+    for (s in floaters) {
+      s.clip.x = s.body.x;
+      s.clip.y = s.body.y;
       s.clip.rotation = rad2deg(s.body.a);
     }
 
@@ -605,11 +615,16 @@ class Game1
 	}
 
 
+
+	// transpose points to origin = center
+	var c = findCenter(vertices);
+	for (i in 0 ... vertices.length) {
+	  vertices[i] = vertices[i].minus(c);
+	}
+
 	var origin = new phx.Vector(0,0);
 	var mat = poly.get("fill") == "#FF00FF" ? floatyWall : bouncyWall;
-
 	var p = new phx.Polygon(vertices, origin, mat);
-
 
 	// revese the vertices, or physaxe will screw up the area
 	// calculations, and make it a static shape.
@@ -618,16 +633,34 @@ class Game1
 	  p = new phx.Polygon(vertices, origin, mat);
 	}
 
-	
-	// trace("area of p is: " + p.area);
-	
-	var b = new phx.Body(0,0);
+	var b = new phx.Body(c.x, c.y);
 	b.addShape(p);
-	world.addBody(b);
-	world.activate(b);
+
+	if (mat == floatyWall) {
+	  var clip:MovieClip;
+	  if (vertices.length == 8) {
+	    clip = centerClip(new CargoClip());
+	  } else {
+	    clip = centerClip(new CrateClip());
+	  }
+	  clip.x = c.x; clip.y = c.y;
+	  floaters.push(addBodyClip(b, clip));
+
+	} else {
+	  world.addBody(b);
+	  world.activate(b);
+	}
       }
   }
   
+
+  public function findCenter(vertices:Array<phx.Vector>) {
+    var avg = new phx.Vector(0,0);
+    for (v in vertices) {
+      avg = avg.plus(v);
+    }
+    return avg.mult(1 / vertices.length);
+  }
 
   public function addBodyClip(body, clip) : BodyClip {
     var bc = new BodyClip(body, clip);
@@ -675,7 +708,7 @@ class Game1
     var darkCyan = "#009999";
 
     spinners = [];
-
+    floaters = [];
     doors = [];
 
     for (rect in svg.elementsNamed("rect")) {

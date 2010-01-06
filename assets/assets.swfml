@@ -9,6 +9,9 @@
 
       <clip id="ShepClip" class="ShepClip" import="assets/bot-42x60.png"/>
 
+      <clip id="CrateClip" class="CrateClip" import="assets/hex-crate.png"/>
+      <clip id="CargoClip" class="CargoClip" import="assets/cargo-box.png"/>
+
       <clip id="DoorClip" class="DoorClip" import="assets/door.png"/>
       <clip id="SpinnerClip" class="SpinnerClip" import="assets/spinner.png"/>
 
