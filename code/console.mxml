@@ -52,55 +52,38 @@
 			<mx:RemoveChild target="{button0}"/>
 		</mx:State>
 		<mx:State name="LevelSelect">
-			<mx:AddChild position="lastChild">
-				<mx:Label x="32" y="27" text="Choose Level" fontWeight="bold" fontSize="24"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Image x="0" y="0" source="../assets/screens/level-select.png"/>
 			</mx:AddChild>
-
-			<mx:AddChild position="lastChild">
-				<mx:Button x="32" y="100" label="0: Training" click="startLevel(0)" width="106"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="342" y="138" click="startLevel(1)" width="144" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="32" y="150" label="1 : _________" click="startLevel(1)"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="528" y="138" click="startLevel(2)" width="143" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="155" y="150" label="2 : _________" click="startLevel(2)"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="157" y="247" click="startLevel(3)" width="143" height="85" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="281" y="150" label="3 : _________" click="startLevel(3)"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="342" y="247" click="startLevel(4)" width="144" height="85" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="32" y="214" label="4 : _________" click="startLevel(4)"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="528" y="247" click="startLevel(5)" width="143" height="85" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="155" y="214" label="5 : _________" click="startLevel(5)"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="157" y="359" click="startLevel(6)" enabled="true" width="143" height="77" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="281" y="214" label="6 : _________" click="startLevel(6)" enabled="true"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="342" y="359" click="startLevel(7)" enabled="true" width="144" height="77" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			<mx:AddChild>
-				<mx:Button x="32" y="270" label="7 : _________" click="startLevel(7)" enabled="true"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="528" y="359" click="startLevel(9)" enabled="true" width="143" height="77" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="155" y="270" label="8 : _________" click="startLevel(8)" enabled="true"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="157" y="138" click="startLevel(0)" width="143" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
-			
-			<mx:AddChild position="lastChild">
-				<mx:Button x="281" y="270" label="9 : _________" click="startLevel(9)" enabled="true"/>
-			</mx:AddChild>
-
-			<mx:AddChild position="lastChild">
-				<mx:Label x="454" y="102" text="Sector 0: Training Room" fontWeight="bold"/>
-			</mx:AddChild>
-
-			<mx:AddChild position="lastChild">
-				<mx:Image x="445" y="150" source="@Embed(&quot;../assets/0000-preview.png&quot;)" width="300" height="191"/>
-			</mx:AddChild>
-			
-			<mx:AddChild position="lastChild">
-				<mx:Label x="455" y="312" text="(preview would change as you mouseOver buttons)"/>
-			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button x="639" y="523" label="return to main menu" click="currentState=&quot;Title&quot;" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="328.5" y="543" label="return to main menu" click="currentState=&quot;Title&quot;" fillAlphas="[0.0, 0.9, 0.9, 0.9]" color="#BDFF9D" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
 
 		</mx:State>
