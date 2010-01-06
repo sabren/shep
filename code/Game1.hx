@@ -312,18 +312,10 @@ class Game1
 		
 		if (pocket.code > 0) {
 		  for (d in doors) {
-		    if (d.code == b.code)
-		    doors.remove(d);
-		    world.removeBody(d.body);
-
-		    openingDoor = d;
-		    var tween = new Tween( d.clip.y, 
-					   d.clip.y+d.clip.height, 
-					   1000, Bounce.easeOut );
-		    tween.setTweenHandlers(openDoor, onDoorOpen);
-		    tween.start();
-		    
-		    break;
+		    if (d.code == b.code) {
+		      openDoor(d);
+		      break;
+		    }
 		  }
 		}
 
@@ -336,10 +328,23 @@ class Game1
     }
   }
 
+    
+  function openDoor(d:BodyClip) {
+    doors.remove(d);
+    world.removeBody(d.body);
+    
+    openingDoor = d;
+    var tween = new Tween( d.clip.y, 
+			   d.clip.y+d.clip.height, 
+			   1000, Bounce.easeOut );
+    tween.setTweenHandlers(slideDoor, onDoorOpen);
+    tween.start();
+  }
 
-  function openDoor(e:Float) {
+  function slideDoor(e:Float) {
     openingDoor.clip.y = e;
   }
+
   function onDoorOpen(e:Float) {
     doors.remove(openingDoor);
     mg.removeChild(openingDoor.clip);
@@ -500,6 +505,11 @@ class Game1
       // trace("blur!");
     case 68: // d = draw physics
       showPhysics = ! showPhysics;
+    case 79:
+      if (doors.length > 0) {
+	openDoor(doors[0]);
+	doors = [];
+      }
     case 80: // p
       paused ? resume() : pause();
     case 82: // r = red alert
