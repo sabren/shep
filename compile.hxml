@@ -5,4 +5,5 @@
 -main Game1
 -debug
 -lib physaxe
+-lib feffects
 -cp code

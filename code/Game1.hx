@@ -18,6 +18,8 @@ import flash.utils.SetIntervalTimer;
 import flash.media.Sound;
 import flash.net.URLLoader;
 import flash.net.URLRequest;
+import feffects.Tween;
+import feffects.easing.Bounce;
 
 class ClockFont extends flash.text.Font {}
 
@@ -290,6 +292,7 @@ class Game1
 
   }
 
+  var openingDoor:BodyClip;
   function checkForWin() {
 
     for (pocket in pockets) {
@@ -310,10 +313,16 @@ class Game1
 		if (pocket.code > 0) {
 		  for (d in doors) {
 		    if (d.code == b.code)
-		      doors.remove(d);
-		    if (d.clip != null) 
-		      mg.removeChild(d.clip);
+		    doors.remove(d);
 		    world.removeBody(d.body);
+
+		    openingDoor = d;
+		    var tween = new Tween( d.clip.y, 
+					   d.clip.y+d.clip.height, 
+					   1000, Bounce.easeOut );
+		    tween.setTweenHandlers(openDoor, onDoorOpen);
+		    tween.start();
+		    
 		    break;
 		  }
 		}
@@ -325,6 +334,15 @@ class Game1
 	}
       }
     }
+  }
+
+
+  function openDoor(e:Float) {
+    openingDoor.clip.y = e;
+  }
+  function onDoorOpen(e:Float) {
+    doors.remove(openingDoor);
+    mg.removeChild(openingDoor.clip);
   }
 
   function checkForLoss() {
