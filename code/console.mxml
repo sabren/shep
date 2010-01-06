@@ -53,7 +53,7 @@
 		</mx:State>
 		<mx:State name="LevelSelect">
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Image x="0" y="0" source="../assets/screens/level-select.png"/>
+				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/level-select.png&quot;)"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
 				<mx:Button x="342" y="138" click="startLevel(1)" width="144" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
