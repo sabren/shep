@@ -292,7 +292,6 @@ class Game1
 
   }
 
-  var openingDoor:BodyClip;
   function checkForWin() {
 
     for (pocket in pockets) {
@@ -309,16 +308,11 @@ class Game1
 		smallballs.remove(b);
 		mg.removeChild(b.clip);
 		world.removeBody(shape.body);
-		
-		if (pocket.code > 0) {
-		  for (d in doors) {
-		    if (d.code == b.code) {
-		      openDoor(d);
-		      break;
-		    }
-		  }
-		}
 
+		//@TODO: multiple colored doors?
+		if (pocket.code > 0) {
+		  openDoor(doors[0]);
+		}
 		break;
 	      }
 	    }
@@ -329,6 +323,7 @@ class Game1
   }
 
     
+  var openingDoor:BodyClip;
   function openDoor(d:BodyClip) {
     doors.remove(d);
     world.removeBody(d.body);
