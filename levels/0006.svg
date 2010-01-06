@@ -19,4 +19,7 @@
 <circle fill="#FF0000" stroke="#000000" cx="320.3" cy="366.8" r="16.8"/>
 <circle fill="#FF0000" stroke="#000000" cx="487.5" cy="366.8" r="16.8"/>
 <circle fill="#FF0000" stroke="#000000" cx="482.5" cy="206.6" r="16.8"/>
+<polygon fill="#FFFFFF" stroke="#000000" points="32.5,433.272 32.5,540.272 128.5,540.272 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="32.5,142.9 32.5,35.9 128.5,35.9 "/>
+<polygon fill="#FFFFFF" stroke="#000000" points="766.233,142.9 766.233,35.9 670.233,35.9 "/>
 </svg>
