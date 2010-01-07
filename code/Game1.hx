@@ -445,6 +445,19 @@ class Game1
       }
     } else {
 	blurFilter.blurX = 10;
+	for (arb in cuebot.arbiters) {
+	  if (arb.sleeping) continue;
+	  var shape = (arb.s1.body == cuebot) ? arb.s2 : arb.s1;
+	  if (Type.getClass(shape.body) == Pocket) {
+	    continue; // handle it later
+	  } else if (Type.getClass(shape) == phx.Circle) {
+	    fuseSound.play();
+	    break; // only play one sound
+	  } else {
+	    wallSound.play();
+	    break; // only play one sound
+	  }
+	}
     }
     blurFilter.blurY = blurFilter.blurX;
     // bg.x = (blurFilter.blurX / 2.5); // parallax
