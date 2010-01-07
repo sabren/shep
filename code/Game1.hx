@@ -104,7 +104,8 @@ class Game1
   var clockText:TextField;
 
   var physaxeLayer : MovieClip;
-  var socketGlow : GlowFilter;
+  var redGlow : GlowFilter;
+  var cyanGlow : GlowFilter;
 
   var currentLevel : Int;
   var bg : MovieClip;
@@ -133,7 +134,9 @@ class Game1
     doors = [];
     floaters = [];
 
-    socketGlow = new GlowFilter(0xFF0000, 1, 3.5, 3.5, 4);
+    redGlow = new GlowFilter(0xFF0000, 1, 3.5, 3.5, 4);
+    cyanGlow = new GlowFilter(0x00FFFF, 1, 3.5, 3.5, 4);
+
     // phx.Material(restitution, friction, density );
     floatyWall = new phx.Material(0.5, 2, 100);
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
@@ -333,7 +336,7 @@ class Game1
   function openDoor(d:BodyClip) {
     doors.remove(d);
     world.removeBody(d.body);
-    
+    d.clip.filters= [];
     openingDoor = d;
     var tween = new Tween( d.clip.y, 
 			   d.clip.y+d.clip.height, 
@@ -542,7 +545,7 @@ class Game1
   public function onClick(e) {
     if (! (done || paused)) {
       kick(cuebot, calcVector(50));
-      var tween = new Tween( 100, 0, 1000, Sine.easeInOut );
+      var tween = new Tween( 1.0, 0, 1000, Sine.easeInOut );
       var self = this;
       tween.setTweenHandlers(function (e:Float){self.glowClip.alpha = e;}, 
 			     function (e:Float){});
@@ -624,9 +627,10 @@ class Game1
 
     if (code > 0) {
       pclip = centerClip(new RedPocketClip());
-      pclip.filters = [socketGlow];
+      pclip.filters = [redGlow];
     } else {
       pclip = centerClip(new PocketClip());
+      pclip.filters = [cyanGlow];
     }
 
     pclip.x = cx;
@@ -726,6 +730,7 @@ class Game1
     var body = new phx.Body(0, 0);
     body.addShape(shape);
     clip.x = cx; clip.y = cy;
+    clip.filters = [redGlow];
     doors.push(addBodyClip(body, clip));
   }
 
@@ -802,10 +807,11 @@ class Game1
     
 	if (circ.get("fill") != red) {
 	  bodyclip = new BodyClip(smallball, centerClip(new RedBallClip()));
-	  bodyclip.clip.filters = [socketGlow];
+	  bodyclip.clip.filters = [redGlow];
 	  bodyclip.code = 1; // just some arbitrary code @TODO: match keys and doors
 	} else {
 	  bodyclip = new BodyClip(smallball, centerClip(new BallClip()));
+	  bodyclip.clip.filters = [cyanGlow];
 	}
 
 	smallballs.push(bodyclip);
