@@ -135,7 +135,7 @@ class Game1
     floaters = [];
 
     redGlow = new GlowFilter(0xFF0000, 1, 3.5, 3.5, 4);
-    cyanGlow = new GlowFilter(0x00FFFF, 1, 3.5, 3.5, 4);
+    cyanGlow = new GlowFilter(0x00CCCC, 1, 3.5, 3.5, 4);
 
     // phx.Material(restitution, friction, density );
     floatyWall = new phx.Material(0.5, 2, 100);
