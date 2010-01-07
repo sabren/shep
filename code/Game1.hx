@@ -252,7 +252,7 @@ class Game1
     var png = new ShepClip();
     shepClip = centerClip(png);
     glowClip = new GlowClip();
-    glowClip.x = png.x;
+    glowClip.x = -glowClip.width / 2;
     glowClip.y = png.y + png.height - glowClip.height + 5;
     glowClip.alpha = 0.5;
     shepClip.addChild(glowClip);
