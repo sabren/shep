@@ -20,6 +20,7 @@ import flash.net.URLLoader;
 import flash.net.URLRequest;
 import feffects.Tween;
 import feffects.easing.Bounce;
+import feffects.easing.Sine;
 
 class ClockFont extends flash.text.Font {}
 
@@ -254,7 +255,7 @@ class Game1
     glowClip = new GlowClip();
     glowClip.x = -glowClip.width / 2;
     glowClip.y = png.y + png.height - glowClip.height + 5;
-    glowClip.alpha = 0.5;
+    glowClip.alpha = 0;
     shepClip.addChild(glowClip);
 
     var w = 800;
@@ -541,6 +542,11 @@ class Game1
   public function onClick(e) {
     if (! (done || paused)) {
       kick(cuebot, calcVector(50));
+      var tween = new Tween( 100, 0, 1000, Sine.easeInOut );
+      var self = this;
+      tween.setTweenHandlers(function (e:Float){self.glowClip.alpha = e;}, 
+			     function (e:Float){});
+      tween.start();
     }
   }
 
