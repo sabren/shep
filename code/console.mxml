@@ -6,7 +6,7 @@
 		<mx:State name="Game">
 			<mx:SetProperty target="{gameCanvas}" name="visible" value="true"/>
 			<mx:AddChild position="lastChild">
-				<mx:Button label="Pause" right="2" top="2" click="pauseGame()" id="button1"/>
+				<mx:Button click="pauseGame()" id="button1" width="71" bottom="1" right="1" height="24" fillAlphas="[0.0, 0.0, 0.0, 0.0]" themeColor="#FF0018"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Title">
@@ -35,14 +35,17 @@
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/paused.png&quot;)"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button x="346" y="360" label="Resume Game" click="resumeGame()"/>
+				<mx:Button x="288" y="360" label="Resume Game" click="resumeGame()" id="button7" fillAlphas="[0.9, 0.9, 0.9, 0.9]" width="224"/>
 			</mx:AddChild>
 			<mx:RemoveChild target="{button1}"/>
 			<mx:AddChild position="lastChild">
-				<mx:Button label="Restart Level" right="346" top="455" click="restartLevel()" id="button4" width="108"/>
+				<mx:Button label="Restart Level" right="288" top="405" click="restartLevel()" id="button4" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button label="Exit Level" right="346" top="408" click="gameCanvas.game.done = true; currentState=&quot;LevelSelect&quot;" id="button3" width="108"/>
+				<mx:Button label="Exit Level" right="288" top="451" click="gameCanvas.game.done = true; currentState=&quot;LevelSelect&quot;" id="button3" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{button7}" position="before">
+				<mx:Button x="288" y="498" label="How to Play" id="button0" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]" click="helpBox.visible=true"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="LevelSelect">
@@ -53,7 +56,7 @@
 				<mx:Button x="342" y="138" click="startLevel(1)" width="144" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="528" y="138" click="startLevel(2)" width="143" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
+				<mx:Button x="528" y="138" click="startLevel(2)" width="143" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" buttonMode="true" themeColor="#DDF6C7" alpha="0.0" fillColors="[#32922B, #32922B, #32922B, #32922B]"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
 				<mx:Button x="157" y="247" click="startLevel(3)" width="143" height="85" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>

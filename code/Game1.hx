@@ -871,13 +871,13 @@ class Game1
   }
 
   public function restart() {
-    paused = false;
-    resetWorld(currentLevel);    
+    resetWorld(currentLevel);
+    resume(); // just in case
   }
 
   public function startLevel(n:Int){
-    paused = false;
     resetWorld(n);
+    resume(); // just in case
   } 
 
   // these talk back to flex:
