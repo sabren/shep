@@ -871,10 +871,12 @@ class Game1
   }
 
   public function restart() {
+    paused = false;
     resetWorld(currentLevel);    
   }
 
   public function startLevel(n:Int){
+    paused = false;
     resetWorld(n);
   } 
 

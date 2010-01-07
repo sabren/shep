@@ -8,12 +8,6 @@
 			<mx:AddChild position="lastChild">
 				<mx:Button label="Pause" right="2" top="2" click="pauseGame()" id="button1"/>
 			</mx:AddChild>
-			<mx:AddChild position="lastChild">
-				<mx:Button label="Exit Level" right="148" top="2" click="gameCanvas.game.done = true; currentState=&quot;LevelSelect&quot;" id="button3"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{button3}" position="before">
-				<mx:Button label="Restart" right="71" top="2" click="restartLevel()" id="button4"/>
-			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Title">
 			<mx:AddChild position="lastChild">
@@ -38,11 +32,18 @@
 		</mx:State>
 		<mx:State name="Pause" basedOn="Game">
 			<mx:AddChild position="lastChild">
-				<mx:Button x="364" y="216" label="Resume" click="resumeGame()"/>
+				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/paused.png&quot;)"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button x="346" y="360" label="Resume Game" click="resumeGame()"/>
 			</mx:AddChild>
 			<mx:RemoveChild target="{button1}"/>
-			<mx:RemoveChild target="{button3}"/>
-			<mx:RemoveChild target="{button4}"/>
+			<mx:AddChild position="lastChild">
+				<mx:Button label="Restart Level" right="346" top="455" click="restartLevel()" id="button4" width="108"/>
+			</mx:AddChild>
+			<mx:AddChild position="lastChild">
+				<mx:Button label="Exit Level" right="346" top="408" click="gameCanvas.game.done = true; currentState=&quot;LevelSelect&quot;" id="button3" width="108"/>
+			</mx:AddChild>
 		</mx:State>
 		<mx:State name="LevelSelect">
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
