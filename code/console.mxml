@@ -6,7 +6,7 @@
 		<mx:State name="Game">
 			<mx:SetProperty target="{gameCanvas}" name="visible" value="true"/>
 			<mx:AddChild position="lastChild">
-				<mx:Button click="pauseGame()" id="button1" width="71" bottom="1" right="1" height="24" fillAlphas="[0.0, 0.0, 0.0, 0.0]" themeColor="#FF0018"/>
+				<mx:Button click="pauseGame()" id="button1" width="71" bottom="1" right="1" height="24" fillAlphas="[0.0, 0.0, 0.0, 0.0]" themeColor="#FF0018" buttonMode="true"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Title">
