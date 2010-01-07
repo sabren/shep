@@ -487,9 +487,11 @@ class Game1
       }
     }
 
-    g.moveTo(cuebot.x, cuebot.y);
-    g.lineStyle(5, 0x3333FF);
-    g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
+    /*
+      g.moveTo(cuebot.x, cuebot.y);
+      g.lineStyle(5, 0x3333FF);
+      g.lineTo(cuebot.x+v.x, cuebot.y+v.y);
+    */
   }
 
 
