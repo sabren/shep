@@ -48,6 +48,7 @@ class FG0008 extends MovieClip {}
 class FG0009 extends MovieClip {}
 
 class ShepClip extends MovieClip {}
+class GlowClip extends MovieClip {}
 class BallClip extends MovieClip {}
 class PocketClip extends MovieClip {}
 class DoorClip extends MovieClip {}
@@ -111,6 +112,7 @@ class Game1
   var blurFilter : BlurFilter;
 
   var shepClip : MovieClip;
+  var glowClip : MovieClip;
   var showPhysics : Bool;
   var smallballs : Array<BodyClip>;
   var doors : Array<BodyClip>;
@@ -248,10 +250,12 @@ class Game1
     world.addBody(cuebot);
 
     var png = new ShepClip();
-    shepClip = new MovieClip();
-    shepClip.addChild(png);
-    png.x = -21;
-    png.y = -21;
+    shepClip = centerClip(png);
+    glowClip = new GlowClip();
+    glowClip.x = png.x;
+    glowClip.y = png.y + png.height - glowClip.height + 5;
+    glowClip.alpha = 0.5;
+    shepClip.addChild(glowClip);
 
     var w = 800;
     var h = 575;

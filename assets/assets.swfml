@@ -8,6 +8,7 @@
             glyphs="0123456789:" />
 
       <clip id="ShepClip" class="ShepClip" import="assets/bot.png"/>
+      <clip id="GlowClip" class="GlowClip" import="assets/engine-glow.png"/>
 
       <clip id="CrateClip" class="CrateClip" import="assets/hex-crate.png"/>
       <clip id="CargoClip" class="CargoClip" import="assets/cargo-box.png"/>
