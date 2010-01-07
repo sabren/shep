@@ -64,6 +64,11 @@
       <sound id="AlertSound3" name="AlertSound3"
 	     import="assets/sound/alert-3.mp3"/>
 
+      <sound id="VictorySound" name="VictorySound"
+	     import="assets/sound/victory.mp3"/>
+      <sound id="DefeatSound" name="DefeatSound"
+	     import="assets/sound/defeat.mp3"/>
+
 
 <!--
       <clip id="TitleScreen" class="TitleScreen" 

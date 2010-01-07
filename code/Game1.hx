@@ -67,6 +67,8 @@ class AlertSound1 extends Sound {}
 class AlertSound2 extends Sound {}
 class AlertSound3 extends Sound {}
 class ThrustSound extends Sound {}
+class VictorySound extends Sound {}
+class DefeatSound extends Sound {}
 
 class BodyClip {
   public var clip : MovieClip;
@@ -142,6 +144,8 @@ class Game1
   var fuseSound:Sound;
   var doorSound:Sound;
   var thrustSound:Sound;
+  var victorySound:Sound;
+  var defeatSound:Sound;
 
   public function new(parent:Sprite) {
 
@@ -164,6 +168,8 @@ class Game1
     fuseSound = new FuseSound();
     doorSound = new DoorSound();
     thrustSound = new ThrustSound();
+    victorySound = new VictorySound();
+    defeatSound = new DefeatSound();
 
     // phx.Material(restitution, friction, density );
     floatyWall = new phx.Material(0.5, 2, 100);
@@ -947,6 +953,7 @@ class Game1
 
   function onWin() {
     done = true;
+    victorySound.play();
     if (winCallback != null) {
       winCallback(clock.timeCount);
     } else {
@@ -956,6 +963,7 @@ class Game1
 
   function onLoss() {
     done = true;
+    defeatSound.play();
     if (loseCallback != null) {
       loseCallback();
     } else {
