@@ -59,6 +59,15 @@ class RedPocketClip extends MovieClip {}
 class CargoClip extends MovieClip {}
 class CrateClip extends MovieClip {}
 
+class FuseSound extends Sound {}
+class WallSound extends Sound {}
+class DoorSound extends Sound {}
+class PocketSound extends Sound {}
+class AlertSound1 extends Sound {}
+class AlertSound2 extends Sound {}
+class AlertSound3 extends Sound {}
+class Music extends Sound {}
+
 class BodyClip {
   public var clip : MovieClip;
   public var body : phx.Body;
@@ -125,6 +134,14 @@ class Game1
   public var winCallback : Float -> Void;
   public var loseCallback : Void -> Void;
 
+  var alert1:Sound;
+  var alert2:Sound;
+  var alert3:Sound;
+  var wallSound:Sound;
+  var pocketSound:Sound;
+  var fuseSound:Sound;
+  var doorSound:Sound;
+
   public function new(parent:Sprite) {
 
     this.parent = parent;
@@ -138,6 +155,13 @@ class Game1
     redGlow = new GlowFilter(0xFF0000, .8, 4, 4, 4);
     cyanGlow = new GlowFilter(0x47f0ff, .8, 4, 4, 4);
 
+    alert1 = new AlertSound1();
+    alert2 = new AlertSound2();
+    alert3 = new AlertSound3();
+    wallSound = new WallSound();
+    pocketSound = new PocketSound();
+    fuseSound = new FuseSound();
+    doorSound = new DoorSound();
 
     // phx.Material(restitution, friction, density );
     floatyWall = new phx.Material(0.5, 2, 100);
@@ -219,6 +243,7 @@ class Game1
   }
 
 
+  var lastText:String;
   public function updateClock() {
     clockText.text = clock.toString();
 
@@ -230,10 +255,24 @@ class Game1
       bg.transform.colorTransform = ct;
       mg.transform.colorTransform = new flash.geom.ColorTransform(1+v, 0.75, 0.75);
       fg.transform.colorTransform = new flash.geom.ColorTransform(0.75+v, 0.5, 0.5);
+
+      if (clockText.text != lastText) {
+	if (tl <= 5) {
+	  alert3.play(0, 2);
+	} else if (tl <= 10) {
+	  alert3.play();
+	} else if (tl <= 20) {
+	  alert2.play();
+	} else {
+	  alert1.play();
+	}
+      }
+
     } else if (currentLevel == 9 && Math.ceil((tl * 10)) % 10 == 0) {
       bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
       mg.transform.colorTransform = new flash.geom.ColorTransform(Math.random()+0.25, Math.random()+0.25, Math.random()+0.25);
     }
+    lastText = clockText.text;
   }
 
   public function resetWorld(level:Int) {
@@ -511,17 +550,23 @@ class Game1
     case 66: // b
       blurFilter.blurX = 10;
       // trace("blur!");
-    case 68: // d = draw physics
-      showPhysics = ! showPhysics;
+      
     case 79:
       if (doors.length > 0) {
 	openDoor(doors[0]);
 	doors = [];
       }
-    case 80: // p
-      paused ? resume() : pause();
-    case 82: // r = red alert
+    case 80: // physics
+      showPhysics = ! showPhysics;
+
+
+    case 82: // r = red alert 1
       clock.startTimer(30);
+    case 69: // e = red alert 2
+      clock.startTimer(20);
+    case 68: // d = red alert 3
+      clock.startTimer(10);
+
     case 84: // t
       bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
     case 48,49,50,51,52,53,54,55,56,57:

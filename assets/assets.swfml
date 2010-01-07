@@ -46,6 +46,23 @@
       <clip id="FG0008" class="FG0008" import="assets/blank.png"/>
       <clip id="FG0009" class="FG0009" import="assets/blank.png"/>
 
+      <sound id="FuseSound" name="FuseSound"
+	     import="assets/sound/fuse.mp3"/>
+      <sound id="WallSound" name="WallSound"
+	     import="assets/sound/wall.mp3"/>
+      <sound id="DoorSound" name="DoorSound"
+	     import="assets/sound/door.mp3"/>
+      <sound id="PocketSound" name="PocketSound"
+	     import="assets/sound/pocket.mp3"/>
+
+      <sound id="AlertSound1" name="AlertSound1"
+	     import="assets/sound/alert-1.mp3"/>
+      <sound id="AlertSound2" name="AlertSound2"
+	     import="assets/sound/alert-2.mp3"/>
+      <sound id="AlertSound3" name="AlertSound3"
+	     import="assets/sound/alert-3.mp3"/>
+
+
 <!--
       <clip id="TitleScreen" class="TitleScreen" 
 	    import="assets/title-transparent.png"/>
