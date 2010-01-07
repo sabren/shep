@@ -27,7 +27,7 @@
 				</base:Help>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{helpBox}" position="before">
-				<mx:Button x="277" y="365" label="How to Play" id="button2" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]" click="helpBox.visible=true"/>
+				<mx:Button x="277" y="365" label="How to Play" id="button2" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]" click="helpFrom(&quot;Title&quot;)"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Pause" basedOn="Game">
@@ -45,7 +45,7 @@
 				<mx:Button label="Exit Level" right="288" top="451" click="gameCanvas.game.done = true; currentState=&quot;LevelSelect&quot;" id="button3" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{button7}" position="before">
-				<mx:Button x="288" y="498" label="How to Play" id="button0" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]" click="helpBox.visible=true"/>
+				<mx:Button x="288" y="498" label="How to Play" id="button0" width="224" fillAlphas="[0.9, 0.9, 0.9, 0.9]" click="helpFrom(&quot;Pause&quot;)"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="LevelSelect">
@@ -100,6 +100,8 @@
 		    <mx:AddChild relativeTo="{button5}" position="before">
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/victory.png&quot;)"/>
 			</mx:AddChild>
+		    <mx:SetProperty target="{button5}" name="y" value="406"/>
+		    <mx:SetProperty target="{button6}" name="y" value="456"/>
 		</mx:State>
 		<mx:State name="Defeat" basedOn="GameOver">
 			<mx:AddChild relativeTo="{button5}" position="before">
@@ -107,10 +109,18 @@
 			</mx:AddChild>
 			<mx:SetProperty target="{button5}" name="label" value="Try Again"/>
 			<mx:SetProperty target="{button6}" name="label" value="Back to Map"/>
-			<mx:SetProperty target="{button6}" name="y" value="522"/>
-			<mx:SetProperty target="{button5}" name="y" value="461"/>
+			<mx:SetProperty target="{button6}" name="y" value="491"/>
+			<mx:SetProperty target="{button5}" name="y" value="446"/>
 			<mx:SetStyle target="{button5}" name="fillAlphas" value="[0.9, 0.9, 0.9, 0.9]"/>
 			<mx:SetStyle target="{button6}" name="fillAlphas" value="[0.9, 0.9, 0.9, 0.9]"/>
+		</mx:State>
+		<mx:State name="Help">
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Image x="0" y="0" width="800" height="575" source="@Embed(&quot;../assets/screens/help.png&quot;)"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Button x="708" y="538" width="82" height="27" alpha="0.0" fillAlphas="[0.0, 0.0, 0.0, 0.0]" buttonMode="true" click="back()"/>
+			</mx:AddChild>
 		</mx:State>
 	</mx:states>
 	<mx:Canvas id="starCanvas" visible="true"/>
@@ -119,6 +129,16 @@
 	
 <mx:Script>
 <![CDATA[
+  [Bindable]
+  public var backToWhere:String;
+  
+  private function back():void {
+  	currentState = backToWhere;
+  }
+  private function helpFrom(where:String):void {
+  	backToWhere = where;
+  	currentState = "Help";
+  }
   
   private function pauseGame():void {
     currentState="Pause";
