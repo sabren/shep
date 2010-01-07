@@ -7,7 +7,7 @@
       <font id="ClockFont" name="ClockFont" import="assets/led_regular.ttf"
             glyphs="0123456789:" />
 
-      <clip id="ShepClip" class="ShepClip" import="assets/bot-42x60.png"/>
+      <clip id="ShepClip" class="ShepClip" import="assets/bot.png"/>
 
       <clip id="CrateClip" class="CrateClip" import="assets/hex-crate.png"/>
       <clip id="CargoClip" class="CargoClip" import="assets/cargo-box.png"/>
