@@ -66,7 +66,7 @@ class PocketSound extends Sound {}
 class AlertSound1 extends Sound {}
 class AlertSound2 extends Sound {}
 class AlertSound3 extends Sound {}
-class Music extends Sound {}
+class ThrustSound extends Sound {}
 
 class BodyClip {
   public var clip : MovieClip;
@@ -141,6 +141,7 @@ class Game1
   var pocketSound:Sound;
   var fuseSound:Sound;
   var doorSound:Sound;
+  var thrustSound:Sound;
 
   public function new(parent:Sprite) {
 
@@ -162,6 +163,7 @@ class Game1
     pocketSound = new PocketSound();
     fuseSound = new FuseSound();
     doorSound = new DoorSound();
+    thrustSound = new ThrustSound();
 
     // phx.Material(restitution, friction, density );
     floatyWall = new phx.Material(0.5, 2, 100);
@@ -363,6 +365,7 @@ class Game1
 		  if (doors.length > 0)
 		    openDoor(doors[0]);
 		}
+		pocketSound.play();
 		break;
 	      }
 	    }
@@ -375,6 +378,7 @@ class Game1
     
   var openingDoor:BodyClip;
   function openDoor(d:BodyClip) {
+    doorSound.play();
     doors.remove(d);
     world.removeBody(d.body);
     d.clip.filters= [];
@@ -605,6 +609,7 @@ class Game1
   public function onClick(e) {
     if (! (done || paused)) {
       kick(cuebot, calcVector(50));
+      thrustSound.play();
       var tween = new Tween( 1.0, 0, 1000, Sine.easeInOut );
       var self = this;
       tween.setTweenHandlers(function (e:Float){self.glowClip.alpha = e;}, 

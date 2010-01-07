@@ -54,6 +54,8 @@
 	     import="assets/sound/door.mp3"/>
       <sound id="PocketSound" name="PocketSound"
 	     import="assets/sound/pocket.mp3"/>
+      <sound id="ThrustSound" name="PocketSound"
+	     import="assets/sound/thrust.mp3"/>
 
       <sound id="AlertSound1" name="AlertSound1"
 	     import="assets/sound/alert-1.mp3"/>
