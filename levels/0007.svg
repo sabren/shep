@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 13.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 width="800px" height="575px" viewBox="0 0 800 575" enable-background="new 0 0 800 575" xml:space="preserve">
@@ -18,21 +18,13 @@
 	"/>
 <polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="356.61,183.954 335.901,133.955 335.901,133.955 
 	245.955,223.897 295.955,244.609 "/>
-<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="295.955,330.389 245.956,351.101 335.898,441.044 
-	356.61,391.045 "/>
-<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="503.045,244.609 553.045,223.897 463.098,133.955 
-	463.097,133.955 442.389,183.954 "/>
-<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="442.389,391.045 463.103,441.044 553.044,351.101 
+<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="442.389,391.045 463.103,441.044 553.044,351.102 
 	503.045,330.389 "/>
-<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="205.955,419.389 155.956,440.101 245.898,530.044 
-	266.61,480.045 "/>
-<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="596.045,152.609 646.045,131.896 556.098,41.955 556.097,41.955 
-	535.389,91.954 "/>
-<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="535.39,480.045 556.104,530.044 646.045,440.101 
-	596.046,419.389 "/>
-<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="266.611,91.954 245.902,41.955 245.902,41.955 155.956,131.897 
-	205.956,152.609 "/>
-<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="147.498,203.193 97.497,182.484 97.497,392.516 147.498,371.806 
+<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="204.414,403.389 139.956,430.09 255.908,546.044 282.61,481.586 
+	"/>
+<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="597.489,167.608 661.045,141.28 546.712,26.956 546.711,26.956 
+	520.389,90.51 "/>
+<polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="147.498,203.193 97.497,182.484 97.497,392.516 147.498,371.807 
 	"/>
 <polygon fill="#00FF00" stroke="#000000" stroke-width="2" points="650.496,371.807 700.498,392.516 700.499,182.484 
 	650.496,203.194 "/>
