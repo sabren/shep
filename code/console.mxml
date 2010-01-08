@@ -14,9 +14,6 @@
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/screen-bgs.png&quot;)"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button x="0" y="517" width="800" height="58" fillAlphas="[1.0, 1.0]" fillColors="[#000000, #000000]" borderColor="#000000" enabled="false"/>
-			</mx:AddChild>
-			<mx:AddChild position="lastChild">
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/title.png&quot;)"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
