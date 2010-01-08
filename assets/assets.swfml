@@ -68,12 +68,16 @@
 	     import="assets/sound/victory.mp3"/>
       <sound id="DefeatSound" name="DefeatSound"
 	     import="assets/sound/defeat.mp3"/>
+      <sound id="BlueDanube" name="BlueDanube"
+	    import="assets/sound/DanceOrchestra-BlueDanubeWaltz1905_64kb.mp3"/>
 
 
       <clip id="MuteIcon" class="MuteIcon"
 	    import="assets/muted.png"/>
       <clip id="SoundIcon" class="SoundIcon"
 	    import="assets/spkr.png"/>
+
+
 
 <!--
       <clip id="TitleScreen" class="TitleScreen" 

@@ -208,7 +208,7 @@ class Game1
     parent.addChild(muteButton);    
 
     done = true;
-    resetWorld(1);
+    startLevel(1);
 
     // save this to the end so world is ready to go for first frame event
     parent.addEventListener(Event.ENTER_FRAME, onEnterFrame);
@@ -579,7 +579,7 @@ class Game1
     case 84: // t
       bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
     case 48,49,50,51,52,53,54,55,56,57:
-      resetWorld(e.keyCode - 48);
+      startLevel(e.keyCode - 48);
     default:
       if (keyboardControl) {
 	switch(e.keyCode) {
@@ -590,10 +590,10 @@ class Game1
 	case Keyboard.RIGHT:
 	  shepClip.rotation += 15;
 	default:
-	  resetWorld(currentLevel);
+	  restart();
 	}
       } else {
-	resetWorld(currentLevel);
+	restart();
       }
     }
   }
@@ -611,14 +611,14 @@ class Game1
   }
 
   public function onMuteButton(e) {
-    SoundManager.toggle();
+    sound.toggle();
     drawMuteButton();
   }
 
   
   public function drawMuteButton() {
     clearClip(muteButton);
-    if (SoundManager.muted) {
+    if (sound.muted) {
       muteButton.addChild(new MuteIcon());
     } else {
       muteButton.addChild(new SoundIcon());
@@ -935,22 +935,24 @@ class Game1
   public function pause() {
     paused = true;
     starfield.paused = true;
+    sound.pause();
   }
   
   public function resume() {
     paused = false;
     starfield.paused = false;
     clock.resume();
+    sound.resume();
   }
 
   public function restart() {
-    resume(); // just in case
-    resetWorld(currentLevel);
+    startLevel(currentLevel);
   }
 
   public function startLevel(n:Int){
     resume(); // just in case
     resetWorld(n);
+    sound.startMusic();
   } 
 
   // these talk back to flex:

@@ -1,4 +1,5 @@
 import flash.media.Sound;
+import flash.media.SoundChannel;
 
 class FuseSound extends Sound {}
 class WallSound extends Sound {}
@@ -10,6 +11,7 @@ class AlertSound3 extends Sound {}
 class ThrustSound extends Sound {}
 class VictorySound extends Sound {}
 class DefeatSound extends Sound {}
+class BlueDanube extends Sound {}
 
 class SoundManager {
 
@@ -23,8 +25,13 @@ class SoundManager {
   private var _thrust:Sound;
   private var _victory:Sound;
   private var _defeat:Sound;
-  
-  public static var muted : Bool = false;
+  private var _bluedanube:Sound;
+
+  private var _music:SoundChannel;
+  private var _pos:Float;
+
+  public var muted : Bool;
+  private var volume:Float;
 
   public function new () {
     _alert1 = new AlertSound1();
@@ -37,11 +44,38 @@ class SoundManager {
     _thrust = new ThrustSound();
     _victory = new VictorySound();
     _defeat = new DefeatSound();
+    _bluedanube = new BlueDanube();
   }
 
-  public static function toggle() {
+
+  public function toggle() {
     muted = ! muted;
+    if (muted) {
+      volume =_music.soundTransform.volume;
+      _music.soundTransform.volume = 0;
+    } else {
+      _music.soundTransform.volume = volume;
+    }
   }
+
+
+  public function startMusic(?pos){
+    if (_music != null) {
+      pause();
+    }
+    if (!muted) 
+      _music = _bluedanube.play(pos);
+  }
+  public function pause(){
+    if (_music!=null) {
+      _music.stop();
+      _pos = _music.position;
+    }
+  }
+  public function resume(){
+    startMusic(_pos);
+  }
+
 
 
   public function alert1(){
