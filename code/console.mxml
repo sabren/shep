@@ -83,10 +83,10 @@
 		</mx:State>
 		<mx:State name="GameOver">
 			<mx:AddChild position="lastChild">
-				<mx:Button x="331.5" y="431" label="Replay Level" click="restartLevel()" width="137" id="button5" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
+				<mx:Button x="238.5" y="352" label="Replay Level" click="restartLevel()" width="137" id="button5" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button x="331.5" y="484" label="Back to Map" click="currentState=&quot;LevelSelect&quot;" id="button6" width="137" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
+				<mx:Button x="430.5" y="352" label="Back to Map" click="currentState=&quot;LevelSelect&quot;" id="button6" width="137" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Victory" basedOn="GameOver">
@@ -96,8 +96,6 @@
 		    <mx:AddChild relativeTo="{button5}" position="before">
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/victory.png&quot;)"/>
 			</mx:AddChild>
-		    <mx:SetProperty target="{button5}" name="y" value="406"/>
-		    <mx:SetProperty target="{button6}" name="y" value="456"/>
 		</mx:State>
 		<mx:State name="Defeat" basedOn="GameOver">
 			<mx:AddChild relativeTo="{button5}" position="before">
@@ -105,10 +103,6 @@
 			</mx:AddChild>
 			<mx:SetProperty target="{button5}" name="label" value="Try Again"/>
 			<mx:SetProperty target="{button6}" name="label" value="Back to Map"/>
-			<mx:SetProperty target="{button6}" name="y" value="491"/>
-			<mx:SetProperty target="{button5}" name="y" value="446"/>
-			<mx:SetStyle target="{button5}" name="fillAlphas" value="[0.9, 0.9, 0.9, 0.9]"/>
-			<mx:SetStyle target="{button6}" name="fillAlphas" value="[0.9, 0.9, 0.9, 0.9]"/>
 		</mx:State>
 		<mx:State name="Help">
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
