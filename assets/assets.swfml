@@ -69,7 +69,7 @@
       <sound id="DefeatSound" name="DefeatSound"
 	     import="assets/sound/defeat.mp3"/>
       <sound id="BlueDanube" name="BlueDanube"
-	    import="assets/sound/DanceOrchestra-BlueDanubeWaltz1905_64kb.mp3"/>
+	    import="assets/sound/wah-danube.mp3"/>
 
 
       <clip id="MuteIcon" class="MuteIcon"
