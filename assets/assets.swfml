@@ -70,6 +70,11 @@
 	     import="assets/sound/defeat.mp3"/>
 
 
+      <clip id="MuteIcon" class="MuteIcon"
+	    import="assets/muted.png"/>
+      <clip id="SoundIcon" class="SoundIcon"
+	    import="assets/spkr.png"/>
+
 <!--
       <clip id="TitleScreen" class="TitleScreen" 
 	    import="assets/title-transparent.png"/>

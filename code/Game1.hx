@@ -59,16 +59,8 @@ class RedPocketClip extends MovieClip {}
 class CargoClip extends MovieClip {}
 class CrateClip extends MovieClip {}
 
-class FuseSound extends Sound {}
-class WallSound extends Sound {}
-class DoorSound extends Sound {}
-class PocketSound extends Sound {}
-class AlertSound1 extends Sound {}
-class AlertSound2 extends Sound {}
-class AlertSound3 extends Sound {}
-class ThrustSound extends Sound {}
-class VictorySound extends Sound {}
-class DefeatSound extends Sound {}
+class SoundIcon extends MovieClip {}
+class MuteIcon extends MovieClip {}
 
 class BodyClip {
   public var clip : MovieClip;
@@ -136,16 +128,8 @@ class Game1
   public var winCallback : Float -> Void;
   public var loseCallback : Void -> Void;
 
-  var alert1:Sound;
-  var alert2:Sound;
-  var alert3:Sound;
-  var wallSound:Sound;
-  var pocketSound:Sound;
-  var fuseSound:Sound;
-  var doorSound:Sound;
-  var thrustSound:Sound;
-  var victorySound:Sound;
-  var defeatSound:Sound;
+  var sound:SoundManager;
+  var muteButton:MovieClip;
 
   public function new(parent:Sprite) {
 
@@ -156,20 +140,11 @@ class Game1
     doors = [];
     floaters = [];
 
-
     redGlow = new GlowFilter(0xFF0000, .8, 4, 4, 4);
     cyanGlow = new GlowFilter(0x47f0ff, .8, 4, 4, 4);
 
-    alert1 = new AlertSound1();
-    alert2 = new AlertSound2();
-    alert3 = new AlertSound3();
-    wallSound = new WallSound();
-    pocketSound = new PocketSound();
-    fuseSound = new FuseSound();
-    doorSound = new DoorSound();
-    thrustSound = new ThrustSound();
-    victorySound = new VictorySound();
-    defeatSound = new DefeatSound();
+
+    sound = new SoundManager();
 
     // phx.Material(restitution, friction, density );
     floatyWall = new phx.Material(0.5, 2, 100);
@@ -224,12 +199,21 @@ class Game1
 
     parent.addChild(clockText);
 
+
+    muteButton = new MovieClip();
+    muteButton.x = 696;
+    muteButton.y = 552;
+    muteButton.buttonMode = true;
+    drawMuteButton();
+    parent.addChild(muteButton);    
+
     done = true;
     resetWorld(1);
 
     // save this to the end so world is ready to go for first frame event
     parent.addEventListener(Event.ENTER_FRAME, onEnterFrame);
     parent.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
+    muteButton.addEventListener(MouseEvent.MOUSE_DOWN, onMuteButton);
     if (flash.Lib.current.stage != null)
       flash.Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
     // nothing below here should edit the world!
@@ -266,13 +250,13 @@ class Game1
 
       if (clockText.text != lastText) {
 	if (tl <= 5) {
-	  alert3.play(0, 2);
+	  sound.alert3(0, 2);
 	} else if (tl <= 10) {
-	  alert3.play();
+	  sound.alert3();
 	} else if (tl <= 20) {
-	  alert2.play();
+	  sound.alert2();
 	} else {
-	  alert1.play();
+	  sound.alert1();
 	}
       }
 
@@ -373,7 +357,7 @@ class Game1
 		  if (doors.length > 0)
 		    openDoor(doors[0]);
 		}
-		pocketSound.play();
+		sound.pocket();
 		break;
 	      }
 	    }
@@ -386,7 +370,7 @@ class Game1
     
   var openingDoor:BodyClip;
   function openDoor(d:BodyClip) {
-    doorSound.play();
+    sound.door();
     doors.remove(d);
     world.removeBody(d.body);
     d.clip.filters= [];
@@ -463,10 +447,10 @@ class Game1
 	  if (Type.getClass(shape.body) == Pocket) {
 	    continue; // handle it later
 	  } else if (Type.getClass(shape) == phx.Circle) {
-	    fuseSound.play();
+	    sound.fuse();
 	    break; // only play one sound
 	  } else {
-	    wallSound.play();
+	    sound.wall();
 	    break; // only play one sound
 	  }
 	}
@@ -617,12 +601,27 @@ class Game1
   public function onClick(e) {
     if (! (done || paused)) {
       kick(cuebot, calcVector(50));
-      thrustSound.play();
+      sound.thrust();
       var tween = new Tween( 1.0, 0, 1000, Sine.easeInOut );
       var self = this;
       tween.setTweenHandlers(function (e:Float){self.glowClip.alpha = e;}, 
 			     function (e:Float){});
       tween.start();
+    }
+  }
+
+  public function onMuteButton(e) {
+    SoundManager.toggle();
+    drawMuteButton();
+  }
+
+  
+  public function drawMuteButton() {
+    clearClip(muteButton);
+    if (SoundManager.muted) {
+      muteButton.addChild(new MuteIcon());
+    } else {
+      muteButton.addChild(new SoundIcon());
     }
   }
 
@@ -955,7 +954,7 @@ class Game1
 
   function onWin() {
     done = true;
-    victorySound.play();
+    sound.victory();
     if (winCallback != null) {
       winCallback(clock.timeCount);
     } else {
@@ -965,7 +964,7 @@ class Game1
 
   function onLoss() {
     done = true;
-    defeatSound.play();
+    sound.defeat();
     if (loseCallback != null) {
       loseCallback();
     } else {
