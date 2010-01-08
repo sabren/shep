@@ -950,7 +950,7 @@ class Game1
   }
 
   public function startLevel(n:Int){
-    resume(); // just in case
+    try { resume(); } catch (e:Dynamic) {}  // just in case
     resetWorld(n);
     sound.startMusic();
   } 
