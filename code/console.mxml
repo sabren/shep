@@ -90,7 +90,6 @@
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Victory" basedOn="GameOver">
-			<mx:SetProperty target="{button5}" name="label" value="Replay Level"/>
 			<mx:AddChild relativeTo="{button5}" position="before">
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/screen-bgs.png&quot;)"/>
 			</mx:AddChild>

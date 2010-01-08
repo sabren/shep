@@ -151,7 +151,7 @@ class Game1
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
     robotParts = new phx.Material(0.5, 20, 20);
 
-#if !EXTERNAL_STARFIELD
+#if !FLEX_WRAP
     starfield = new StarField(800,575);
     parent.addChild(starfield);
 #end
@@ -212,8 +212,8 @@ class Game1
 
     // save this to the end so world is ready to go for first frame event
     parent.addEventListener(Event.ENTER_FRAME, onEnterFrame);
-    parent.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
     muteButton.addEventListener(MouseEvent.MOUSE_DOWN, onMuteButton);
+    parent.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
     if (flash.Lib.current.stage != null)
       flash.Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
     // nothing below here should edit the world!
@@ -239,8 +239,8 @@ class Game1
   public function updateClock() {
     clockText.text = clock.toString();
 
-    var tl = clock.timeLeft();
-    if (tl <= 30) {
+    var secs = clock.timeCount;
+    if (secs <= 30) {
       // red alert!
       var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.40;
       var ct = new flash.geom.ColorTransform(0.25+v, 0, 0);
@@ -249,11 +249,11 @@ class Game1
       fg.transform.colorTransform = new flash.geom.ColorTransform(0.75+v, 0.5, 0.5);
 
       if (clockText.text != lastText) {
-	if (tl <= 5) {
+	if (secs <= 5) {
 	  sound.alert3(0, 2);
-	} else if (tl <= 10) {
+	} else if (secs <= 10) {
 	  sound.alert3();
-	} else if (tl <= 20) {
+	} else if (secs <= 20) {
 	  sound.alert2();
 	} else {
 	  sound.alert1();
@@ -635,7 +635,7 @@ class Game1
   public function loadLevel(which:Int) {
     currentLevel = which;
 
-#if PACK_LEVELS
+#if FLEX_WRAP
     switch (which) {
     case 0: parseSVG(LevelPack.svg0000);
     case 1: parseSVG(LevelPack.svg0001);
@@ -915,8 +915,11 @@ class Game1
 
 
   static function main() {
+#if !FLEX_WRAP
     var parent = flash.Lib.current;
     var game = new Game1(parent);
+    //game.sound.alert3(0,9999);
+#end
   }
 
 
