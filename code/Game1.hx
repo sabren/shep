@@ -20,6 +20,7 @@ import flash.net.URLLoader;
 import flash.net.URLRequest;
 import feffects.Tween;
 import feffects.easing.Bounce;
+import feffects.easing.Linear;
 import feffects.easing.Sine;
 
 class ClockFont extends flash.text.Font {}
@@ -435,12 +436,12 @@ class Game1
 
 
     if (cuebot.arbiters.isEmpty()) {
-      if (blurFilter.blurX > 0) {
+      /*      if (blurFilter.blurX > 0) {
 	blurFilter.blurX -= 0.5;
       }
       if (blurFilter.blurX < 0) {
-	blurFilter.blurX = 0;
-      }
+	blurFilter.blurX += 0.5;
+	}*/
     } else {
 	for (arb in cuebot.arbiters) {
 	  if (arb.sleeping) continue;
@@ -453,12 +454,19 @@ class Game1
 	    break; // only play one sound
 	  } else {
 	    sound.wall();
-	    blurFilter.blurX = 10;
+	    var c = arb.contacts;
+	    var shiftX = -Math.floor((c.px - cuebot.x) / 2);
+	    new Tween( shiftX, 0, 500, bg, "x", null ).start();
+	    new Tween( shiftX, 0, 500, blurFilter, "blurX", null ).start();
+	    var shiftY = -Math.floor((c.py - cuebot.y) / 2);
+	    new Tween( shiftY, 0, 500, bg, "y", null ).start();
+	    new Tween( shiftY, 0, 500, blurFilter, "blurY", null ).start();
+	  //blurFilter.blurX = 
 	    break; // only play one sound
 	  }
 	}
     }
-    blurFilter.blurY = blurFilter.blurX;
+    //blurFilter.blurY = blurFilter.blurX;
     // bg.x = (blurFilter.blurX / 2.5); // parallax
     bg.filters = [blurFilter];
 
@@ -471,7 +479,6 @@ class Game1
     shepClip.y = cuebot.y;
     
   }
-
 
   function calcVector(r:Int) {
     var x1 = cuebot.x;
