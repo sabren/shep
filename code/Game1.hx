@@ -443,7 +443,7 @@ class Game1
 	blurFilter.blurX = 10;
 	for (arb in cuebot.arbiters) {
 	  if (arb.sleeping) continue;
-	  if (! arb.contacts.updated) continue;
+	  if (arb.contacts == null || (! arb.contacts.updated)) continue;
 	  var shape = (arb.s1.body == cuebot) ? arb.s2 : arb.s1;
 	  if (Type.getClass(shape.body) == Pocket) {
 	    continue; // handle it later
