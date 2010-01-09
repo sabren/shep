@@ -83,10 +83,10 @@
 		</mx:State>
 		<mx:State name="GameOver">
 			<mx:AddChild position="lastChild">
-				<mx:Button x="238.5" y="352" label="Replay Level" click="restartLevel()" width="137" id="button5" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
+				<mx:Button x="331.5" y="411" label="Replay Level" click="restartLevel()" width="137" id="button5" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Button x="430.5" y="352" label="Back to Map" click="currentState=&quot;LevelSelect&quot;" id="button6" width="137" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
+				<mx:Button x="331.5" y="450" label="Back to Map" click="currentState=&quot;LevelSelect&quot;" id="button6" width="137" fillAlphas="[0.9, 0.9, 0.9, 0.9]"/>
 			</mx:AddChild>
 		</mx:State>
 		<mx:State name="Victory" basedOn="GameOver">
