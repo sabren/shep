@@ -1,6 +1,6 @@
 class LevelPack {
   public static var svg0000 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-<!-- Generator: Adobe Illustrator 13.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
 <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">
 <svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"
 	 width=\"800px\" height=\"575px\" viewBox=\"0 0 800 575\" enable-background=\"new 0 0 800 575\" xml:space=\"preserve\">
@@ -11,10 +11,10 @@ class LevelPack {
 <rect x=\"503.5\" y=\"442\" fill=\"#00FF00\" stroke=\"#000000\" width=\"70\" height=\"70\"/>
 <rect x=\"505.5\" y=\"62\" fill=\"#00FF00\" stroke=\"#000000\" width=\"70\" height=\"70\"/>
 <rect x=\"503.5\" y=\"251\" fill=\"#00FF00\" stroke=\"#000000\" width=\"70\" height=\"70\"/>
-<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"125.5,422 102.99,399.489 102.99,367.654 125.5,345.145 556.418,345.145 
-	578.928,367.654 578.928,399.489 556.418,422 \"/>
-<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"125.5,233 102.99,210.489 102.99,178.655 125.5,156.145 556.418,156.145 
-	578.928,178.655 578.928,210.489 556.418,233 \"/>
+<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"125.5,411 102.99,397.526 102.99,378.473 125.5,365 556.418,365 578.928,378.473 
+	578.928,397.526 556.418,411 \"/>
+<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"125.5,217 102.99,204.113 102.99,185.887 125.5,173 556.418,173 578.928,185.887 
+	578.928,204.113 556.418,217 \"/>
 <polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"584.5,59.862 607.011,35 741.989,35 764.5,59.862 764.5,514.139 741.989,539 
 	607.011,539 584.5,514.139 \"/>
 <g>
@@ -286,10 +286,13 @@ class LevelPack {
 <circle fill=\"#FF0000\" stroke=\"#000000\" cx=\"320.3\" cy=\"366.8\" r=\"16.8\"/>
 <circle fill=\"#FF0000\" stroke=\"#000000\" cx=\"487.5\" cy=\"366.8\" r=\"16.8\"/>
 <circle fill=\"#FF0000\" stroke=\"#000000\" cx=\"482.5\" cy=\"206.6\" r=\"16.8\"/>
+<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"32.5,433.272 32.5,540.272 128.5,540.272 \"/>
+<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"32.5,142.9 32.5,35.9 128.5,35.9 \"/>
+<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"766.233,142.9 766.233,35.9 670.233,35.9 \"/>
 </svg>
 ";
   public static var svg0007 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-<!-- Generator: Adobe Illustrator 13.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
 <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">
 <svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"
 	 width=\"800px\" height=\"575px\" viewBox=\"0 0 800 575\" enable-background=\"new 0 0 800 575\" xml:space=\"preserve\">
@@ -308,23 +311,13 @@ class LevelPack {
 	\"/>
 <polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"356.61,183.954 335.901,133.955 335.901,133.955 
 	245.955,223.897 295.955,244.609 \"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"295.955,330.389 245.956,351.101 335.898,441.044 
-	356.61,391.045 \"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"503.045,244.609 553.045,223.897 463.098,133.955 
-	463.097,133.955 442.389,183.954 \"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"442.389,391.045 463.103,441.044 553.044,351.101 
+<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"442.389,391.045 463.103,441.044 553.044,351.102 
 	503.045,330.389 \"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"205.955,419.389 155.956,440.101 245.898,530.044 
-	266.61,480.045 \"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"596.045,152.609 646.045,131.896 556.098,41.955 556.097,41.955 
-	535.389,91.954 \"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"535.39,480.045 556.104,530.044 646.045,440.101 
-	596.046,419.389 \"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"266.611,91.954 245.902,41.955 245.902,41.955 155.956,131.897 
-	205.956,152.609 \"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"147.498,203.193 97.497,182.484 97.497,392.516 147.498,371.806 
-	\"/>
-<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"650.496,371.807 700.498,392.516 700.499,182.484 
+<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"204.414,403.389 110.5,420.5 255.908,546.044 282.61,481.586 \"/>
+<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"597.489,167.608 671.833,164 546.712,26.956 546.711,26.956 
+	520.389,90.51 \"/>
+<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"147.498,203.193 97.497,182.484 105.5,412 147.498,371.807 \"/>
+<polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"650.496,371.807 700.498,392.516 678.502,175.332 
 	650.496,203.194 \"/>
 <polygon fill=\"#00FF00\" stroke=\"#000000\" stroke-width=\"2\" points=\"315.194,490.954 294.485,540.956 504.516,540.956 
 	483.805,490.954 \"/>
