@@ -50,12 +50,16 @@ class SoundManager {
 
   public function toggle() {
     muted = ! muted;
+    var nevVolume : Float;
+    var trans = _music.soundTransform;
     if (muted) {
-      volume =_music.soundTransform.volume;
-      _music.soundTransform.volume = 0;
+      volume = trans.volume;
+      trans.volume = 0;
     } else {
-      _music.soundTransform.volume = volume;
+      trans.volume = volume;
     }
+    _music.soundTransform = trans;
+      
   }
 
 
