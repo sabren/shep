@@ -91,7 +91,8 @@ class Game1
 
   var floatyWall : phx.Material;
   var bouncyWall : phx.Material;
-  var robotParts : phx.Material;
+  var fuseMaterial : phx.Material;
+  var shepMaterial : phx.Material;
 
   var pockets : Array<Pocket>;
   var cuebot : phx.Body;
@@ -149,7 +150,8 @@ class Game1
     // phx.Material(restitution, friction, density );
     floatyWall = new phx.Material(0.5, 2, 100);
     bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
-    robotParts = new phx.Material(0.5, 20, 20);
+    fuseMaterial = new phx.Material(0.5, 10, 15);
+    shepMaterial = new phx.Material(0.5, 20, 20);
 
 #if !FLEX_WRAP
     starfield = new StarField(800,575);
@@ -285,7 +287,7 @@ class Game1
     clearClip(mg);
 
     cuebot = new phx.Body(10, 10);
-    cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0), robotParts));
+    cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0), shepMaterial));
     world.addBody(cuebot);
 
     var png = new ShepClip();
@@ -440,7 +442,6 @@ class Game1
 	blurFilter.blurX = 0;
       }
     } else {
-	blurFilter.blurX = 10;
 	for (arb in cuebot.arbiters) {
 	  if (arb.sleeping) continue;
 	  if (arb.contacts == null || (! arb.contacts.updated)) continue;
@@ -452,6 +453,7 @@ class Game1
 	    break; // only play one sound
 	  } else {
 	    sound.wall();
+	    blurFilter.blurX = 10;
 	    break; // only play one sound
 	  }
 	}
@@ -874,7 +876,7 @@ class Game1
       else {
 	var smallball = new phx.Body(cx, cy);
 	smallball.addShape(new phx.Circle(15, new phx.Vector(0, 0), 
-					  robotParts));
+					  fuseMaterial));
 	world.addBody(smallball);
 	var bodyclip:BodyClip;
     
