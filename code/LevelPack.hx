@@ -215,7 +215,7 @@ class LevelPack {
 </svg>
 ";
   public static var svg0005 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-<!-- Generator: Adobe Illustrator 13.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 14948)  -->
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
 <!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">
 <svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\"
 	 width=\"800px\" height=\"575px\" viewBox=\"0 0 800 575\" enable-background=\"new 0 0 800 575\" xml:space=\"preserve\">
@@ -230,7 +230,7 @@ class LevelPack {
 	<line fill=\"none\" stroke=\"#D9AB00\" x1=\"24.5\" y1=\"26\" x2=\"774.5\" y2=\"26\"/>
 </g>
 <rect x=\"375.5\" y=\"27.5\" fill=\"#FFFFFF\" stroke=\"#000000\" width=\"19\" height=\"157\"/>
-<rect x=\"373.5\" y=\"333\" fill=\"#FFFFFF\" stroke=\"#000000\" width=\"21\" height=\"218\"/>
+<rect x=\"369.5\" y=\"333\" fill=\"#FFFFFF\" stroke=\"#000000\" width=\"25\" height=\"218\"/>
 <rect x=\"221.5\" y=\"371.5\" fill=\"#00FFFF\" stroke=\"#000000\" width=\"61\" height=\"61\"/>
 <rect x=\"374.5\" y=\"186\" fill=\"#009999\" stroke=\"#000000\" width=\"20\" height=\"145\"/>
 <rect x=\"127.438\" y=\"333\" fill=\"#FFFFFF\" stroke=\"#000000\" width=\"14.063\" height=\"129\"/>
@@ -263,6 +263,8 @@ class LevelPack {
 	\"/>
 <polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"85.162,162 103.717,194.137 85.162,226.273 48.055,226.273 29.5,194.137 
 	48.055,162 \"/>
+<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"29.5,485.262 29.5,549.012 85.75,549.012 57.625,512.933 \"/>
+<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"364.733,485.262 364.733,549.012 308.483,549.012 336.608,512.933 \"/>
 </svg>
 ";
   public static var svg0006 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
@@ -286,9 +288,9 @@ class LevelPack {
 <circle fill=\"#FF0000\" stroke=\"#000000\" cx=\"320.3\" cy=\"366.8\" r=\"16.8\"/>
 <circle fill=\"#FF0000\" stroke=\"#000000\" cx=\"487.5\" cy=\"366.8\" r=\"16.8\"/>
 <circle fill=\"#FF0000\" stroke=\"#000000\" cx=\"482.5\" cy=\"206.6\" r=\"16.8\"/>
-<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"32.5,433.272 32.5,540.272 128.5,540.272 \"/>
-<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"32.5,142.9 32.5,35.9 128.5,35.9 \"/>
-<polygon fill=\"#FFFFFF\" stroke=\"#000000\" points=\"766.233,142.9 766.233,35.9 670.233,35.9 \"/>
+<polygon fill=\"#00FF00\" stroke=\"#000000\" points=\"32.5,433.272 32.5,540.271 128.5,540.271 \"/>
+<polygon fill=\"#00FF00\" stroke=\"#000000\" points=\"32.5,142.9 32.5,35.9 128.5,35.9 \"/>
+<polygon fill=\"#00FF00\" stroke=\"#000000\" points=\"766.233,142.9 766.233,35.9 670.233,35.9 \"/>
 </svg>
 ";
   public static var svg0007 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>

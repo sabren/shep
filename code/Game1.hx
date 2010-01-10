@@ -35,7 +35,6 @@ class BG0004 extends MovieClip {}
 class BG0005 extends MovieClip {}
 class BG0006 extends MovieClip {}
 class BG0007 extends MovieClip {}
-class BG0008 extends MovieClip {}
 class BG0009 extends MovieClip {}
 
 class FG0000 extends MovieClip {}
@@ -46,7 +45,6 @@ class FG0004 extends MovieClip {}
 class FG0005 extends MovieClip {}
 class FG0006 extends MovieClip {}
 class FG0007 extends MovieClip {}
-class FG0008 extends MovieClip {}
 class FG0009 extends MovieClip {}
 
 class ShepClip extends MovieClip {}
@@ -434,40 +432,27 @@ class Game1
       s.clip.rotation = rad2deg(s.body.a);
     }
 
-
-    if (cuebot.arbiters.isEmpty()) {
-      /*      if (blurFilter.blurX > 0) {
-	blurFilter.blurX -= 0.5;
+    for (arb in cuebot.arbiters) {
+      if (arb.sleeping) continue;
+      if (arb.contacts == null || (! arb.contacts.updated)) continue;
+      var shape = (arb.s1.body == cuebot) ? arb.s2 : arb.s1;
+      if (Type.getClass(shape.body) == Pocket) {
+	continue; // handle it later
+      } else if (Type.getClass(shape) == phx.Circle) {
+	sound.fuse();
+	break; // only play one sound
+      } else {
+	sound.wall();
+	var c = arb.contacts;
+	var shiftX = -Math.floor((c.px - cuebot.x) / 2);
+	new Tween( shiftX, 0, 500, bg, "x", null ).start();
+	new Tween( shiftX, 0, 500, blurFilter, "blurX", null ).start();
+	var shiftY = -Math.floor((c.py - cuebot.y) / 2);
+	new Tween( shiftY, 0, 500, bg, "y", null ).start();
+	new Tween( shiftY, 0, 500, blurFilter, "blurY", null ).start();
+	break; // only play one sound
       }
-      if (blurFilter.blurX < 0) {
-	blurFilter.blurX += 0.5;
-	}*/
-    } else {
-	for (arb in cuebot.arbiters) {
-	  if (arb.sleeping) continue;
-	  if (arb.contacts == null || (! arb.contacts.updated)) continue;
-	  var shape = (arb.s1.body == cuebot) ? arb.s2 : arb.s1;
-	  if (Type.getClass(shape.body) == Pocket) {
-	    continue; // handle it later
-	  } else if (Type.getClass(shape) == phx.Circle) {
-	    sound.fuse();
-	    break; // only play one sound
-	  } else {
-	    sound.wall();
-	    var c = arb.contacts;
-	    var shiftX = -Math.floor((c.px - cuebot.x) / 2);
-	    new Tween( shiftX, 0, 500, bg, "x", null ).start();
-	    new Tween( shiftX, 0, 500, blurFilter, "blurX", null ).start();
-	    var shiftY = -Math.floor((c.py - cuebot.y) / 2);
-	    new Tween( shiftY, 0, 500, bg, "y", null ).start();
-	    new Tween( shiftY, 0, 500, blurFilter, "blurY", null ).start();
-	  //blurFilter.blurX = 
-	    break; // only play one sound
-	  }
-	}
     }
-    //blurFilter.blurY = blurFilter.blurX;
-    // bg.x = (blurFilter.blurX / 2.5); // parallax
     bg.filters = [blurFilter];
 
     var fgBlur = new BlurFilter();
@@ -680,7 +665,7 @@ class Game1
     case 5: fgc = new FG0005(); bgc = new BG0005();
     case 6: fgc = new FG0006(); bgc = new BG0006();
     case 7: fgc = new FG0007(); bgc = new BG0007();
-    case 8: fgc = new FG0008(); bgc = new BG0008();
+    case 8: fgc = new FG0009(); bgc = new BG0009(); // debug level
     case 9: fgc = new FG0009(); bgc = new BG0009();
     default:
       fgc = new MovieClip();
