@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  xmlns:base="*"
 	layout="absolute" width="800" height="575" currentState="Title"
-	creationComplete="init_shep()">
+	applicationComplete="init_shep()">
 	<mx:states>
 		<mx:State name="Game">
 			<mx:SetProperty target="{gameCanvas}" name="visible" value="true"/>
@@ -191,7 +191,7 @@
 		||(checkDomain.indexOf("flashgamelicense.com") >= 0)) {
 		return true;
 	} else {
-		currentState = "Locked";
+		currentState = "SiteLock";
 		return false;
 	}
   }
