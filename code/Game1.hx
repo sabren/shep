@@ -158,7 +158,15 @@ class Game1
     parent.addChild(starfield);
 #end
 
-    parent.addChild(new GlassLayer());
+    var glass = new GlassLayer();
+    parent.addChild(glass);
+    var glint = new Sprite();
+    var g = glint.graphics;
+    g.moveTo(glass.width/2,0);
+    g.lineStyle(1, 0xCCCCCC);
+    g.lineTo(glass.width/2,glass.height);
+    glass.addChild(glint);
+    glass.filters = [new BlurFilter(5, 5)];
 
     bg = new MovieClip();
     blurFilter = new BlurFilter(0,0);
