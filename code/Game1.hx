@@ -26,6 +26,7 @@ import feffects.easing.Sine;
 class ClockFont extends flash.text.Font {}
 
 class BorderClip extends MovieClip {}
+class GlassLayer extends MovieClip {}
 
 class BG0000 extends MovieClip {}
 class BG0001 extends MovieClip {}
@@ -156,6 +157,8 @@ class Game1
     starfield = new StarField(800,575);
     parent.addChild(starfield);
 #end
+
+    parent.addChild(new GlassLayer());
 
     bg = new MovieClip();
     blurFilter = new BlurFilter(0,0);
