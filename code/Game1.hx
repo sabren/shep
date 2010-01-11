@@ -80,59 +80,59 @@ class Game1
 {
 
   // config
-  static var timeLimit = 120;
-  static var blurAmount : Int = 10;
-  static var spinnerVelocity :Float= 0.05;
-  static var spinnerTorque :Float = 0.05;
-  static var border = 25;
+  private static var timeLimit = 120;
+  private static var blurAmount : Int = 10;
+  private static var spinnerVelocity :Float= 0.05;
+  private static var spinnerTorque :Float = 0.05;
+  private static var border = 25;
 
-  var world : phx.World;
-  var parent : Sprite;
+  private var world : phx.World;
+  private var parent : Sprite;
 
-  var floatyWall : phx.Material;
-  var bouncyWall : phx.Material;
-  var fuseMaterial : phx.Material;
-  var shepMaterial : phx.Material;
+  private var floatyWall : phx.Material;
+  private var bouncyWall : phx.Material;
+  private var fuseMaterial : phx.Material;
+  private var shepMaterial : phx.Material;
 
-  var pockets : Array<Pocket>;
-  var cuebot : phx.Body;
+  private var pockets : Array<Pocket>;
+  private var cuebot : phx.Body;
 
-  var done : Bool;
-  var paused: Bool;
-  var keyboardControl: Bool;
+  private var done : Bool;
+  private var paused: Bool;
+  private var keyboardControl: Bool;
 
-  var loader : URLLoader;
-  var svg : Xml;
+  private var loader : URLLoader;
+  private var svg : Xml;
 
-  var clock:FlashClock;
-  var clockText:TextField;
+  private var clock:FlashClock;
+  private var clockText:TextField;
 
-  var physaxeLayer : MovieClip;
-  var redGlow : GlowFilter;
-  var cyanGlow : GlowFilter;
+  private var physaxeLayer : MovieClip;
+  private var redGlow : GlowFilter;
+  private var cyanGlow : GlowFilter;
 
-  var currentLevel : Int;
-  var bg : MovieClip;
-  var mg : MovieClip;
-  var fg : MovieClip;
-  var blurFilter : BlurFilter;
+  private var currentLevel : Int;
+  private var bg : MovieClip;
+  private var mg : MovieClip;
+  private var fg : MovieClip;
+  private var blurFilter : BlurFilter;
 
-  var shepClip : MovieClip;
-  var glowClip : MovieClip;
-  var showPhysics : Bool;
-  var smallballs : Array<BodyClip>;
-  var doors : Array<BodyClip>;
-  var spinners : Array<BodyClip>;
-  var floaters : Array<BodyClip>;
-  var starfield : StarField;
+  private var shepClip : MovieClip;
+  private var glowClip : MovieClip;
+  private var showPhysics : Bool;
+  private var smallballs : Array<BodyClip>;
+  private var doors : Array<BodyClip>;
+  private var spinners : Array<BodyClip>;
+  private var floaters : Array<BodyClip>;
 
+  public var starfield : StarField;
   public var winCallback : Float -> Void;
   public var loseCallback : Void -> Void;
 
-  var sound:SoundManager;
-  var muteButton:MovieClip;
+  private var sound:SoundManager;
+  private var muteButton:MovieClip;
 
-  public function new(parent:Sprite) {
+  private function new(parent:Sprite) {
 
     this.parent = parent;
 
@@ -158,16 +158,22 @@ class Game1
     parent.addChild(starfield);
 #end
 
-    var glass = new GlassLayer();
-    parent.addChild(glass);
-    var glint = new Sprite();
-    var g = glint.graphics;
-    g.moveTo(glass.width/2,0);
-    g.lineStyle(1, 0xCCCCCC);
-    g.lineTo(glass.width/2,glass.height);
-    glass.addChild(glint);
-    glass.filters = [new BlurFilter(5, 5)];
+    //var glass = new GlassLayer();
+    //parent.addChild(glass);
 
+    /*
+      var glint = new Sprite();
+      var g = glint.graphics;
+      g.moveTo(glass.width/2,0);
+      g.lineStyle(3, 0x999999);
+      g.lineTo(glass.width/2,glass.height);
+      g.moveTo(glass.width/2,0);
+      g.lineStyle(1, 0xCCCCCC);
+      g.lineTo(glass.width/2,glass.height);
+      glass.addChild(glint);
+      glass.filters = [new BlurFilter(15, 0)];
+    */
+      
     bg = new MovieClip();
     blurFilter = new BlurFilter(0,0);
     bg.filters = [blurFilter];
@@ -231,7 +237,7 @@ class Game1
     // nothing below here should edit the world!
   }
 
-  public function onEnterFrame(e) {
+  private function onEnterFrame(e) {
     if (! (done || paused)) {
 
       updateWorld();
@@ -248,7 +254,7 @@ class Game1
 
 
   var lastText:String;
-  public function updateClock() {
+  private function updateClock() {
     clockText.text = clock.toString();
 
     var secs = clock.timeCount;
@@ -281,7 +287,7 @@ class Game1
     lastText = clockText.text;
   }
 
-  public function resetWorld(level:Int) {
+  private function resetWorld(level:Int) {
 
     done = true;
     
@@ -510,7 +516,7 @@ class Game1
 
 
 
-  public function shepClipVector() {
+  private function shepClipVector() {
     return rad2vec(deg2rad(shepClip.rotation-90));
   }
 
@@ -559,7 +565,7 @@ class Game1
   }
 
 
-  public function onKeyDown(e) {
+  private function onKeyDown(e) {
 
     switch(e.keyCode) {
     case 66: // b
@@ -604,7 +610,7 @@ class Game1
     }
   }
 
-  public function onClick(e) {
+  private function onClick(e) {
     if (! (done || paused)) {
       kick(cuebot, calcVector(50));
       sound.thrust();
@@ -616,13 +622,13 @@ class Game1
     }
   }
 
-  public function onMuteButton(e) {
+  private function onMuteButton(e) {
     sound.toggle();
     drawMuteButton();
   }
 
   
-  public function drawMuteButton() {
+  private function drawMuteButton() {
     clearClip(muteButton);
     if (sound.muted) {
       muteButton.addChild(new MuteIcon());
@@ -631,14 +637,14 @@ class Game1
     }
   }
 
-  public function kick(body:phx.Body, howHard:phx.Vector) {
+  private function kick(body:phx.Body, howHard:phx.Vector) {
     var oldv = body.v;
     body.setSpeed(oldv.x + howHard.x, oldv.y + howHard.y);
     world.activate(body);
   }
 
 
-  public function loadLevel(which:Int) {
+  private function loadLevel(which:Int) {
     currentLevel = which;
 
 #if FLEX_WRAP
@@ -687,7 +693,7 @@ class Game1
   }
 
 
-  public function addPocket(cx:Float, cy:Float, ?code:Int) {
+  private function addPocket(cx:Float, cy:Float, ?code:Int) {
     // the zone is really just here for debugging purposes
     // it also makes the pocket look like a square so it's
     // easier to distingquish from the small balls
@@ -720,7 +726,7 @@ class Game1
     return pocket;
   }
 
-  public function addPolyXml(poly:Xml) {
+  private function addPolyXml(poly:Xml) {
       var points = StringTools.trim(poly.get("points"));
       var vertices:Array<phx.Vector> = [];
 
@@ -773,7 +779,7 @@ class Game1
   }
   
 
-  public function findCenter(vertices:Array<phx.Vector>) {
+  private function findCenter(vertices:Array<phx.Vector>) {
     var avg = new phx.Vector(0,0);
     for (v in vertices) {
       avg = avg.plus(v);
@@ -781,14 +787,14 @@ class Game1
     return avg.mult(1 / vertices.length);
   }
 
-  public function addBodyClip(body, clip) : BodyClip {
+  private function addBodyClip(body, clip) : BodyClip {
     var bc = new BodyClip(body, clip);
     world.addBody(body);
     mg.addChild(clip);
     return bc;
   }
 
-  public function addSpinner(cx:Float, cy:Float, w:Float, h:Float) {
+  private function addSpinner(cx:Float, cy:Float, w:Float, h:Float) {
 
     var sc = centerClip(new SpinnerClip());
     sc.x = cx; sc.y = cy;
@@ -804,7 +810,7 @@ class Game1
     spinners.push(addBodyClip(body, sc));
   }
 
-  public function addDoor(shape:phx.Shape, clip:MovieClip, cx, cy) {
+  private function addDoor(shape:phx.Shape, clip:MovieClip, cx, cy) {
     var body = new phx.Body(0, 0);
     body.addShape(shape);
     clip.x = cx; clip.y = cy;
@@ -812,11 +818,11 @@ class Game1
     doors.push(addBodyClip(body, clip));
   }
 
-  public function onSVGRequest(e:Event) {
+  private function onSVGRequest(e:Event) {
     parseSVG(loader.data);
   }
 
-  public function parseSVG(xml_text:String) {
+  private function parseSVG(xml_text:String) {
     svg = Xml.parse(xml_text).firstElement();
 
     // trace("level loaded.");
@@ -907,7 +913,7 @@ class Game1
 
 
 
-  public function offsetClip(clip:MovieClip, x:Float, y:Float):MovieClip {
+  private function offsetClip(clip:MovieClip, x:Float, y:Float):MovieClip {
     var holder = new MovieClip();
     holder.addChild(clip);
     clip.x = x;
@@ -915,12 +921,12 @@ class Game1
     return holder;
   }
 
-  public function centerClip(clip):MovieClip {
+  private function centerClip(clip):MovieClip {
     return offsetClip(clip, -clip.width/2, -clip.height/2);
   }
 
 
-  static function main() {
+  public static function main() {
 #if !FLEX_WRAP
     var parent = flash.Lib.current;
     var game = new Game1(parent);
@@ -963,7 +969,7 @@ class Game1
 
   // these talk back to flex:
 
-  function onWin() {
+  public function onWin() {
     done = true;
     sound.victory();
     if (winCallback != null) {
@@ -973,7 +979,7 @@ class Game1
     }
   }
 
-  function onLoss() {
+  public function onLoss() {
     done = true;
     sound.defeat();
     if (loseCallback != null) {

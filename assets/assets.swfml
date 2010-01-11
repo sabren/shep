@@ -24,8 +24,6 @@
 
       <clip id="BorderClip" class="BorderClip" import="assets/blank_overlay.png"/>
       
-      <clip id="GlassLayer" class="GlassLayer" import="assets/glassbg.png"/>
-
       <clip id="BG0000" class="BG0000" import="assets/bg0000.png"/>
       <clip id="BG0001" class="BG0001" import="assets/bg0001.png"/>
       <clip id="BG0002" class="BG0002" import="assets/bg0002.png"/>
