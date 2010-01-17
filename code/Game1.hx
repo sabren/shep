@@ -479,12 +479,12 @@ class Game1
       } else {
 	sound.wall();
 	var c = arb.contacts;
-	var shiftX = -Math.floor((c.px - cuebot.x) / 2);
-	new Tween( shiftX, 0, 500, bg, "x", null ).start();
-	new Tween( shiftX, 0, 500, blurFilter, "blurX", null ).start();
-	var shiftY = -Math.floor((c.py - cuebot.y) / 2);
-	new Tween( shiftY, 0, 500, bg, "y", null ).start();
-	new Tween( shiftY, 0, 500, blurFilter, "blurY", null ).start();
+	var shiftX = -Math.floor((c.px - cuebot.x) / 2.5);
+	new Tween( shiftX, 0, 600, bg, "x", null ).start();
+	new Tween( shiftX, 0, 600, blurFilter, "blurX", null ).start();
+	var shiftY = -Math.floor((c.py - cuebot.y) / 2.5);
+	new Tween( shiftY, 0, 600, bg, "y", null ).start();
+	new Tween( shiftY, 0, 600, blurFilter, "blurY", null ).start();
 	break; // only play one sound
       }
     }
