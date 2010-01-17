@@ -24,44 +24,8 @@ import flash.text.TextFormat;
 import flash.ui.Keyboard;
 import flash.utils.SetIntervalTimer;
 
-class ClockFont extends flash.text.Font {}
+import Assets;
 
-class BorderClip extends MovieClip {}
-class GlassLayer extends MovieClip {}
-
-class BG0000 extends MovieClip {}
-class BG0001 extends MovieClip {}
-class BG0002 extends MovieClip {}
-class BG0003 extends MovieClip {}
-class BG0004 extends MovieClip {}
-class BG0005 extends MovieClip {}
-class BG0006 extends MovieClip {}
-class BG0007 extends MovieClip {}
-class BG0009 extends MovieClip {}
-
-class FG0000 extends MovieClip {}
-class FG0001 extends MovieClip {}
-class FG0002 extends MovieClip {}
-class FG0003 extends MovieClip {}
-class FG0004 extends MovieClip {}
-class FG0005 extends MovieClip {}
-class FG0006 extends MovieClip {}
-class FG0007 extends MovieClip {}
-class FG0009 extends MovieClip {}
-
-class ShepClip extends MovieClip {}
-class GlowClip extends MovieClip {}
-class BallClip extends MovieClip {}
-class PocketClip extends MovieClip {}
-class DoorClip extends MovieClip {}
-class SpinnerClip extends MovieClip {}
-class RedBallClip extends MovieClip {}
-class RedPocketClip extends MovieClip {}
-class CargoClip extends MovieClip {}
-class CrateClip extends MovieClip {}
-
-class SoundIcon extends MovieClip {}
-class MuteIcon extends MovieClip {}
 
 class BodyClip {
   public var clip : MovieClip;
@@ -264,8 +228,10 @@ class Game1
       var v = (1 + Math.sin(clock.timeLeft()*5)) * 0.40;
       var ct = new flash.geom.ColorTransform(0.25+v, 0, 0);
       bg.transform.colorTransform = ct;
-      mg.transform.colorTransform = new flash.geom.ColorTransform(1+v, 0.75, 0.75);
-      fg.transform.colorTransform = new flash.geom.ColorTransform(0.75+v, 0.5, 0.5);
+      mg.transform.colorTransform = 
+	new flash.geom.ColorTransform(1+v, 0.75, 0.75);
+      fg.transform.colorTransform = 
+	new flash.geom.ColorTransform(0.75+v, 0.5, 0.5);
 
       if (clockText.text != lastText) {
 	if (secs <= 5) {
@@ -288,6 +254,13 @@ class Game1
     lastText = clockText.text;
   }
 
+
+  private function newEmptyWorld():phx.World {
+    var broadphase = new phx.col.SortedList();
+    var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
+    return new phx.World(boundary, broadphase);
+  }
+
   private function resetWorld(level:Int) {
 
     done = true;
@@ -297,9 +270,7 @@ class Game1
     mg.transform.colorTransform = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
     fg.transform.colorTransform = new flash.geom.ColorTransform(1.00, 1.0, 1.0);
  
-    var broadphase = new phx.col.SortedList();
-    var boundary = new phx.col.AABB(-2000, -2000, 2000, 2000);
-    world = new phx.World(boundary, broadphase);
+    world = newEmptyWorld();
 
     clearClip(mg);
 
@@ -319,19 +290,19 @@ class Game1
     var h = 575;
     var b = border;
     
-    addWall(phx.Shape.makeBox(w, b, 0, 0)); // top
-    addWall(phx.Shape.makeBox(b, h-(2*b), 0, b)); // left
-    addWall(phx.Shape.makeBox(b, h-(2*b), w-b, b)); // right
-    addWall(phx.Shape.makeBox(w, b, 0, h-b)); // bottom
+    addWall(world, phx.Shape.makeBox(w, b, 0, 0)); // top
+    addWall(world, phx.Shape.makeBox(b, h-(2*b), 0, b)); // left
+    addWall(world, phx.Shape.makeBox(b, h-(2*b), w-b, b)); // right
+    addWall(world, phx.Shape.makeBox(w, b, 0, h-b)); // bottom
     
     try { haxe.Log.clear(); } catch (e:Dynamic){}
     loadLevel(level);
 
   }
 
-  function addWall(shape:phx.Shape, ?mat):Void {
+  function addWall(room:phx.World, shape:phx.Shape, ?mat):Void {
     shape.material = (mat != null) ? mat : bouncyWall;
-    world.addStaticShape(shape);
+    room.addStaticShape(shape);
   }
 
   function updateWorld() {
@@ -414,6 +385,34 @@ class Game1
     if (clock.timeCount <= 0) {
       onLoss();
     }
+  }
+
+
+  function drawPreview(level:Int):MovieClip {
+    var room = newEmptyWorld();
+    var roomClip = new MovieClip();
+    parseSVG(roomClip, room, getPackedSVG(level));
+    room.step(1, 25);
+    
+    var preview = new MovieClip();
+    var g = preview.graphics;
+    g.beginFill(0);
+    g.moveTo(0,0);
+    g.lineTo(800, 0);
+    g.lineTo(800, 575);
+    g.lineTo(0, 575);
+    g.lineTo(0, 0);
+    g.endFill();
+    
+    var fd = new phx.FlashDraw(preview.graphics);
+    fd.staticShape.fill = 0x00FF00;
+    fd.drawWorld(room);
+    
+    preview.scaleX = 0.33;
+    preview.scaleY = 0.33;
+    preview.x = 100;
+    preview.y = 100;
+    return preview;
   }
 
   function drawWorld() {
@@ -590,7 +589,13 @@ class Game1
       clock.startTimer(10);
 
     case 84: // t
-      bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
+      bg.transform.colorTransform = 
+	new flash.geom.ColorTransform(Math.random(), 
+				      Math.random(), 
+				      Math.random());
+    case 88: // x
+      fg.addChild(drawPreview(currentLevel));
+
     case 48,49,50,51,52,53,54,55,56,57:
       startLevel(e.keyCode - 48);
     default:
@@ -646,23 +651,29 @@ class Game1
   }
 
 
+
+  private function getPackedSVG(which:Int):String {
+    switch (which) {
+    case 0: return LevelPack.svg0000;
+    case 1: return LevelPack.svg0001;
+    case 2: return LevelPack.svg0002;
+    case 3: return LevelPack.svg0003;
+    case 4: return LevelPack.svg0004;
+    case 5: return LevelPack.svg0005;
+    case 6: return LevelPack.svg0006;
+    case 7: return LevelPack.svg0007;
+    case 8: return LevelPack.svg0008;
+    case 9: return LevelPack.svg0009;
+    default:
+      return "";
+    }
+  }
+
   private function loadLevel(which:Int) {
     currentLevel = which;
 
 #if FLEX_WRAP
-    switch (which) {
-    case 0: parseSVG(LevelPack.svg0000);
-    case 1: parseSVG(LevelPack.svg0001);
-    case 2: parseSVG(LevelPack.svg0002);
-    case 3: parseSVG(LevelPack.svg0003);
-    case 4: parseSVG(LevelPack.svg0004);
-    case 5: parseSVG(LevelPack.svg0005);
-    case 6: parseSVG(LevelPack.svg0006);
-    case 7: parseSVG(LevelPack.svg0007);
-    case 8: parseSVG(LevelPack.svg0008);
-    case 9: parseSVG(LevelPack.svg0009);
-    default:
-    }
+    parseSVG(mg, world, getPackedSVG(which);
 #else
     var url = "levels/000" + which + ".svg";
     loader = new URLLoader(new URLRequest(url));
@@ -695,20 +706,21 @@ class Game1
   }
 
 
-  private function addPocket(cx:Float, cy:Float, ?code:Int) {
+  private function addPocket(clip:MovieClip, room:phx.World, 
+			     cx:Float, cy:Float, ?code:Int) {
     // the zone is really just here for debugging purposes
     // it also makes the pocket look like a square so it's
     // easier to distingquish from the small balls
     var zone = new phx.Body(0, 0);
     zone.addShape(phx.Shape.makeBox(60, 60, cx-30, cy-30, 
 				    new phx.Material(0,0,0)));
-    world.addBody(zone);
+    room.addBody(zone);
     
     var pocket = new Pocket(cx, cy);
     pocket.code = code;
     pocket.addShape(new phx.Circle(15, new phx.Vector(0, 0),
 				   bouncyWall));
-    world.addBody(pocket);
+    room.addBody(pocket);
     var pclip:MovieClip;
 
     if (code > 0) {
@@ -723,12 +735,12 @@ class Game1
     pclip.y = cy;
 
 
-    mg.addChild(pclip);
+    clip.addChild(pclip);
     pockets.push(pocket);
     return pocket;
   }
 
-  private function addPolyXml(poly:Xml) {
+  private function addPolyXml(roomClip:MovieClip, room:phx.World, poly:Xml) {
       var points = StringTools.trim(poly.get("points"));
       var vertices:Array<phx.Vector> = [];
 
@@ -740,8 +752,6 @@ class Game1
 	  var y = Std.parseFloat(xy[1]);
 	  vertices.push(new phx.Vector(x, y));
 	}
-
-
 
 	// transpose points to origin = center
 	var c = findCenter(vertices);
@@ -771,11 +781,11 @@ class Game1
 	    clip = centerClip(new CrateClip());
 	  }
 	  clip.x = c.x; clip.y = c.y;
-	  floaters.push(addBodyClip(b, clip));
+	  floaters.push(addBodyClip(roomClip, room, b, clip));
 
 	} else {
-	  world.addBody(b);
-	  world.activate(b);
+	  room.addBody(b);
+	  room.activate(b);
 	}
       }
   }
@@ -789,14 +799,16 @@ class Game1
     return avg.mult(1 / vertices.length);
   }
 
-  private function addBodyClip(body, clip) : BodyClip {
+  private function addBodyClip(roomClip:MovieClip, room:phx.World, 
+			       body, clip) : BodyClip {
     var bc = new BodyClip(body, clip);
-    world.addBody(body);
-    mg.addChild(clip);
+    room.addBody(body);
+    roomClip.addChild(clip);
     return bc;
   }
 
-  private function addSpinner(cx:Float, cy:Float, w:Float, h:Float) {
+  private function addSpinner(roomClip:MovieClip, room:phx.World, 
+			      cx:Float, cy:Float, w:Float, h:Float) {
 
     var sc = centerClip(new SpinnerClip());
     sc.x = cx; sc.y = cy;
@@ -809,22 +821,23 @@ class Game1
       body.a = deg2rad(-90);
     }
 
-    spinners.push(addBodyClip(body, sc));
+    spinners.push(addBodyClip(roomClip, room, body, sc));
   }
 
-  private function addDoor(shape:phx.Shape, clip:MovieClip, cx, cy) {
+  private function addDoor(roomClip:MovieClip, room:phx.World,
+			   shape:phx.Shape, clip:MovieClip, cx, cy) {
     var body = new phx.Body(0, 0);
     body.addShape(shape);
     clip.x = cx; clip.y = cy;
     clip.filters = [redGlow];
-    doors.push(addBodyClip(body, clip));
+    doors.push(addBodyClip(roomClip, room, body, clip));
   }
 
   private function onSVGRequest(e:Event) {
-    parseSVG(loader.data);
+    parseSVG(mg, world, loader.data);
   }
 
-  private function parseSVG(xml_text:String) {
+  private function parseSVG(roomClip:MovieClip, room:phx.World, xml_text:String) {
     svg = Xml.parse(xml_text).firstElement();
 
     // trace("level loaded.");
@@ -852,24 +865,24 @@ class Game1
       
       var fill = rect.get("fill");
       if (fill == green) {
-	addPocket(cx, cy);
+	addPocket(roomClip, room, cx, cy);
 
       } else if (fill == cyan) {
-	addPocket(cx, cy, 1);
+	addPocket(roomClip, room, cx, cy, 1);
 
       } else if (fill == darkCyan) {
-	addDoor(shape, new DoorClip(), x, y);
+	addDoor(roomClip, room, shape, new DoorClip(), x, y);
 
       } else if (fill == blue) {
-	addSpinner(cx, cy, w, h);
+	addSpinner(roomClip, room, cx, cy, w, h);
 
       } else {
-	addWall(shape);
+	addWall(room, shape);
       }
     }
 
     for (poly in svg.elementsNamed("polygon")) {
-      addPolyXml(poly);
+      addPolyXml(roomClip, room, poly);
     }
 
     smallballs = [];
@@ -888,7 +901,7 @@ class Game1
 	var smallball = new phx.Body(cx, cy);
 	smallball.addShape(new phx.Circle(15, new phx.Vector(0, 0), 
 					  fuseMaterial));
-	world.addBody(smallball);
+	room.addBody(smallball);
 	var bodyclip:BodyClip;
     
 	if (circ.get("fill") != red) {
@@ -901,12 +914,12 @@ class Game1
 	}
 
 	smallballs.push(bodyclip);
-	mg.addChild(bodyclip.clip);
+	roomClip.addChild(bodyclip.clip);
       } 
     } // circles
 
     // shep is at the very end so he goes on top
-    mg.addChild(shepClip);
+    roomClip.addChild(shepClip);
 
     clock.startTimer(timeLimit);
     done = false;
