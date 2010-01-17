@@ -406,10 +406,10 @@ class Game1
     */
     
     var fd = new phx.FlashDraw(preview.graphics);
-    fd.staticShape.fill = 0x339933;
-    fd.staticShape.line = 0x006600;
-    fd.shape.fill = 0x339933;
-    fd.shape.line = 0x006600;
+    fd.staticShape.fill = 0x000000;
+    fd.staticShape.line = 0xffffff;
+    fd.shape.fill = 0x000000;
+    fd.shape.line = 0xffffff;
     fd.drawWorld(room);
     
     preview.scaleX = 0.33;
