@@ -191,14 +191,25 @@ class Game1
     parent.addChild(muteButton);    
 
     done = true;
+
+#if FLEX_WRAP
+    // @TODO: this is a kludge:
+    cuebot = new phx.Body(10, 10);
+    cuebot.addShape(new phx.Circle(20, new phx.Vector(0, 0), shepMaterial));
+    shepClip = new MovieClip();
+    world = newEmptyWorld();
+    world.addBody(cuebot);
+#else
     startLevel(1);
+#end
 
     // save this to the end so world is ready to go for first frame event
     parent.addEventListener(Event.ENTER_FRAME, onEnterFrame);
     muteButton.addEventListener(MouseEvent.MOUSE_DOWN, onMuteButton);
     parent.addEventListener(MouseEvent.MOUSE_DOWN, onClick);
     if (flash.Lib.current.stage != null)
-      flash.Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown );
+      flash.Lib.current.stage.addEventListener(KeyboardEvent.KEY_DOWN, 
+					       onKeyDown);
     // nothing below here should edit the world!
   }
 
