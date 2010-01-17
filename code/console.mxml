@@ -218,19 +218,22 @@
   private function showLevelInfo(ord:int):void {
   	var level:int = ordLevel(ord);
   	var raw:Object = gameCanvas.game.raw_score(level);
+  	var c:mx.core.IChildList = previewCanvas.rawChildren;
+    while (c.numChildren > 0) {
+      c.removeChildAt(0);
+    }
+
   	if (raw == null) {
   		bestTime.text = "";
   	} else {
   		bestTime.text = "Best Time: " + raw + " seconds"
   	}
-  	
-  	var c:mx.core.IChildList = previewCanvas.rawChildren;
-    while (c.numChildren > 0) {
-      c.removeChildAt(0);
-    }
-    var pre:MovieClip = gameCanvas.game.drawPreview(level);
-    pre.alpha = 0.75;
-  	c.addChild(pre);
+
+	if (this["level" + ord].enabled) { 
+    	var pre:MovieClip = gameCanvas.game.drawPreview(level);
+    	pre.alpha = 0.75;
+  		c.addChild(pre);
+	}
   }
   
   private function goToURL(url:String):void {
