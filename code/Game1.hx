@@ -1,27 +1,28 @@
 
-import flash.geom.ColorTransform;
-import flash.events.Event;
-import flash.display.MovieClip;
-import flash.display.Sprite;
-import flash.events.MouseEvent;
-import flash.events.KeyboardEvent;
-import flash.filters.GlowFilter;
-import flash.filters.BlurFilter;
-import flash.filters.DropShadowFilter;
-import flash.ui.Keyboard;
-import flash.text.TextFormat;
-import flash.text.TextField;
-import flash.text.TextFieldAutoSize;
-import flash.text.TextFieldType;
-import flash.text.AntiAliasType;
-import flash.utils.SetIntervalTimer;
-import flash.media.Sound;
-import flash.net.URLLoader;
-import flash.net.URLRequest;
 import feffects.Tween;
 import feffects.easing.Bounce;
 import feffects.easing.Linear;
 import feffects.easing.Sine;
+import flash.display.MovieClip;
+import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.KeyboardEvent;
+import flash.events.MouseEvent;
+import flash.filters.BlurFilter;
+import flash.filters.DropShadowFilter;
+import flash.filters.GlowFilter;
+import flash.geom.ColorTransform;
+import flash.media.Sound;
+import flash.net.SharedObject;
+import flash.net.URLLoader;
+import flash.net.URLRequest;
+import flash.text.AntiAliasType;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFieldType;
+import flash.text.TextFormat;
+import flash.ui.Keyboard;
+import flash.utils.SetIntervalTimer;
 
 class ClockFont extends flash.text.Font {}
 
@@ -622,9 +623,10 @@ class Game1
     }
   }
 
-  private function onMuteButton(e) {
+  private function onMuteButton(e:Event) {
     sound.toggle();
     drawMuteButton();
+    e.stopPropagation();
   }
 
   
@@ -969,16 +971,6 @@ class Game1
 
   // these talk back to flex:
 
-  public function onWin() {
-    done = true;
-    sound.victory();
-    if (winCallback != null) {
-      winCallback(clock.timeCount);
-    } else {
-      // trace("you won!");
-    }
-  }
-
   public function onLoss() {
     done = true;
     sound.defeat();
@@ -987,6 +979,59 @@ class Game1
     } else {
       // trace("time ran out!");
     }
+  }
+
+  public function onWin() {
+    done = true;
+    sound.victory();
+    updateHighScores();
+    if (winCallback != null) {
+      winCallback(clock.timeCount);
+    } else {
+      // trace("you won!");
+    }
+  }
+
+
+  // shared object stuff:
+
+  private function updateHighScores():Void {
+
+    var score = clock.timeCount;
+    
+    trace("beat level "+ currentLevel + " with " 
+	  + clock.timeCount + " seconds to spare");
+    
+    var share = getSharedObject();
+    var raw_best = raw_score(currentLevel);
+    var save_score = false;
+    
+    var best:Int = -1;
+    if (raw_best == null) {
+      save_score=true;
+    } else {
+      best = cast raw_best;
+      if (score < best) {
+	save_score=true;
+	trace("new personal best!");
+      }
+      trace("previous best was: " + best);
+    }
+    
+    if (save_score) {
+      share.setProperty("level_" + currentLevel, score);
+      share.flush();
+    }
+
+  }
+
+  private function getSharedObject():SharedObject {
+    return SharedObject.getLocal("shep_scores");
+  }
+
+  public function raw_score(level:Int):Dynamic {
+    var field = "level_" + level;
+    return Reflect.field(getSharedObject().data, field);
   }
 
 }

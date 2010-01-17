@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"  xmlns:base="*"
-	layout="absolute" width="800" height="575" currentState="Title"
-	applicationComplete="init_shep()">
+	layout="absolute" width="800" height="575" 
+	currentState="Title" currentStateChange="onStateChange(event)"
+	applicationComplete="init_shep()" 
+	backgroundGradientAlphas="[1.0, 1.0]" backgroundGradientColors="[#000000, #000000]">
+    <mx:Style source="flex.css" />
 	<mx:states>
 		<mx:State name="Game">
 			<mx:SetProperty target="{gameCanvas}" name="visible" value="true"/>
@@ -53,34 +56,23 @@
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/level-select.png&quot;)"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="342" y="138" click="startLevel(1)" width="144" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="528" y="138" click="startLevel(2)" width="143" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" buttonMode="true" themeColor="#DDF6C7" alpha="0.0" fillColors="[#32922B, #32922B, #32922B, #32922B]"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="157" y="247" click="startLevel(3)" width="143" height="85" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="342" y="247" click="startLevel(4)" width="144" height="85" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="528" y="247" click="startLevel(5)" width="143" height="85" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="157" y="359" click="startLevel(6)" enabled="true" width="143" height="77" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="342" y="359" click="startLevel(7)" enabled="true" width="144" height="77" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="528" y="359" click="startLevel(9)" enabled="true" width="143" height="77" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="157" y="138" click="startLevel(0)" width="143" height="84" fillAlphas="[0.0, 0.0, 0.0, 0.0]" alpha="0.0" buttonMode="true"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
 				<mx:Button x="288.5" y="532" click="currentState=&quot;Title&quot;" fillAlphas="[0.0, 0.0, 0.0, 0.0]" color="#BDFF9D" alpha="0.0" buttonMode="true" width="248"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:VBox height="100%" top="75" left="15">
+				  <mx:Button id="level1" label="Level 1" click="startLevel(1)" mouseOver="showLevelInfo(1)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				  <mx:Button id="level2" label="Level 2" click="startLevel(2)" mouseOver="showLevelInfo(2)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				  <mx:Button id="level3" label="Level 3" click="startLevel(3)" mouseOver="showLevelInfo(3)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				  <mx:Button id="level4" label="Level 4" click="startLevel(4)" mouseOver="showLevelInfo(4)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				  <mx:Button id="level5" label="Level 5" click="startLevel(5)" mouseOver="showLevelInfo(5)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				  <mx:Button id="level6" label="Level 6" click="startLevel(6)" mouseOver="showLevelInfo(6)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				  <mx:Button id="level7" label="Level 7" click="startLevel(7)" mouseOver="showLevelInfo(7)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				  <mx:Button id="level8" label="Level 8" click="startLevel(8)" mouseOver="showLevelInfo(8)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				  <mx:Button id="level9" label="Level 9" click="startLevel(9)" mouseOver="showLevelInfo(9)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
+				</mx:VBox>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Label x="267" y="439" text="Best Time:" fontWeight="bold" fontSize="36" id="bestTime"/>
 			</mx:AddChild>
 
 		</mx:State>
@@ -152,6 +144,7 @@
 	
 <mx:Script>
 <![CDATA[
+	import mx.events.StateChangeEvent;
 	import flash.net.navigateToURL;
   [Bindable]
   public var backToWhere:String;
@@ -179,21 +172,48 @@
     gameCanvas.game.restart();
   }
 
-  private function startLevel(n:int):void {
+  private function startLevel(ord:int):void {
     currentState="Game";
-    gameCanvas.game.startLevel(n);
+    gameCanvas.game.startLevel(ordLevel(ord));
   }
   
   private function checkSite():Boolean {
   	if (this.loaderInfo == null) { return true; } 
 	var checkDomain:String = this.loaderInfo.url.toString();
 	if (  (checkDomain.indexOf("robocognito.com") >= 0)
+		||((checkDomain.indexOf("file://") >= 0) && (checkDomain.indexOf("trunk") >=0))
 		||(checkDomain.indexOf("flashgamelicense.com") >= 0)) {
 		return true;
 	} else {
 		currentState = "SiteLock";
 		return false;
 	}
+  }
+  
+  private function unlockLevels():void {
+    for (var i:int=0; i++<9;) {
+      var b:Button = this["level" + i];
+      var s:Object = gameCanvas.game.raw_score(ordLevel(i-1));
+      if (i == 1) {
+  	    b.enabled = true;
+  	  } else if (s == null) {
+  	  	b.enabled = false;
+  	  } else {
+  	    b.enabled = true;
+  	  }
+  	}
+  }
+  
+  
+  private function showLevelInfo(ord:int):void {
+  	var level:int = ordLevel(ord);
+  	var raw:Object = gameCanvas.game.raw_score(level);
+  	trace("in here");
+  	if (raw == null) {
+  		bestTime.text = "";
+  	} else {
+  		bestTime.text = "Best Time: " + raw + " seconds"
+  	}
   }
   
   private function goToURL(url:String):void {
@@ -211,6 +231,29 @@
 		gameCanvas.init(onWin, onLose, starCanvas);
 	}
   }
+  
+  
+  private function onStateChange(event:StateChangeEvent):void {
+  	if (event.newState == "LevelSelect") {
+  		unlockLevels();
+  	}
+  }
+  
+  private function ordLevel(ord:int): int {
+	switch(ord) {
+	case 1: return 0; // 0000.svg
+	case 2: return 1; // 0001.svg, etc 
+	case 3: return 3;
+	case 4: return 9;
+	case 5: return 4;
+	case 6: return 6;
+	case 7: return 7;
+	case 8: return 5;
+	case 9: return 2;
+	default: return 0;
+	}
+  }
+
 ]]>
 </mx:Script>
 </mx:Application>
