@@ -56,7 +56,7 @@
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/level-select.png&quot;)"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="288.5" y="532" click="currentState=&quot;Title&quot;" fillAlphas="[0.0, 0.0, 0.0, 0.0]" color="#BDFF9D" alpha="0.0" buttonMode="true" width="248"/>
+				<mx:Button x="276" y="532" click="currentState=&quot;Title&quot;" buttonMode="true" width="248" styleName="levelButton" label="Return to Title" height="33"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
 				<mx:VBox height="100%" top="75" left="15">
@@ -72,7 +72,17 @@
 				</mx:VBox>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Label x="267" y="439" text="Best Time:" fontWeight="bold" fontSize="36" id="bestTime"/>
+				<mx:Label x="354" y="409" text="Best Time:" id="bestTime" styleName="darkText"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Canvas id="previewCanvas" x="354" y="113" width="275" height="191">
+				</mx:Canvas>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Label x="207" y="10" text="Intari Asteroid Mining Ship" styleName="levelButton"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Label x="313" y="36" text="&quot;Om-Nom-Nom&quot;" styleName="levelButton"/>
 			</mx:AddChild>
 
 		</mx:State>
@@ -208,12 +218,19 @@
   private function showLevelInfo(ord:int):void {
   	var level:int = ordLevel(ord);
   	var raw:Object = gameCanvas.game.raw_score(level);
-  	trace("in here");
   	if (raw == null) {
   		bestTime.text = "";
   	} else {
   		bestTime.text = "Best Time: " + raw + " seconds"
   	}
+  	
+  	var c:mx.core.IChildList = previewCanvas.rawChildren;
+    while (c.numChildren > 0) {
+      c.removeChildAt(0);
+    }
+    var pre:MovieClip = gameCanvas.game.drawPreview(level);
+    pre.alpha = 0.75;
+  	c.addChild(pre);
   }
   
   private function goToURL(url:String):void {

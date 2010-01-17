@@ -388,30 +388,34 @@ class Game1
   }
 
 
-  function drawPreview(level:Int):MovieClip {
+  public function drawPreview(level:Int):MovieClip {
     var room = newEmptyWorld();
     var roomClip = new MovieClip();
     parseSVG(roomClip, room, getPackedSVG(level));
     room.step(1, 25);
     
     var preview = new MovieClip();
-    var g = preview.graphics;
-    g.beginFill(0);
+
+    /*var g = preview.graphics;
+    g.lineStyle(1, 0x006600);
     g.moveTo(0,0);
     g.lineTo(800, 0);
     g.lineTo(800, 575);
     g.lineTo(0, 575);
     g.lineTo(0, 0);
-    g.endFill();
+    */
     
     var fd = new phx.FlashDraw(preview.graphics);
-    fd.staticShape.fill = 0x00FF00;
+    fd.staticShape.fill = 0x339933;
+    fd.staticShape.line = 0x006600;
+    fd.shape.fill = 0x339933;
+    fd.shape.line = 0x006600;
     fd.drawWorld(room);
     
     preview.scaleX = 0.33;
     preview.scaleY = 0.33;
-    preview.x = 100;
-    preview.y = 100;
+    //preview.x = 100;
+    //preview.y = 100;
     return preview;
   }
 
@@ -673,7 +677,7 @@ class Game1
     currentLevel = which;
 
 #if FLEX_WRAP
-    parseSVG(mg, world, getPackedSVG(which);
+    parseSVG(mg, world, getPackedSVG(which));
 #else
     var url = "levels/000" + which + ".svg";
     loader = new URLLoader(new URLRequest(url));
