@@ -47,8 +47,8 @@ class Game1
   // config
   private static var timeLimit = 120;
   private static var blurAmount : Int = 10;
-  private static var spinnerVelocity :Float= 0.05;
-  private static var spinnerTorque :Float = 0.05;
+  private static var spinnerVelocity :Float= 0.03;
+  private static var spinnerTorque :Float = 0.03;
   private static var border = 25;
 
   private var world : phx.World;
