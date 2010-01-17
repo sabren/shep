@@ -105,16 +105,16 @@ class Game1
     pockets = [];
     doors = [];
     floaters = [];
-
-    redGlow = new GlowFilter(0xFF0000, .8, 4, 4, 4);
-    cyanGlow = new GlowFilter(0x47f0ff, .8, 4, 4, 4);
+	//	GlowFilter(color:uint = 0xFF0000, alpha:Number = 1.0, blurX:Number = 6.0, blurY:Number = 6.0, strength:Number = 2, quality:int = 1, inner:Boolean = false, knockout:Boolean = false)
+    redGlow = new GlowFilter(0xFF0000, .5, 3, 3, 3);
+    cyanGlow = new GlowFilter(0x47f0ff, .5, 3, 3, 3);
 
 
     sound = new SoundManager();
-
-    // phx.Material(restitution, friction, density );
+//note to michal:  while researching the 'restitution' property, I came across this gem in wikipedia:  "A COR greater than one is theoretically possible, representing a collision that generates kinetic energy, such as land mines being thrown together and exploding."  This sounds like a game you could make in a day - landmineflinger!
+    // phx.Material(restitution, friction, density );  
     floatyWall = new phx.Material(0.5, 2, 100);
-    bouncyWall = new phx.Material(1, 2, Math.POSITIVE_INFINITY);
+    bouncyWall = new phx.Material(.9, 2, Math.POSITIVE_INFINITY);
     fuseMaterial = new phx.Material(0.5, 10, 15);
     shepMaterial = new phx.Material(0.5, 20, 20);
 
