@@ -396,20 +396,23 @@ class Game1
     
     var preview = new MovieClip();
 
-    /*var g = preview.graphics;
-    g.lineStyle(1, 0x006600);
+    var g = preview.graphics;
+    g.lineStyle(1, 0x000000);
+    g.beginFill(0xDDFFDD);
     g.moveTo(0,0);
     g.lineTo(800, 0);
     g.lineTo(800, 575);
     g.lineTo(0, 575);
     g.lineTo(0, 0);
-    */
+    g.endFill();
     
     var fd = new phx.FlashDraw(preview.graphics);
-    fd.staticShape.fill = 0x000000;
-    fd.staticShape.line = 0xffffff;
-    fd.shape.fill = 0x000000;
-    fd.shape.line = 0xffffff;
+    var fill = 0x042105;
+    var line = 0x8CE796;
+    fd.staticShape.fill = fill; 
+    fd.staticShape.line = line;
+    fd.shape.fill = fill;
+    fd.shape.line = line;
     fd.drawWorld(room);
     
     preview.scaleX = 0.33;
