@@ -451,20 +451,22 @@ class Game1
     g.clear();
     drawVector(g);
 
+    for (s in spinners) {
+      s.clip.rotation = rad2deg(s.body.a);
+    }
+
     for (b in smallballs) {
       b.clip.x = b.body.x;
       b.clip.y = b.body.y;
       b.clip.rotation = rad2deg(b.body.a);
-    }
-
-    for (s in spinners) {
-      s.clip.rotation = rad2deg(s.body.a);
+      makeBallSounds(b.body);
     }
 
     for (s in floaters) {
       s.clip.x = s.body.x;
       s.clip.y = s.body.y;
       s.clip.rotation = rad2deg(s.body.a);
+      makeFloatSounds(s.body);
     }
 
     for (arb in cuebot.arbiters) {
@@ -498,6 +500,43 @@ class Game1
     shepClip.x = cuebot.x;
     shepClip.y = cuebot.y;
     
+  }
+
+  
+  // @TODO: iterator
+  private function makeBallSounds(b:phx.Body) {
+    // this is all same as above
+    for (arb in b.arbiters) {
+      if (arb.sleeping) continue;
+      if (arb.contacts == null || (! arb.contacts.updated)) continue;
+      var other = (arb.s1.body == b) ? arb.s2 : arb.s1;
+      var otherClass = Type.getClass(other);
+
+      if (otherClass == phx.Circle) {
+
+	// only do s1 because the two balls share an arbiter
+	if (arb.s2.body == b) continue;
+
+	// ignore collisions with cuebot. it's handled elsewhere
+	if (arb.s2.body == cuebot) continue;
+
+	// still here, so:
+	sound.fuse();
+      } else { sound.fuse(); } // fuse on wall makes fuse sound
+    }
+  }
+
+  private function makeFloatSounds(b:phx.Body) {
+    // this is all same as above
+    for (arb in b.arbiters) {
+      if (arb.sleeping) continue;
+      if (arb.contacts == null || (! arb.contacts.updated)) continue;
+      var other = (arb.s1.body == b) ? arb.s2 : arb.s1;
+      var otherClass = Type.getClass(other);
+      if ((arb.s1.body == b) && (otherClass != phx.Circle)) {
+	  sound.wall();
+      }
+    }
   }
 
   function calcVector(r:Int) {
