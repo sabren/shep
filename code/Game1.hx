@@ -1044,6 +1044,7 @@ class Game1
   public function onLoss() {
     done = true;
     sound.defeat();
+    sound.pause(); // it should be done anyway, since it's 2:00, but...
     if (loseCallback != null) {
       loseCallback();
     } else {
@@ -1054,6 +1055,7 @@ class Game1
   public function onWin() {
     done = true;
     sound.victory();
+    sound.pause();
     updateHighScores();
     if (winCallback != null) {
       winCallback(clock.timeCount);
