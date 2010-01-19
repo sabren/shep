@@ -226,7 +226,8 @@
   	if (raw == null) {
   		bestTime.text = "";
   	} else {
-  		bestTime.text = "Best Time: " + raw + " seconds"
+  		var best:Number = 120 - (raw as Number);
+  		bestTime.text = "Best Time: " + best + " seconds"
   	}
 
 	if (this["level" + ord].enabled) { 

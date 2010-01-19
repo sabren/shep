@@ -86,5 +86,3 @@ class PocketClip extends MovieClip {
   }
 }
 
-
-class RedPocketClip extends PocketClip {}

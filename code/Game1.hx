@@ -1102,7 +1102,8 @@ class Game1
       save_score=true;
     } else {
       best = cast raw_best;
-      if (score < best) {
+      // we want > because it's seconds LEFT, so bigger is faster
+      if (score > best) {
 	save_score=true;
 	trace("new personal best!");
       }
