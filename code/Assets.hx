@@ -1,4 +1,5 @@
 ﻿import flash.display.MovieClip;
+import flash.events.Event;
 
 class Assets {}
 class ClockFont extends flash.text.Font {}
@@ -29,7 +30,6 @@ class FG0009 extends MovieClip {}
 class ShepClip extends MovieClip {}
 class GlowClip extends MovieClip {}
 class BallClip extends MovieClip {}
-class PocketClip extends MovieClip {}
 class DoorClip extends MovieClip {}
 class SpinnerClip extends MovieClip {}
 class RedBallClip extends MovieClip {}
@@ -39,3 +39,35 @@ class CrateClip extends MovieClip {}
 
 class SoundIcon extends MovieClip {}
 class MuteIcon extends MovieClip {}
+
+
+
+// Putting the stops in the animated swf
+// caused the game to lock up... I guess
+// haxe or swfmill couldn't handle it.
+// So, we do this instead:
+class PocketClip extends MovieClip {
+
+
+  static var HALF_OPENED:Int =  6;
+  static var FULLY_OPEN:Int = 11;
+  static var HALF_CLOSED:Int = 16;
+
+  public function new() {
+    super();
+    addEventListener(Event.ENTER_FRAME, onEnterFrame);
+  }
+
+  private function onEnterFrame(e) {
+    var frame = this.currentFrame;
+    switch (frame) {
+    case HALF_OPENED:
+      stop();
+    case FULLY_OPEN:
+      stop();
+    default: 
+      // do nothing
+    }
+  }
+
+}
