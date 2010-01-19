@@ -1,5 +1,6 @@
 ﻿import flash.display.MovieClip;
 import flash.events.Event;
+import flash.filters.GlowFilter;
 
 class Assets {}
 class ClockFont extends flash.text.Font {}
@@ -52,11 +53,15 @@ class PocketClip extends MovieClip {
   static var HALF_OPENED:Int =  6;
   static var FULLY_OPEN:Int = 11;
   static var HALF_CLOSED:Int = 16;
+  public var glow:MovieClip;
+  public var needFuses:Bool;
 
   public function new() {
     super();
-    addChild(new PocketGlow());
     addEventListener(Event.ENTER_FRAME, onEnterFrame);
+    glow = new PocketGlow();
+    needFuses = true;
+    addChild(glow);
   }
 
   public function swallow() {
@@ -64,14 +69,17 @@ class PocketClip extends MovieClip {
   }
 
   public function openWide() {
-    gotoAndPlay(HALF_OPENED+1);
+    needFuses = false;
+    gotoAndPlay(HALF_CLOSED);
   }
 
   private function onEnterFrame(e) {
+
     var frame = this.currentFrame;
     switch (frame) {
     case HALF_OPENED:
-      stop();
+      if (needFuses)
+	stop();
     case FULLY_OPEN:
       stop();
     default: 

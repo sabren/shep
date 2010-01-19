@@ -257,6 +257,7 @@ class Game1
       }
 
     }
+
     /* // we had level 9 as a disco level for a while :)
       else if (currentLevel == 9 && Math.ceil((tl * 10)) % 10 == 0) {
       bg.transform.colorTransform = new flash.geom.ColorTransform(Math.random(), Math.random(), Math.random());
