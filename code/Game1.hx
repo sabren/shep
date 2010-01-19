@@ -797,7 +797,7 @@ class Game1
       pclip.filters = [redGlow];
     } else {
       pclip = centerClip(new PocketClip());
-      pclip.filters = [cyanGlow];
+      //pclip.filters = [cyanGlow];
     }
 
     pclip.x = cx;

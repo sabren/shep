@@ -40,6 +40,7 @@ class SoundIcon extends MovieClip {}
 class MuteIcon extends MovieClip {}
 
 
+class PocketGlow extends MovieClip {}
 
 // Putting the stops in the animated swf
 // caused the game to lock up... I guess
@@ -54,6 +55,7 @@ class PocketClip extends MovieClip {
 
   public function new() {
     super();
+    addChild(new PocketGlow());
     addEventListener(Event.ENTER_FRAME, onEnterFrame);
   }
 
