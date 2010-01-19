@@ -521,8 +521,8 @@ class Game1
 	if (arb.s2.body == cuebot) continue;
 
 	// still here, so:
-	sound.fuse();
-      } else { sound.fuse(); } // fuse on wall makes fuse sound
+	sound.fuse(); // fuse on fuse
+      } else { sound.fusewall(); } // fuse on wall
     }
   }
 

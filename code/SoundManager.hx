@@ -3,6 +3,7 @@ import flash.media.SoundChannel;
 
 class FuseSound extends Sound {}
 class WallSound extends Sound {}
+class FuseWallSound extends Sound {}
 class DoorSound extends Sound {}
 class PocketSound extends Sound {}
 class AlertSound1 extends Sound {}
@@ -21,6 +22,7 @@ class SoundManager {
   private var _wall:Sound;
   private var _pocket:Sound;
   private var _fuse:Sound;
+  private var _fusewall:Sound;
   private var _door:Sound;
   private var _thrust:Sound;
   private var _victory:Sound;
@@ -40,6 +42,7 @@ class SoundManager {
     _wall = new WallSound();
     _pocket = new PocketSound();
     _fuse = new FuseSound();
+    _fusewall = new FuseWallSound();
     _door = new DoorSound();
     _thrust = new ThrustSound();
     _victory = new VictorySound();
@@ -99,6 +102,9 @@ class SoundManager {
   }
   public function fuse(){
     if (!muted) _fuse.play();
+  }
+  public function fusewall(){
+    if (!muted) _fusewall.play();
   }
   public function door(){
     if (!muted) _door.play();
