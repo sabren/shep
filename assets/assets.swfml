@@ -16,8 +16,8 @@
       <clip id="DoorClip" class="DoorClip" import="assets/door.png"/>
       <clip id="SpinnerClip" class="SpinnerClip" import="assets/spinner.png"/>
 
-      <clip id="BallClip" class="BallClip" import="assets/ball.png"/>
-      <clip id="RedBallClip" class="RedBallClip" import="assets/red-ball.png"/>
+      <clip id="BallClip" class="BallClip" import="assets/fuse-blue.swf"/>
+      <clip id="RedBallClip" class="RedBallClip" import="assets/fuse-red.swf"/>
 
       <clip id="PocketClip" class="PocketClip" import="assets/socket.swf"/>
       <clip id="PocketGlow" class="PocketGlow" import="assets/socket-glow.png"/>
