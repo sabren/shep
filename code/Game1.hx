@@ -687,7 +687,9 @@ class Game1
   }
 
   private function onClick(e) {
-    if (! (done || paused)) {
+    if ((e.stageX > muteButton.x) && (e.stageY >= muteButton.y)) {
+      return;
+    } else if (! (done || paused)) {
       kick(cuebot, calcVector(50));
       sound.thrust();
       var tween = new Tween( 1.0, 0, 1000, Sine.easeInOut );
