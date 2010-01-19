@@ -72,7 +72,7 @@
 				</mx:VBox>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Label x="354" y="409" text="Best Time:" id="bestTime" styleName="darkText"/>
+				<mx:Label x="354" y="409" text="" id="bestTime" styleName="darkText"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
 				<mx:Canvas id="previewCanvas" x="354" y="113" width="275" height="191">
@@ -224,7 +224,7 @@
     }
 
   	if (raw == null) {
-  		bestTime.text = "";
+  		bestTime.text = "No Best Time Yet!";
   	} else {
   		var best:Number = 120 - (raw as Number);
   		bestTime.text = "Best Time: " + best + " seconds"
