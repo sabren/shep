@@ -107,7 +107,7 @@ class Game1
     floaters = [];
 	//	GlowFilter(color:uint = 0xFF0000, alpha:Number = 1.0, blurX:Number = 6.0, blurY:Number = 6.0, strength:Number = 2, quality:int = 1, inner:Boolean = false, knockout:Boolean = false)
     redGlow = new GlowFilter(0xff1e0d, .3, 6, 6, 3);
-    cyanGlow = new GlowFilter(0x47f0ff, .5, 3, 3, 3);
+    cyanGlow = new GlowFilter(0x36a3cc, .5, 3, 3, 3);
 
 
     sound = new SoundManager();
@@ -806,7 +806,7 @@ class Game1
 	= new flash.geom.ColorTransform(0.95, 0, 0);
     } else {
       glow.transform.colorTransform
-	= new flash.geom.ColorTransform(0, 0.85, 0.85); 
+	= new flash.geom.ColorTransform(0, 0.65, 0.85); 
     }
 
     pclip.x = cx;
