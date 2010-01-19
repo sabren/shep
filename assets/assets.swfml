@@ -52,6 +52,8 @@
 	     import="assets/sound/fuse.mp3"/>
       <sound id="WallSound" name="WallSound"
 	     import="assets/sound/wall.mp3"/>
+      <sound id="FuseWallSound" name="FuseWallSound"
+	     import="assets/sound/glass-on-metal.mp3"/>
       <sound id="DoorSound" name="DoorSound"
 	     import="assets/sound/door.mp3"/>
       <sound id="PocketSound" name="PocketSound"
