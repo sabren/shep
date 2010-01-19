@@ -49,7 +49,6 @@ class PocketGlow extends MovieClip {}
 // So, we do this instead:
 class PocketClip extends MovieClip {
 
-
   static var HALF_OPENED:Int =  6;
   static var FULLY_OPEN:Int = 11;
   static var HALF_CLOSED:Int = 16;

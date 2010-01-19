@@ -21,7 +21,6 @@
 
       <clip id="PocketClip" class="PocketClip" import="assets/socket.swf"/>
       <clip id="PocketGlow" class="PocketGlow" import="assets/socket-glow.png"/>
-      <clip id="RedPocketClip" class="RedPocketClip" import="assets/red-pocket.png"/>
 
       <clip id="BorderClip" class="BorderClip" import="assets/blank_overlay.png"/>
       
