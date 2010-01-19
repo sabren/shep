@@ -59,9 +59,7 @@ class PocketClip extends MovieClip {
   public function new() {
     super();
     addEventListener(Event.ENTER_FRAME, onEnterFrame);
-    glow = new PocketGlow();
     needFuses = true;
-    addChild(glow);
   }
 
   public function swallow() {

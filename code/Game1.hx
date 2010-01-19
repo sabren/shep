@@ -793,12 +793,18 @@ class Game1
     room.addBody(pocket);
     var pclip:MovieClip;
 
+    pclip = centerClip(new PocketClip());
+
+    var glow = new PocketGlow();
+    pclip.addChild(centerClip(glow));
+
     if (code > 0) {
-      pclip = centerClip(new RedPocketClip());
-      pclip.filters = [redGlow];
+      // red:
+      glow.transform.colorTransform 
+	= new flash.geom.ColorTransform(0.95, 0, 0);
     } else {
-      pclip = centerClip(new PocketClip());
-      //pclip.filters = [cyanGlow];
+      glow.transform.colorTransform
+	= new flash.geom.ColorTransform(0, 0.95, 0.95); 
     }
 
     pclip.x = cx;
