@@ -56,10 +56,10 @@
 				<mx:Image x="0" y="0" source="@Embed(&quot;../assets/screens/level-select.png&quot;)"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Button x="276" y="532" click="currentState=&quot;Title&quot;" buttonMode="true" width="248" styleName="levelButton" label="Return to Title" height="33"/>
+				<mx:Button x="542" y="532" click="currentState=&quot;Title&quot;" buttonMode="true" width="248" styleName="levelButton" label="Return to Title" height="33"/>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:VBox height="100%" top="75" left="15">
+				<mx:VBox height="364" top="75" left="15">
 				  <mx:Button id="level1" label="Level 1" click="startLevel(1)" mouseOver="showLevelInfo(1)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
 				  <mx:Button id="level2" label="Level 2" click="startLevel(2)" mouseOver="showLevelInfo(2)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
 				  <mx:Button id="level3" label="Level 3" click="startLevel(3)" mouseOver="showLevelInfo(3)" buttonMode="true" labelPlacement="left" styleName="levelButton" width="165" height="35" />
@@ -72,9 +72,6 @@
 				</mx:VBox>
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
-				<mx:Label x="354" y="409" text="" id="bestTime" styleName="darkText"/>
-			</mx:AddChild>
-			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
 				<mx:Canvas id="previewCanvas" x="354" y="113" width="275" height="191">
 				</mx:Canvas>
 			</mx:AddChild>
@@ -83,6 +80,17 @@
 			</mx:AddChild>
 			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
 				<mx:Label x="313" y="36" text="&quot;Om-Nom-Nom&quot;" styleName="levelButton"/>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:VBox x="353" y="339" height="174" width="416">
+					<mx:Label styleName="darkText" id="levelName"/>
+					<mx:Label styleName="darkText" fontSize="12" width="100%" height="53" id="levelText"/>
+					<mx:Spacer width="0" height="10"/>
+					<mx:Label text="" id="bestTime" styleName="darkText"/>
+				</mx:VBox>
+			</mx:AddChild>
+			<mx:AddChild relativeTo="{starCanvas}" position="lastChild">
+				<mx:Image x="10" y="489" source="@Embed(&quot;../assets/trophy.png&quot;)" id="trophyImage" visible="false"/>
 			</mx:AddChild>
 
 		</mx:State>
@@ -158,7 +166,7 @@
 	import flash.net.navigateToURL;
   [Bindable]
   public var backToWhere:String;
-  
+    
   private function back():void {
   	currentState = backToWhere;
   }
@@ -190,9 +198,12 @@
   private function checkSite():Boolean {
   	if (this.loaderInfo == null) { return true; } 
 	var checkDomain:String = this.loaderInfo.url.toString();
-	if (  (checkDomain.indexOf("robocognito.com") >= 0)
-		||((checkDomain.indexOf("file://") >= 0) && (checkDomain.indexOf("trunk") >=0))
-		||(checkDomain.indexOf("flashgamelicense.com") >= 0)) {
+	if (  (checkDomain.indexOf("http://www.robocognito.com") == 0)
+                ||(checkDomain.indexOf("http://robocognito.com") == 0)
+		||((checkDomain.indexOf("file://") == 0) && (checkDomain.indexOf("trunk") >=0))
+		||(checkDomain.indexOf("http://flashgamelicense.com") == 0) 
+		||(checkDomain.indexOf("http://www.flashgamelicense.com") == 0))
+	{
 		return true;
 	} else {
 		currentState = "SiteLock";
@@ -212,6 +223,12 @@
   	    b.enabled = true;
   	  }
   	}
+  	var s9:Object = gameCanvas.game.raw_score(9);
+  	if (s9 == null) {
+  		trophyImage.visible = false;
+  	} else {
+  		trophyImage.visible = true;
+  	}
   }
   
   
@@ -223,17 +240,23 @@
       c.removeChildAt(0);
     }
 
-  	if (raw == null) {
-  		bestTime.text = "No Best Time Yet!";
-  	} else {
-  		var best:Number = 120 - (raw as Number);
-  		bestTime.text = "Best Time: " + best + " seconds"
-  	}
-
 	if (this["level" + ord].enabled) { 
     	var pre:MovieClip = gameCanvas.game.drawPreview(level);
     	pre.alpha = 0.75;
   		c.addChild(pre);
+		levelName.text = getLevelName(ord);
+		levelText.text = getLevelText(ord);
+	  	if (raw == null) {
+	  		bestTime.text = "No Best Time Yet!";
+	  	} else {
+	  		var best:Number = 120 - (raw as Number);
+	  		bestTime.text = "Best Time: " + best + " seconds"
+	  	}
+	
+	} else {
+		levelText.text = "";
+		levelName.text = "";
+		bestTime.text = "";
 	}
   }
   
@@ -274,6 +297,46 @@
 	default: return 0;
 	}
   }
+  
+  
+  private function getLevelName(ord:int):String {
+	switch(ord) {
+	case 1: return "AIRLOCK CONTROL";
+	case 2: return "HVAC SYSTEMS";
+	case 3: return "CARGO HOLD";
+	case 4: return "BREAK ROOM";
+	case 5: return "MAIN TORQUE CONTROL";
+	case 6: return "DRILL IDLE TORQUE CONTROL";
+	case 7: return "AUTOMATED CONTROL SYSTEM";
+	case 8: return "CHECKPOINT";
+	case 9: return "WASTE BYPRODUCT STORAGE";
+	default:return "";
+	}
+  }
+
+  private function getLevelText(ord:int):String {
+	switch(ord) {
+	case 1: return "In order to avoid explosive decompression throughout the\n"
+	             + "ship, please restore power & control here first.";
+	case 2: return "This facility handles life support and stores liquid O2\n"
+	             + "DO NOT TAUNT LIQUID OXYGEN STORAGE FACILITY.";
+	case 3: return "These valuable mineral containers are ready for delivery.\n"
+	             + "Please handle with care, as they are roughly fourteen \n"
+	             + "thousand times more valuable than you.";
+	case 4: return "As an unmanned vessel, the OM-NOM-NOM stores fuses here.";
+	case 5: return "This controls the torque to the asteroid drill units.";
+	case 6: return "Each rotating system connects to a drill sub-assembly to\n"
+	             + "manage torque-draw-latency, AKA the 'drillsplosion' effect.";
+	case 7: return "The brains of the mining process, these systems are quite\n"
+	             + "valuable - try not to destroy anything.";
+	case 8: return "Pass through this chamber to reach the forward bulkheads.";
+	case 9: return "The mining process produces many materials of limited\n"
+	             + "value. Some of these containers store radioactive waste.\n"
+	             + "Others may be mobile for shielding.";
+	default: return "";
+	}
+  }
+  
 
 ]]>
 </mx:Script>

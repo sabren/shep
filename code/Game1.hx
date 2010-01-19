@@ -231,6 +231,7 @@ class Game1
 
   var lastText:String;
   private function updateClock() {
+    if (done || paused) return;  
     clockText.text = clock.toString();
 
     var secs = clock.timeCount;
@@ -421,14 +422,15 @@ class Game1
     var preview = new MovieClip();
 
     var g = preview.graphics;
-    g.lineStyle(1, 0x000000);
+    
+    /*g.lineStyle(1, 0x000000);
     g.beginFill(0xDDFFDD);
     g.moveTo(0,0);
     g.lineTo(800, 0);
     g.lineTo(800, 575);
     g.lineTo(0, 575);
     g.lineTo(0, 0);
-    g.endFill();
+    g.endFill();*/
     
     var fd = new phx.FlashDraw(preview.graphics);
     var fill = 0x042105;
@@ -998,9 +1000,6 @@ class Game1
 
     // shep is at the very end so he goes on top
     roomClip.addChild(shepClip);
-
-    clock.startTimer(timeLimit);
-    done = false;
   }
 
 
@@ -1058,6 +1057,8 @@ class Game1
     try { resume(); } catch (e:Dynamic) {}  // just in case
     resetWorld(n);
     sound.startMusic();
+    clock.startTimer(timeLimit);
+    done = false;
   } 
 
   // these talk back to flex:

@@ -49,6 +49,8 @@ package {
          var starfield:MovieClip = new StarField(800, 575);
          starCanvas.rawChildren.addChild(starfield);
          game.starfield = starfield;
+         
+         game.done = true;
       }
 
    }
