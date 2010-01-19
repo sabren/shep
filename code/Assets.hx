@@ -33,7 +33,6 @@ class BallClip extends MovieClip {}
 class DoorClip extends MovieClip {}
 class SpinnerClip extends MovieClip {}
 class RedBallClip extends MovieClip {}
-class RedPocketClip extends MovieClip {}
 class CargoClip extends MovieClip {}
 class CrateClip extends MovieClip {}
 
@@ -58,6 +57,14 @@ class PocketClip extends MovieClip {
     addEventListener(Event.ENTER_FRAME, onEnterFrame);
   }
 
+  public function swallow() {
+    gotoAndPlay(HALF_CLOSED);
+  }
+
+  public function openWide() {
+    gotoAndPlay(HALF_OPENED+1);
+  }
+
   private function onEnterFrame(e) {
     var frame = this.currentFrame;
     switch (frame) {
@@ -69,5 +76,7 @@ class PocketClip extends MovieClip {
       // do nothing
     }
   }
-
 }
+
+
+class RedPocketClip extends PocketClip {}

@@ -59,7 +59,7 @@ class Game1
   private var fuseMaterial : phx.Material;
   private var shepMaterial : phx.Material;
 
-  private var pockets : Array<Pocket>;
+  private var pockets : Array<BodyClip>;
   private var cuebot : phx.Body;
 
   private var done : Bool;
@@ -338,7 +338,9 @@ class Game1
 
   function checkForWin() {
 
-    for (pocket in pockets) {
+    for (pocketBC in pockets) {
+      var pocket:Pocket = cast pocketBC.body;
+      var pclip:PocketClip = cast pocketBC.clip.getChildAt(0);
       for (arb in pocket.arbiters) {
 	var shape = (arb.s1.body == pocket) ? arb.s2 : arb.s1;
 	if (shape.body == cuebot) {
@@ -349,6 +351,7 @@ class Game1
 	  for (b in smallballs) {
 	    if (shape.body == b.body) {
               if (b.code == pocket.code) {
+
 		smallballs.remove(b);
 		mg.removeChild(b.clip);
 		world.removeBody(shape.body);
@@ -359,6 +362,15 @@ class Game1
 		    openDoor(doors[0]);
 		}
 		sound.pocket();
+
+		if (smallballs.length == 0) {
+		  for (p in pockets) {
+		    var each:PocketClip = cast p.clip.getChildAt(0);
+		    each.openWide();
+		  } 
+		} else {
+		  pclip.swallow();
+		}
 		break;
 	      }
 	    }
@@ -793,7 +805,7 @@ class Game1
 
 
     clip.addChild(pclip);
-    pockets.push(pocket);
+    pockets.push(new BodyClip(pocket, pclip));
     return pocket;
   }
 
