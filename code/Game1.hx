@@ -804,7 +804,7 @@ class Game1
 	= new flash.geom.ColorTransform(0.95, 0, 0);
     } else {
       glow.transform.colorTransform
-	= new flash.geom.ColorTransform(0, 0.95, 0.95); 
+	= new flash.geom.ColorTransform(0, 0.85, 0.85); 
     }
 
     pclip.x = cx;
