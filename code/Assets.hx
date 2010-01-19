@@ -30,12 +30,22 @@ class FG0009 extends MovieClip {}
 
 class ShepClip extends MovieClip {}
 class GlowClip extends MovieClip {}
-class BallClip extends MovieClip {}
 class DoorClip extends MovieClip {}
 class SpinnerClip extends MovieClip {}
-class RedBallClip extends MovieClip {}
 class CargoClip extends MovieClip {}
 class CrateClip extends MovieClip {}
+
+
+class BallClip extends MovieClip {
+
+  public function new() {
+    super();
+    gotoAndPlay(Math.floor(Math.random() * totalFrames));
+  }
+}
+class RedBallClip extends BallClip {}
+
+
 
 class SoundIcon extends MovieClip {}
 class MuteIcon extends MovieClip {}
