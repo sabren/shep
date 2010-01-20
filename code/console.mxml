@@ -326,7 +326,7 @@
 	case 4: return "As an unmanned vessel, the OM-NOM-NOM stores fuses here.";
 	case 5: return "This controls the torque to the asteroid drill units.";
 	case 6: return "Each rotating system connects to a drill sub-assembly to\n"
-	             + "manage torque-draw-latency, AKA the 'drillsplosion' effect.";
+	             + "manage torque-draw-latency, AKA the drillsplosion effect.";
 	case 7: return "The brains of the mining process, these systems are quite\n"
 	             + "valuable - try not to destroy anything.";
 	case 8: return "Pass through this chamber to reach the forward bulkheads.";
