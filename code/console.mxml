@@ -144,15 +144,15 @@
 		</mx:State>
 		<mx:State name="SiteLock">
 			<mx:AddChild position="lastChild">
-				<mx:Button x="213.5" y="222" width="373" click="goToURL(&quot;http://www.robocognito.com/&quot;)">
+				<mx:Button x="213.5" y="222" width="373" click="goToURL(&quot;http://www.robocognito.com/&quot;)" fillAlphas="[1.0, 1.0, 1.0, 1.0]" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]" color="#1998B3">
 					<mx:label>http://www.robocognito.com/</mx:label>
 				</mx:Button>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Label x="333" y="126" text="Please Enjoy SHEP at..." fontWeight="bold"/>
+				<mx:Label x="333" y="126" text="Please Enjoy SHEP at..." fontWeight="bold" color="#FFFFFF"/>
 			</mx:AddChild>
 			<mx:AddChild position="lastChild">
-				<mx:Label x="392.5" y="289" text=":)" fontSize="20" fontWeight="bold"/>
+				<mx:Label x="392.5" y="289" text=":)" fontSize="20" fontWeight="bold" color="#FFFFFF"/>
 			</mx:AddChild>
 		</mx:State>
 	</mx:states>
@@ -162,14 +162,17 @@
 	
 <mx:Script>
 <![CDATA[
-	import mx.events.StateChangeEvent;
-	import flash.net.navigateToURL;
+
+  import mx.events.StateChangeEvent;
+  import flash.net.navigateToURL;	
+	
   [Bindable]
   public var backToWhere:String;
     
   private function back():void {
   	currentState = backToWhere;
   }
+  
   private function helpFrom(where:String):void {
   	backToWhere = where;
   	currentState = "Help";
@@ -201,6 +204,9 @@
 	if (  (checkDomain.indexOf("http://www.robocognito.com") == 0)
                 ||(checkDomain.indexOf("http://robocognito.com") == 0)
 		||((checkDomain.indexOf("file://") == 0) && (checkDomain.indexOf("trunk") >=0))
+		||(checkDomain.indexOf("http://www.kongregate.com") == 0) 
+		||(checkDomain.indexOf("http://chat.kongregate.com") == 0) 
+		||(checkDomain.indexOf("http://kongregate.com") == 0) 
 		||(checkDomain.indexOf("http://flashgamelicense.com") == 0) 
 		||(checkDomain.indexOf("http://www.flashgamelicense.com") == 0))
 	{
@@ -274,12 +280,17 @@
 	if (checkSite()) {
 		gameCanvas.init(onWin, onLose, starCanvas);
 	}
+	CONFIG::kong {
+	   initKong();
+	}
   }
-  
-  
+    
   private function onStateChange(event:StateChangeEvent):void {
   	if (event.newState == "LevelSelect") {
   		unlockLevels();
+  		CONFIG::kong {
+  			kongSubmitStats();
+  		}
   	}
   }
   
@@ -337,7 +348,71 @@
 	}
   }
   
+				
+  //== kongregate API stuff  ==================================================  
+  CONFIG::kong {
 
+    import flash.display.LoaderInfo;
+    import flash.display.Loader;
+    import flash.net.URLRequest;
+    import flash.events.Event;
+    import flash.system.Security;
+  	
+  	// Kongregate API reference
+	public var kongregate:*;
+				
+	public function initKong():void {
+				
+		// Pull the API path from the FlashVars
+		var paramObj:Object = LoaderInfo(root.loaderInfo).parameters;
+
+		// The API path. The "shadow" API will load if testing locally. 
+		var apiPath:String = paramObj.kongregate_api_path || 
+	  		"http://www.kongregate.com/flash/API_AS3_Local.swf";
+
+		// Allow the API access to this SWF
+		Security.allowDomain(apiPath);
+
+		// Load the API
+		var request:URLRequest = new URLRequest(apiPath);
+		var loader:Loader = new Loader();
+		loader.contentLoaderInfo.addEventListener(Event.COMPLETE, kongComplete);
+		loader.load(request);
+		this.rawChildren.addChild(loader);
+	}
+
+	// This function is called when loading is complete
+	public function kongComplete(event:Event):void
+	{
+    	// Save Kongregate API reference
+    	kongregate = event.target.content;
+	
+	    // Connect to the back-end
+	    kongregate.services.connect();
+	}
+
+	public function kongSubmitStats():void
+	{
+		var raw:Object = null;
+		for (var i:int=1; i<=9; i++) {
+			raw = gameCanvas.game.raw_score(ordLevel(i));
+			if (raw != null) {
+				var best:Number = 120 - (raw as Number);
+				trace("submitting: Level "+ i + " = " + best); 
+				kongregate.stats.submit("Level " + i, best);
+			}
+		}
+		if (raw != null)
+		{
+			trace("submitting: game complete = 1");
+			kongregate.stats.submit("game complete", 1);
+		}
+	}
+	
+  }
+  //== end kongregate API  ==================================================  
+  
+  
 ]]>
 </mx:Script>
 </mx:Application>
