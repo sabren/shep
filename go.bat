@@ -1,4 +1,3 @@
-svn up
-del assets.swf
-..\alchementrix\tools\make
-haxe compile.hxml && start game1.swf
+@ECHO OFF
+rm assets.swf
+.\tools\make shep.swf && start shep.swf
