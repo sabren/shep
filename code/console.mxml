@@ -199,6 +199,7 @@
   }
   
   private function checkSite():Boolean {
+	return true;  // flash is dead. let's just get this running! -mjw 2020
   	if (this.loaderInfo == null) { return true; } 
 	var checkDomain:String = this.loaderInfo.url.toString();
 	if (  (checkDomain.indexOf("http://www.robocognito.com") == 0)
